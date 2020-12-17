@@ -4,7 +4,7 @@ defmodule VideoTutorialsWeb.MixProject do
   def project do
     [
       app: :video_tutorials_web,
-      version: "0.1.0",
+      version: Application.spec(:video_tutorials, :vsn) |> to_string(),
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
