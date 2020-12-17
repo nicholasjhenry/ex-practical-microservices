@@ -3,3 +3,6 @@ start:
 
 stop:
 	docker-compose stop
+
+app.start:
+	iex -S mix phx.server
