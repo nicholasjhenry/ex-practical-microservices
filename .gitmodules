@@ -1,0 +1,3 @@
+[submodule "apps/message_store/priv/message-db"]
+	path = apps/message_store/priv/message-db
+	url = https://github.com/message-db/message-db.git

@@ -25,6 +25,3 @@ message_store-*.tar
 
 # Temporary files for e.g. tests
 /tmp
-
-# Git repo for message-db
-message-db

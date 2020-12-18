@@ -3,14 +3,10 @@ defmodule Mix.Tasks.MessageStore.Init do
 
   @shortdoc "Init the database"
 
-  @repo "git@github.com:message-db/message-db.git"
   @dirname "message-db"
+  @path Path.join([Application.app_dir(:message_store), "priv", @dirname])
 
   def run(_args) do
-    unless File.exists?(@dirname) do
-      System.cmd("git", ["clone", @repo])
-    end
-
     %{database: database, password: password, username: username, hostname: hostname} =
       MessageStore.Repo.config() |> Map.new
 
@@ -21,7 +17,12 @@ defmodule Mix.Tasks.MessageStore.Init do
       {"PGHOST", hostname}
     ]
 
-    opts = [cd: @dirname, env: env, stderr_to_stdout: true, into: IO.stream(:stdio, :line)]
+    opts = [
+      cd: @path,
+      env: env,
+      stderr_to_stdout: true,
+      into: IO.stream(:stdio, :line)
+    ]
     System.cmd("bash", ["database/install.sh"], opts)
   end
 end
