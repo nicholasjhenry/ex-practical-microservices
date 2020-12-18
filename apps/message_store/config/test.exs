@@ -8,4 +8,4 @@ default_config = [
   pool_size: 1
 ]
 
-config :message_store, TestMessageStore, default_config
+config :message_store, MessageStore.Repo, default_config

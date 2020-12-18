@@ -11,7 +11,6 @@ defmodule MessageStore.Application do
     children = [
       # Starts a worker by calling: MessageStore.Worker.start_link(arg)
       # {MessageStore.Worker, arg}
-      {Postgrex, MessageStore.Repo.config() ++ [name: MessageStore.Repo]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
