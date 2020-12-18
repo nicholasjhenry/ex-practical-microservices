@@ -1,4 +1,19 @@
 defmodule MessageStore do
+  defmodule VersionConflictError do
+    @regex ~r/Wrong expected version: \d+ \(Stream: \D+-\d+, Stream Version: ([0-9-])+\)/
+    defexception [:message]
+
+    def reraise(error) do
+      match = Regex.match?(@regex, error.postgres.message)
+
+      case  match do
+        true ->
+          raise VersionConflictError, error.postgres.message
+        _ -> raise error
+      end
+    end
+  end
+
   @moduledoc """
   Documentation for `MessageStore`.
   """
@@ -16,21 +31,16 @@ defmodule MessageStore do
       message.expected_version
     ]
 
-    query = Postgrex.prepare!(conn, "", "SELECT #{function_call}")
-    Postgrex.execute!(conn, query, params)
+    execute_function(conn, function_call, params)
   end
 
   def get_stream_messages(stream_name) do
     conn = Process.whereis(MessageStore.Repo)
 
     function_call = "get_stream_messages($1)"
+    %Postgrex.Result{rows: [rows]} = execute_function(conn, function_call, [stream_name])
 
-    params = [stream_name]
-
-    query = Postgrex.prepare!(conn, "", "SELECT #{function_call}")
-    %Postgrex.Result{rows: [rows]} = Postgrex.execute!(conn, query, params)
-
-    Enum.map(rows, fn {id, stream_name, type, position, gobal_position, data, metadata, time} ->
+    Enum.map(rows, fn {id, stream_name, type, _position, _gobal_position, data, metadata, time} ->
       %{
         id: id,
         stream_name: stream_name,
@@ -40,5 +50,15 @@ defmodule MessageStore do
         time: time
       }
     end)
+  end
+
+  defp execute_function(conn, function_call, params) do
+    try do
+      query = Postgrex.prepare!(conn, "", "SELECT #{function_call}")
+      Postgrex.execute!(conn, query, params)
+    rescue
+      error in [Postgrex.Error] ->
+        VersionConflictError.reraise(error)
+    end
   end
 end
