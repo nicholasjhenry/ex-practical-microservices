@@ -9,6 +9,13 @@ defmodule MessageStore.Subscriber do
     %__MODULE__{stream_name: stream_name, next_position: subscription_message.position + 1}
   end
 
+  def handle_message(
+    %{next_position: expected_position},
+    %{position: position},
+    _handler) when expected_position != position do
+    {:error, :invalid_position}
+  end
+
   def handle_message(%{stream_name: subscriber_stream_name} = subscriber, message, handler) do
     if match?([^subscriber_stream_name, _id], String.split(message.stream_name, "-")) do
       result = handler.(message)

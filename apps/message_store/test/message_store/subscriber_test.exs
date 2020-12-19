@@ -37,7 +37,7 @@ defmodule MessageStore.SubscriberTest do
       assert subject.handled_message_result == "VIDEOCREATED"
     end
 
-    test "returns an error for a message from another stream" do
+    test "given a message from another stream returns an error " do
       message = %{
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "video-1",
@@ -52,6 +52,23 @@ defmodule MessageStore.SubscriberTest do
       subject = Subscriber.handle_message(subscriber, message, fn(_) -> :foo end)
 
       assert {:error, :message_from_another_stream} = subject
+    end
+
+    test "given a different position returns an error" do
+      message = %{
+        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+        stream_name: "video-1",
+        position: 0,
+        global_position: 0,
+        type: "VideoCreated",
+        data: %{name: "YouTube Video"},
+        metadata: %{}
+      }
+
+      subscriber = Subscriber.start("video", message)
+      subject = Subscriber.handle_message(subscriber, %{message | position: 4}, fn(_) -> :foo end)
+
+      assert {:error, :invalid_position} = subject
     end
   end
 end
