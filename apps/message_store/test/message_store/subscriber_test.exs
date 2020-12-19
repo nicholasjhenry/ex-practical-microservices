@@ -6,13 +6,14 @@ defmodule MessageStore.SubscriberTest do
   describe "starting a subscriber" do
     test "given no subscription message starts at the position 0" do
       subscription_message = nil
-      subject = Subscriber.start("new_stream", subscription_message)
+      subject = Subscriber.start("subscriber-foo", "new_stream", subscription_message)
+      assert subject.stream_name == "subscriber-foo"
       assert subject.current_position == -1
     end
 
     test "give a subscription message starts at the recorded position" do
       subscription_message = %{position: 10}
-      subject = Subscriber.start("new_stream", subscription_message)
+      subject = Subscriber.start("subscriber-foo", "new_stream", subscription_message)
       assert subject.current_position == 10
     end
   end
@@ -39,7 +40,7 @@ defmodule MessageStore.SubscriberTest do
         metadata: %{}
       }
 
-      subscriber = Subscriber.start("video", nil)
+      subscriber = Subscriber.start("subscriber-foo", "video", nil)
       {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
@@ -57,7 +58,7 @@ defmodule MessageStore.SubscriberTest do
         metadata: %{}
       }
 
-      subscriber = Subscriber.start("comment", nil)
+      subscriber = Subscriber.start("subscriber-foo", "comment", nil)
       subject = Subscriber.handle_message(subscriber, message, MessageHandler)
 
       assert {:error, :message_from_another_stream} = subject
@@ -74,7 +75,7 @@ defmodule MessageStore.SubscriberTest do
         metadata: %{}
       }
 
-      subscriber = Subscriber.start("video", message)
+      subscriber = Subscriber.start("subscriber-foo", "video", message)
       subject = Subscriber.handle_message(subscriber, %{message | position: 4}, MessageHandler)
 
       assert {:error, :invalid_position} = subject
@@ -104,7 +105,7 @@ defmodule MessageStore.SubscriberTest do
         }
       ]
 
-      subscriber = Subscriber.start("video", nil)
+      subscriber = Subscriber.start("subscriber-foo", "video", nil)
       {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1

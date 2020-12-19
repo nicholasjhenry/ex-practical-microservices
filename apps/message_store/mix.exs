@@ -31,7 +31,8 @@ defmodule MessageStore.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true}
       {:postgrex, "~> 0.15.7"},
-      {:jason, "~> 1.0"}
+      {:jason, "~> 1.0"},
+      {:elixir_uuid, "~> 1.2"}
     ]
   end
 

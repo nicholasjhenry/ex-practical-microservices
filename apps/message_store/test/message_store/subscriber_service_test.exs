@@ -33,4 +33,33 @@ defmodule MessageStore.SubscriberServiceTest do
       assert subscriber.current_position == 0
     end
   end
+
+  defmodule MessageHandler do
+    def handle_message(message) do
+      String.upcase(message.data["name"])
+    end
+  end
+
+  describe "running" do
+    test "processes messages for a stream" do
+      {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
+
+      message = %{
+        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+        stream_name: "video-1",
+        type: "VideoCreated",
+        data: %{name: "YouTube Video"},
+        metadata: %{},
+        expected_version: -1
+      }
+
+      MessageStore.write_message(message)
+
+      subscriber = SubscriberService.run(subscriber, 0, MessageHandler)
+      message = MessageStore.read_last_message("subscriber-foo")
+      assert subscriber.current_position == 0
+      assert subscriber.handled_message_result == "YOUTUBE VIDEO"
+      assert message.data ==  %{"position" => 1}
+    end
+  end
 end
