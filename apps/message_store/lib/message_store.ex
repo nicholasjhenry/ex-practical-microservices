@@ -40,11 +40,13 @@ defmodule MessageStore do
     function_call = "get_stream_messages($1)"
     %Postgrex.Result{rows: [rows]} = execute_function(conn, function_call, [stream_name])
 
-    Enum.map(rows, fn {id, stream_name, type, _position, _gobal_position, data, metadata, time} ->
+    Enum.map(rows, fn {id, stream_name, type, position, gobal_position, data, metadata, time} ->
       %{
         id: id,
         stream_name: stream_name,
         type: type,
+        position: position,
+        global_position: gobal_position,
         data: Jason.decode!(data),
         metadata: Jason.decode!(metadata),
         time: time
