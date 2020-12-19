@@ -18,8 +18,12 @@ defmodule MessageStore.SubscriberTest do
   end
 
   defmodule MessageHandler do
-    def handle_message(message) do
+    def handle_message(%{type: "VideoCreated"} = message) do
       String.upcase(message.data.name)
+    end
+
+    def handle_message(%{type: "VideoUpdated"} = message) do
+      String.downcase(message.data.name)
     end
   end
 
@@ -104,7 +108,7 @@ defmodule MessageStore.SubscriberTest do
       {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1
-      assert subject.handled_message_result == "VIMEO VIDEO"
+      assert subject.handled_message_result == "vimeo video"
     end
   end
 end
