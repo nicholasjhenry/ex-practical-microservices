@@ -17,6 +17,12 @@ defmodule MessageStore.SubscriberTest do
     end
   end
 
+  defmodule MessageHandler do
+    def handle_message(message) do
+      String.upcase(message.type)
+    end
+  end
+
   describe "handling a message" do
     test "invokes the handler and records the new position" do
       message = %{
@@ -30,8 +36,7 @@ defmodule MessageStore.SubscriberTest do
       }
 
       subscriber = Subscriber.start("video", nil)
-      handler = fn handled_message -> String.upcase(handled_message.type) end
-      {:ok, subject} = Subscriber.handle_message(subscriber, message, handler)
+      {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
       assert subject.handled_message_result == "VIDEOCREATED"
@@ -49,7 +54,7 @@ defmodule MessageStore.SubscriberTest do
       }
 
       subscriber = Subscriber.start("comment", nil)
-      subject = Subscriber.handle_message(subscriber, message, fn(_) -> :foo end)
+      subject = Subscriber.handle_message(subscriber, message, MessageHandler)
 
       assert {:error, :message_from_another_stream} = subject
     end
@@ -66,7 +71,7 @@ defmodule MessageStore.SubscriberTest do
       }
 
       subscriber = Subscriber.start("video", message)
-      subject = Subscriber.handle_message(subscriber, %{message | position: 4}, fn(_) -> :foo end)
+      subject = Subscriber.handle_message(subscriber, %{message | position: 4}, MessageHandler)
 
       assert {:error, :invalid_position} = subject
     end
@@ -96,8 +101,7 @@ defmodule MessageStore.SubscriberTest do
       ]
 
       subscriber = Subscriber.start("video", nil)
-      handler = fn handled_message -> String.upcase(handled_message.type) end
-      {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, handler)
+      {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1
       assert subject.handled_message_result == "VIDEOUPDATED"

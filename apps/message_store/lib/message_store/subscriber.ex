@@ -18,7 +18,7 @@ defmodule MessageStore.Subscriber do
 
   def handle_message(%{stream_name: subscriber_stream_name} = subscriber, message, handler) do
     if match?([^subscriber_stream_name, _id], String.split(message.stream_name, "-")) do
-      result = handler.(message)
+      result = handler.handle_message(message)
       updated_subscriber = %{subscriber | current_position: message.position, handled_message_result: result}
       {:ok, updated_subscriber}
     else
