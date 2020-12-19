@@ -19,7 +19,7 @@ defmodule MessageStore.SubscriberTest do
 
   defmodule MessageHandler do
     def handle_message(message) do
-      String.upcase(message.type)
+      String.upcase(message.data.name)
     end
   end
 
@@ -39,7 +39,7 @@ defmodule MessageStore.SubscriberTest do
       {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
-      assert subject.handled_message_result == "VIDEOCREATED"
+      assert subject.handled_message_result == "YOUTUBE VIDEO"
     end
 
     test "given a message from another stream returns an error " do
@@ -104,7 +104,7 @@ defmodule MessageStore.SubscriberTest do
       {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1
-      assert subject.handled_message_result == "VIDEOUPDATED"
+      assert subject.handled_message_result == "VIMEO VIDEO"
     end
   end
 end
