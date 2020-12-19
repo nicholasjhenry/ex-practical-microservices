@@ -41,4 +41,27 @@ defmodule MessageStoreTest do
       end
     end
   end
+
+  describe "reading the last message of a stream" do
+    test "given a message exists for the stream returns the last message" do
+      message = %{
+        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+        stream_name: "video-1",
+        type: "VideoCreated",
+        data: %{name: "YouTube Video"},
+        metadata: %{},
+        expected_version: -1
+      }
+
+      MessageStore.write_message(message)
+
+      assert message = MessageStore.read_last_message("video-1")
+      assert message.id == "5e731bdc-07aa-430a-8aae-543b45dd7235"
+    end
+
+    test "given no message exists for the stream returns the last message" do
+      message = MessageStore.read_last_message("video-1")
+      assert is_nil(message)
+    end
+  end
 end
