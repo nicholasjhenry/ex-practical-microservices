@@ -7,17 +7,17 @@ defmodule MessageStore.SubscriberTest do
     test "given no subscription message starts at the position 0" do
       subscription_message = nil
       subject = Subscriber.start("new_stream", subscription_message)
-      assert subject.next_position == 0
+      assert subject.current_position == -1
     end
 
     test "give a subscription message starts at the recorded position" do
       subscription_message = %{position: 10}
       subject = Subscriber.start("new_stream", subscription_message)
-      assert subject.next_position == 11
+      assert subject.current_position == 10
     end
   end
 
-  describe "handling messages" do
+  describe "handling a message" do
     test "invokes the handler and records the new position" do
       message = %{
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
@@ -33,7 +33,7 @@ defmodule MessageStore.SubscriberTest do
       handler = fn handled_message -> String.upcase(handled_message.type) end
       {:ok, subject} = Subscriber.handle_message(subscriber, message, handler)
 
-      assert subject.next_position == 1
+      assert subject.current_position == 0
       assert subject.handled_message_result == "VIDEOCREATED"
     end
 
@@ -69,6 +69,38 @@ defmodule MessageStore.SubscriberTest do
       subject = Subscriber.handle_message(subscriber, %{message | position: 4}, fn(_) -> :foo end)
 
       assert {:error, :invalid_position} = subject
+    end
+  end
+
+  describe "handling a batch of messages" do
+    test "invokes the handler and records the new position" do
+      messages = [
+        %{
+          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          stream_name: "video-1",
+          position: 0,
+          global_position: 0,
+          type: "VideoCreated",
+          data: %{name: "YouTube Video"},
+          metadata: %{}
+        },
+        %{
+          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          stream_name: "video-1",
+          position: 1,
+          global_position: 0,
+          type: "VideoUpdated",
+          data: %{name: "Vimeo Video"},
+          metadata: %{}
+        }
+      ]
+
+      subscriber = Subscriber.start("video", nil)
+      handler = fn handled_message -> String.upcase(handled_message.type) end
+      {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, handler)
+
+      assert subject.current_position == 1
+      assert subject.handled_message_result == "VIDEOUPDATED"
     end
   end
 end
