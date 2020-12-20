@@ -58,20 +58,24 @@ defmodule MessageStore do
     conn = Process.whereis(MessageStore.Repo)
 
     function_call = "get_category_messages($1, $2)"
-    %Postgrex.Result{rows: [rows]} = execute_function(conn, "SELECT #{function_call}", [stream_name, position])
+    %Postgrex.Result{rows: rows} = execute_function(conn, "SELECT #{function_call}", [stream_name, position])
 
-    Enum.map(rows, fn {id, stream_name, type, position, gobal_position, data, metadata, time} ->
-      %{
-        id: id,
-        stream_name: stream_name,
-        type: type,
-        position: position,
-        global_position: gobal_position,
-        data: Jason.decode!(data),
-        metadata: Jason.decode!(metadata),
-        time: time
-      }
-    end)
+    case rows do
+      [rows] ->
+        Enum.map(rows, fn {id, stream_name, type, position, gobal_position, data, metadata, time} ->
+          %{
+            id: id,
+            stream_name: stream_name,
+            type: type,
+            position: position,
+            global_position: gobal_position,
+            data: Jason.decode!(data),
+            metadata: Jason.decode!(metadata),
+            time: time
+          }
+      end)
+      [] -> []
+    end
   end
 
   def read_last_message(stream_name) do

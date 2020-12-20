@@ -8,11 +8,11 @@ defmodule MessageStore.SubscriberTest do
       subscription_message = nil
       subject = Subscriber.start("subscriber-foo", "new_stream", subscription_message)
       assert subject.stream_name == "subscriber-foo"
-      assert subject.current_position == -1
+      assert subject.current_position == -0
     end
 
     test "give a subscription message starts at the recorded position" do
-      subscription_message = %{position: 10}
+      subscription_message = %{position: 0, data: %{"position" => 10}}
       subject = Subscriber.start("subscriber-foo", "new_stream", subscription_message)
       assert subject.current_position == 10
     end
@@ -63,23 +63,6 @@ defmodule MessageStore.SubscriberTest do
 
       assert {:error, :message_from_another_stream} = subject
     end
-
-    test "given a different position returns an error" do
-      message = %{
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
-        stream_name: "video-1",
-        position: 0,
-        global_position: 0,
-        type: "VideoCreated",
-        data: %{name: "YouTube Video"},
-        metadata: %{}
-      }
-
-      subscriber = Subscriber.start("subscriber-foo", "video", message)
-      subject = Subscriber.handle_message(subscriber, %{message | position: 4}, MessageHandler)
-
-      assert {:error, :invalid_position} = subject
-    end
   end
 
   describe "handling a batch of messages" do
@@ -98,7 +81,7 @@ defmodule MessageStore.SubscriberTest do
           id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
           stream_name: "video-1",
           position: 1,
-          global_position: 0,
+          global_position: 1,
           type: "VideoUpdated",
           data: %{name: "Vimeo Video"},
           metadata: %{}

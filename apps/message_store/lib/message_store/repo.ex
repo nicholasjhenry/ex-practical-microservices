@@ -65,10 +65,15 @@ defmodule MessageStore.Repo do
     {:ok, conn} = Postgrex.start_link(config())
 
     query = """
-    truncate table #{@schema_name}.messages
+    truncate table #{@schema_name}.messages;
     """
 
-    query = Postgrex.prepare!(conn, "", query)
-    Postgrex.execute!(conn, query, [])
+    Postgrex.query!(conn, query, [])
+
+    query = """
+    ALTER SEQUENCE #{@schema_name}.messages_global_position_seq RESTART WITH 1;
+    """
+
+    Postgrex.query!(conn, query, [])
   end
 end

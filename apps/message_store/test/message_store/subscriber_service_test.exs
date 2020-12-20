@@ -14,7 +14,7 @@ defmodule MessageStore.SubscriberServiceTest do
   describe "starting" do
     test "given no existing state" do
       {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
-      assert subscriber.current_position == -1
+      assert subscriber.current_position == 0
     end
 
     test "given existing state" do
@@ -22,7 +22,7 @@ defmodule MessageStore.SubscriberServiceTest do
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "subscriber-foo",
         type: "Read",
-        data: %{position: 0},
+        data: %{position: 1},
         metadata: %{},
         expected_version: -1
       }
@@ -30,7 +30,7 @@ defmodule MessageStore.SubscriberServiceTest do
       MessageStore.write_message(message)
 
       {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
-      assert subscriber.current_position == 0
+      assert subscriber.current_position == 1
     end
   end
 
@@ -55,9 +55,9 @@ defmodule MessageStore.SubscriberServiceTest do
 
       MessageStore.write_message(message)
 
-      subscriber = SubscriberService.run(subscriber, 0, MessageHandler)
+      subscriber = SubscriberService.run(subscriber, MessageHandler)
       message = MessageStore.read_last_message("subscriber-foo")
-      assert subscriber.current_position == 0
+      assert subscriber.current_position == 1
       assert subscriber.handled_message_result == "YOUTUBE VIDEO"
       assert message.data ==  %{"position" => 1}
     end
