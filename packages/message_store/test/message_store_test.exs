@@ -1,7 +1,7 @@
 defmodule MessageStoreTest do
   use ExUnit.Case
 
-  alias MessageStore.{Repo, VersionConflictError}
+  alias MessageStore.{NewMessage, Repo, VersionConflictError}
 
   setup do
     Repo.truncate_messages()
@@ -12,7 +12,7 @@ defmodule MessageStoreTest do
 
   describe "writing a message to a stream" do
     test "can get the messages written to the stream" do
-      message = %{
+      message = %NewMessage{
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "video-1",
         type: "VideoCreated",
@@ -27,7 +27,7 @@ defmodule MessageStoreTest do
     end
 
     test "handles version conflicts" do
-      message = %{
+      message = %NewMessage{
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "video-1",
         type: "VideoCreated",
@@ -44,7 +44,7 @@ defmodule MessageStoreTest do
 
   describe "reading the last message of a stream" do
     test "given a message exists for the stream returns the last message" do
-      message = %{
+      message = %NewMessage{
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "video-1",
         type: "VideoCreated",
@@ -67,7 +67,7 @@ defmodule MessageStoreTest do
 
   describe "getting messages from a category" do
     test "given a message exists for the stream returns the last message" do
-      message = %{
+      message = %NewMessage{
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "video-1",
         type: "VideoCreated",
