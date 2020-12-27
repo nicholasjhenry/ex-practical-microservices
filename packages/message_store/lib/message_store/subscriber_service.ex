@@ -1,5 +1,5 @@
 defmodule MessageStore.SubscriberService do
-  alias MessageStore.Subscriber
+  alias MessageStore.{NewMessage, Subscriber}
 
   def start(stream_name, subscribed_to) do
     message = MessageStore.read_last_message(stream_name)
@@ -14,14 +14,12 @@ defmodule MessageStore.SubscriberService do
       _ ->
       {:ok, [subscriber | _]} = Subscriber.handle_messages(subscriber, messages, handler)
 
-      message = %{
-        id: UUID.uuid4(),
+      message = NewMessage.new(
         stream_name: subscriber.stream_name,
         type: "Read",
         data: %{position: subscriber.current_position},
-        metadata: %{},
         expected_version: subscriber.version
-      }
+      )
       MessageStore.write_message(message)
 
       %{subscriber | version: subscriber.version + 1}

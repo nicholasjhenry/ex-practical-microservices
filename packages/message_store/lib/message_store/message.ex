@@ -1,6 +1,6 @@
 defmodule MessageStore.Message do
-  @enforce_keys [:id, :stream_name, :type, :data, :metadata, :position, :global_position]
-  defstruct [:id, :stream_name, :type, :data, :metadata, :position, :global_position]
+  @enforce_keys [:id, :stream_name, :type, :data, :metadata, :position, :global_position, :time]
+  defstruct [:id, :stream_name, :type, :data, :metadata, :position, :global_position, :time]
 
   def new(attrs) do
     struct!(__MODULE__, attrs)

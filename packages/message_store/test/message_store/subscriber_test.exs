@@ -10,7 +10,8 @@ defmodule MessageStore.SubscriberTest do
       global_position: 0,
       type: "VideoCreated",
       data: %{name: "YouTube Video"},
-      metadata: %{}
+      metadata: %{},
+      time: NaiveDateTime.local_now()
     ]
 
     attrs = Keyword.merge(defaults, attrs)

@@ -20,26 +20,26 @@ defmodule MessageStore.Subscriber do
     end
   end
 
-  def call_handler(handler, message) when is_atom(handler) do
+  defp call_handler(handler, message) when is_atom(handler) do
     handler.handle_message(message)
   end
 
-  def call_handler(handler, message) when is_function(handler) do
+  defp call_handler(handler, message) when is_function(handler) do
     handler.(message)
   end
 
   def handle_messages(subscriber, messages, handler) do
-    result =
-      messages
-      |> Enum.reduce([], fn
-          (message, []) ->
-            {:ok, updated_subscriber} = handle_message(subscriber, message, handler)
-            [updated_subscriber]
-          (message, [subscriber | rest]) ->
-            {:ok, updated_subscriber} = handle_message(subscriber, message, handler)
-            [updated_subscriber | [subscriber | rest]]
-      end)
-
+    result = Enum.reduce(messages, [], &next_message(subscriber, handler, &1, &2))
     {:ok, result}
+  end
+
+  defp next_message(subscriber, handler, message, []) do
+    {:ok, updated_subscriber} = handle_message(subscriber, message, handler)
+    [updated_subscriber]
+  end
+
+  defp next_message(_subscriber, handler, message, [latest_subscriber | rest]) do
+    {:ok, updated_subscriber} = handle_message(latest_subscriber, message, handler)
+    [updated_subscriber | [latest_subscriber | rest]]
   end
 end
