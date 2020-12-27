@@ -1,7 +1,7 @@
 defmodule MessageStore.SubscriberWorkerTest do
   use ExUnit.Case
 
-  alias MessageStore.{Repo, SubscriberWorker}
+  alias MessageStore.{NewMessage, Repo, SubscriberWorker}
 
   setup do
     Repo.truncate_messages()
@@ -17,18 +17,15 @@ defmodule MessageStore.SubscriberWorkerTest do
   end
 
   test "works", %{worker: _worker} do
-    message = %{
+    message = NewMessage.new(
       id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
       stream_name: "video-1",
       type: "VideoCreated",
-      data: %{name: "YouTube Video"},
-      metadata: %{},
-      expected_version: -1
-    }
+      data: %{name: "YouTube Video"}
+    )
 
     MessageStore.write_message(message)
 
     assert_receive{:message_processed, "5e731bdc-07aa-430a-8aae-543b45dd7235"}
-    # :timer.sleep(1000000000)
   end
 end
