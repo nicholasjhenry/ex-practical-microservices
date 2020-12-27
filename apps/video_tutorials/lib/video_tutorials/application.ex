@@ -9,6 +9,7 @@ defmodule VideoTutorials.Application do
     children = [
       # Start the Ecto repository
       VideoTutorials.Repo,
+      MessageStore.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: VideoTutorials.PubSub}
       # Start a worker by calling: VideoTutorials.Worker.start_link(arg)

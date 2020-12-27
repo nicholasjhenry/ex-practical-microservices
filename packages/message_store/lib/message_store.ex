@@ -33,6 +33,8 @@ defmodule MessageStore do
     ]
 
     execute_function(conn(), "SELECT #{function_call}", params)
+
+    :ok
   end
 
   def get_stream_messages(stream_name) do

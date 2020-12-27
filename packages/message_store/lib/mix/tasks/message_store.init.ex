@@ -14,7 +14,8 @@ defmodule Mix.Tasks.MessageStore.Init do
       {"DATABASE_NAME", database},
       {"PGPASSWORD", password},
       {"PGUSER", username},
-      {"PGHOST", hostname}
+      {"PGHOST", hostname},
+      {"CREATE_DATABASE", "off"}
     ]
 
     opts = [

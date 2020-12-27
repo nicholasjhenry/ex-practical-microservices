@@ -12,6 +12,12 @@ config :video_tutorials, VideoTutorials.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
+config :message_store, MessageStore.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "video_tutorials_test#{System.get_env("MIX_TEST_PARTITION")}",
+  hostname: "localhost"
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
