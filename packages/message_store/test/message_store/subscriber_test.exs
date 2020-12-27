@@ -1,7 +1,21 @@
 defmodule MessageStore.SubscriberTest do
   use ExUnit.Case
 
-  alias MessageStore.Subscriber
+  alias MessageStore.{Message, Subscriber}
+
+  def build_message(attrs) do
+    defaults = [
+      id: UUID.uuid4(),
+      position: 0,
+      global_position: 0,
+      type: "VideoCreated",
+      data: %{name: "YouTube Video"},
+      metadata: %{}
+    ]
+
+    attrs = Keyword.merge(defaults, attrs)
+    Message.new(attrs)
+  end
 
   describe "starting a subscriber" do
     test "given no subscription message starts at the position 0" do
@@ -30,15 +44,11 @@ defmodule MessageStore.SubscriberTest do
 
   describe "handling a message" do
     test "invokes the handler and records the new position" do
-      message = %{
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+      message = build_message(
         stream_name: "video-1",
-        position: 0,
-        global_position: 0,
         type: "VideoCreated",
-        data: %{name: "YouTube Video"},
-        metadata: %{}
-      }
+        data: %{name: "YouTube Video"}
+      )
 
       subscriber = Subscriber.start("subscriber-foo", "video", nil)
       {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
@@ -48,15 +58,11 @@ defmodule MessageStore.SubscriberTest do
     end
 
     test "given a message from another stream returns an error " do
-      message = %{
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+      message = build_message(
         stream_name: "video-1",
-        position: 0,
-        global_position: 0,
         type: "VideoCreated",
-        data: %{name: "YouTube Video"},
-        metadata: %{}
-      }
+        data: %{name: "YouTube Video"}
+      )
 
       subscriber = Subscriber.start("subscriber-foo", "comment", nil)
       subject = Subscriber.handle_message(subscriber, message, MessageHandler)
@@ -68,24 +74,18 @@ defmodule MessageStore.SubscriberTest do
   describe "handling a batch of messages" do
     test "invokes the handler and records the new position" do
       messages = [
-        %{
-          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+        build_message(
           stream_name: "video-1",
-          position: 0,
-          global_position: 0,
           type: "VideoCreated",
-          data: %{name: "YouTube Video"},
-          metadata: %{}
-        },
-        %{
-          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          data: %{name: "YouTube Video"}
+        ),
+        build_message(
           stream_name: "video-1",
           position: 1,
           global_position: 1,
           type: "VideoUpdated",
-          data: %{name: "Vimeo Video"},
-          metadata: %{}
-        }
+          data: %{name: "Vimeo Video"}
+        )
       ]
 
       subscriber = Subscriber.start("subscriber-foo", "video", nil)

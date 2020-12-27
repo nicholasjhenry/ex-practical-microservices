@@ -2,7 +2,7 @@
 defmodule MessageStore.SubscriberServiceTest do
   use ExUnit.Case
 
-  alias MessageStore.{Repo, SubscriberService}
+  alias MessageStore.{NewMessage, Repo, SubscriberService}
 
   setup do
     Repo.truncate_messages()
@@ -18,14 +18,11 @@ defmodule MessageStore.SubscriberServiceTest do
     end
 
     test "given existing state" do
-      message = %{
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+      message = NewMessage.new(
         stream_name: "subscriber-foo",
         type: "Read",
-        data: %{position: 1},
-        metadata: %{},
-        expected_version: -1
-      }
+        data: %{position: 1}
+      )
 
       MessageStore.write_message(message)
 
@@ -44,14 +41,11 @@ defmodule MessageStore.SubscriberServiceTest do
     test "processes messages for a stream" do
       {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
 
-      message = %{
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+      message = NewMessage.new(
         stream_name: "video-1",
         type: "VideoCreated",
-        data: %{name: "YouTube Video"},
-        metadata: %{},
-        expected_version: -1
-      }
+        data: %{name: "YouTube Video"}
+      )
 
       MessageStore.write_message(message)
 
