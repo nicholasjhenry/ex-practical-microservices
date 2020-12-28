@@ -9,5 +9,12 @@ defmodule VideoTutorials.RecordViewingsTest do
 
       assert :ok = subject.(1, 1, 1)
     end
+
+    test "handles multiple writes" do
+      subject = &RecordViewings.record_viewing/3
+
+      assert :ok = subject.(1, 1, 1)
+      assert :ok = subject.(1, 1, 1)
+    end
   end
 end

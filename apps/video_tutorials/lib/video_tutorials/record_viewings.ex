@@ -14,10 +14,11 @@ defmodule VideoTutorials.RecordViewings do
       data: %{
         user_id: user_id,
         video_id: video_id
-      }
+      },
+      expected_version: nil
     )
 
-    # message_store.write(stream_name, viewed_event) ??
+    # TODO: message_store.write(stream_name, viewed_event) ??
     MessageStore.write_message(viewed_event)
   end
 end
