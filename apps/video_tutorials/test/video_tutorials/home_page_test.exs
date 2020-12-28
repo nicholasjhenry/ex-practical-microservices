@@ -5,7 +5,7 @@ defmodule VideoTutorials.HomePageTest do
   alias VideoTutorials.{HomePage, Page}
 
   setup do
-    VideoTutorials.Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_viewed_processed" => 10}})
+    VideoTutorials.Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
 
     :ok
   end
@@ -46,7 +46,7 @@ defmodule VideoTutorials.HomePageTest do
 
       page = VideoTutorials.Repo.get_by!(Page, name: "home")
       assert page.data["videos_watched"] == 5
-      assert page.data["last_viewed_processed"] == 10
+      assert page.data["last_view_processed"] == 10
     end
   end
 end
