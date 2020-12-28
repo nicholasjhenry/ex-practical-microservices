@@ -1,13 +1,7 @@
 defmodule VideoTutorials.RecordViewingsTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
 
   alias VideoTutorials.RecordViewings
-
-  setup do
-    MessageStore.Repo.truncate_messages()
-
-    :ok
-  end
 
   describe "record_viewing" do
     test "writes the messages" do
