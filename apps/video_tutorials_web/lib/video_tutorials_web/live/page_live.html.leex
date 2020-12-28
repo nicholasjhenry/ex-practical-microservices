@@ -2,6 +2,8 @@
 
 <p>Viewers have watched <%= @videos_watched %> video(s).</p>
 
-<form action="/record-viewing/12345" method="POST">
-  <button type="submit">Record viewing video</button>
+<%= form_for @socket.endpoint, "#",
+  id: "video-form",
+  phx_submit: "record_viewing_video" %>
+  <%= submit "Record viewing video", phx_disable_with: "Recording..." %>
 </form>

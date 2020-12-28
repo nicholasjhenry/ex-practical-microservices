@@ -16,4 +16,15 @@ defmodule VideoTutorialsWeb.PageLiveTest do
     assert disconnected_html =~ "Viewers have watched 5 video(s)"
     assert render(page_live) =~ "Viewers have watched 5 video(s)"
   end
+
+  test "record viewing a video", %{conn: conn} do
+    {:ok, page_live, _} = live(conn, "/")
+
+    html =
+      page_live
+      |> form("#video-form")
+      |> render_submit()
+
+    assert html =~ "Video viewing recorded"
+  end
 end
