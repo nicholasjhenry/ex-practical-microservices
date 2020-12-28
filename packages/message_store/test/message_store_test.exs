@@ -36,6 +36,12 @@ defmodule MessageStoreTest do
         MessageStore.write_message(message)
       end
     end
+
+    test "ignores unspecified expected version" do
+      message = build_new_message(stream_name: "video-1", expected_version: nil)
+
+      MessageStore.write_message(message)
+    end
   end
 
   describe "reading the last message of a stream" do
