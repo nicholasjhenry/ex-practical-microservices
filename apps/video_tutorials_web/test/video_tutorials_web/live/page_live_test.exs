@@ -25,6 +25,8 @@ defmodule VideoTutorialsWeb.PageLiveTest do
       |> form("#video-form")
       |> render_submit()
 
-    assert html =~ "Video viewing recorded"
+    assert html =~ "Video viewing recorded (123)"
+    message = MessageStore.read_last_message("viewing-123")
+    assert message.type == "VideoViewed"
   end
 end

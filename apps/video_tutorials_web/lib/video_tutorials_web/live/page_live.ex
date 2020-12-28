@@ -11,11 +11,13 @@ defmodule VideoTutorialsWeb.PageLive do
   end
 
   @impl true
-  def handle_event("record_viewing_video", _params, socket) do
-    record_viewing_video(socket)
+  def handle_event("record_viewing_video", %{"video" => video_params}, socket) do
+    record_viewing_video(socket, video_params)
   end
 
-  defp record_viewing_video(socket) do
-    {:noreply, put_flash(socket, :info, "Video viewing recorded")}
+  defp record_viewing_video(socket, %{"id" => video_id}) do
+    :ok = VideoTutorials.RecordViewings.record_viewing(0, video_id, 0)
+
+    {:noreply, put_flash(socket, :info, "Video viewing recorded (123)")}
   end
 end
