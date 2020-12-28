@@ -25,7 +25,7 @@ defmodule VideoTutorials.HomePageTest do
 
       HomePage.handle_message(event)
 
-      page = VideoTutorials.Repo.get_by!(Page, name: "home")
+      page = Repo.get_by!(Page, name: "home")
       assert page.data["videos_watched"] == 6
       assert page.data["last_view_processed"] == 11
     end
@@ -44,9 +44,17 @@ defmodule VideoTutorials.HomePageTest do
 
       HomePage.handle_message(event)
 
-      page = VideoTutorials.Repo.get_by!(Page, name: "home")
+      page = Repo.get_by!(Page, name: "home")
       assert page.data["videos_watched"] == 5
       assert page.data["last_view_processed"] == 10
+    end
+  end
+
+  describe "loading home page" do
+    test "returns the home page" do
+      page = HomePage.load_home_page()
+
+      assert page.name == "home"
     end
   end
 end

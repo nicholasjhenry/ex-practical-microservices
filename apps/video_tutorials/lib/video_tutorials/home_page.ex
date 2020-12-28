@@ -7,7 +7,7 @@ defmodule VideoTutorials.HomePage do
     increment_videos_watched(event.global_position)
   end
 
-  # Callbacks
+  # API
 
   def increment_videos_watched(global_position) do
     import Ecto.Query, only: [from: 2]
@@ -28,5 +28,9 @@ defmodule VideoTutorials.HomePage do
     """, ^to_string(global_position)
     )]]
     VideoTutorials.Repo.update_all(query, [])
+  end
+
+  def load_home_page() do
+    VideoTutorials.Repo.get_by!(Page, name: "home")
   end
 end
