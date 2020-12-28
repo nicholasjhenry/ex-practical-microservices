@@ -9,3 +9,9 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+
+VideoTutorials.Repo.insert!(
+  %VideoTutorials.Page{name: "home", data: %{"videos_watched" => 0, "last_view_processed" => 0}},
+  on_conflict: :nothing
+)
