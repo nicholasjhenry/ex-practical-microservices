@@ -1,25 +1,20 @@
 defmodule VideoTutorials.RegisterUsers do
   alias VideoTutorials.{Registration, Repo, UserCredential}
 
-  defstruct [:changeset, :existing_identity]
+  defstruct [:changeset, :existing_identity, :trace_id, :password_hash]
 
   def change_registration(registration, attrs \\ %{}) do
     Registration.changeset(registration, attrs)
   end
 
   def register_user(attrs) do
-    context = %__MODULE__{}
-      |> validate(attrs)
-      |> load_existing_identity
-      |> ensure_there_was_no_existing_identity
-      |> hash_password
-      |> write_register_command
-
-    if context.changeset.valid? do
-      :ok
-    else
-      {:error, Map.put(context.changeset, :action, :validate)}
-    end
+    %__MODULE__{trace_id: UUID.uuid4}
+    |> validate(attrs)
+    |> load_existing_identity
+    |> ensure_there_was_no_existing_identity
+    |> hash_password
+    |> write_register_command
+    |> determine_result
   end
 
   def get_user_credential_by_email(email) do
@@ -53,10 +48,47 @@ defmodule VideoTutorials.RegisterUsers do
   end
 
   defp hash_password(context) do
-    context
+    case Ecto.Changeset.get_change(context.changeset, :password) do
+      nil -> context
+      password ->
+        {:ok, salt} = :bcrypt.gen_salt()
+        {:ok, hash} = :bcrypt.hashpw(password, salt)
+
+        Map.put(context, :password_hash, hash)
+    end
   end
 
   defp write_register_command(context) do
-    context
+    case Ecto.Changeset.apply_action(context.changeset, :executed) do
+      {:ok, registration} ->
+        stream_name = "identity:command-#{registration.id}"
+
+        command = MessageStore.NewMessage.new(
+          stream_name: stream_name,
+          type: "Register",
+          metadata: %{
+            trace_id: context.trace_id,
+            user_id: registration.id
+          },
+          data: %{
+            user_id: registration.id,
+            email: registration.email,
+            password_hash: context.password_hash
+          }
+        )
+
+        MessageStore.write_message(command)
+
+        context
+      {:error, _} -> context
+    end
+  end
+
+  defp determine_result(context) do
+    if context.changeset.valid? do
+      :ok
+    else
+      {:error, Map.put(context.changeset, :action, :validate)}
+    end
   end
 end
