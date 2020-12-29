@@ -18,6 +18,8 @@ defmodule VideoTutorialsWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/register", RegisterLive, :new
+    live "/completed_registration", CompletedRegistrationLive, :show
   end
 
   # Other scopes may use custom stacks.
