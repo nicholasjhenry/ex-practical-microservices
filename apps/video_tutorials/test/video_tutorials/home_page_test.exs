@@ -6,6 +6,7 @@ defmodule VideoTutorials.HomePageTest do
 
   setup do
     VideoTutorials.Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
+    VideoTutorials.HomePage.subscribe()
 
     :ok
   end
@@ -28,6 +29,7 @@ defmodule VideoTutorials.HomePageTest do
       page = Repo.get_by!(Page, name: "home")
       assert page.data["videos_watched"] == 6
       assert page.data["last_view_processed"] == 11
+      assert_receive :home_page_updated
     end
 
     test "given the event had been previously processed the counter is not incremented" do
@@ -47,6 +49,7 @@ defmodule VideoTutorials.HomePageTest do
       page = Repo.get_by!(Page, name: "home")
       assert page.data["videos_watched"] == 5
       assert page.data["last_view_processed"] == 10
+      refute_receive :home_page_updated
     end
   end
 

@@ -29,4 +29,13 @@ defmodule VideoTutorialsWeb.PageLiveTest do
     message = MessageStore.read_last_message("viewing-123")
     assert message.type == "VideoViewed"
   end
+
+  test "given an increment for videos watches should refresh the page", %{conn: conn} do
+    {:ok, page_live, _} = live(conn, "/")
+
+    VideoTutorials.HomePage.increment_videos_watched(11)
+    Phoenix.PubSub.broadcast(VideoTutorials.PubSub, "viewings", :home_page_updated)
+
+    assert render(page_live) =~ "Viewers have watched 6 video(s)"
+  end
 end

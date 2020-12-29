@@ -1,6 +1,8 @@
 defmodule VideoTutorials.HomePage do
   alias VideoTutorials.Page
 
+  @topic "viewings"
+
   # Handlers
 
   def handle_message(event) do
@@ -27,10 +29,24 @@ defmodule VideoTutorials.HomePage do
       )
     """, ^to_string(global_position)
     )]]
-    VideoTutorials.Repo.update_all(query, [])
+
+    query
+    |> VideoTutorials.Repo.update_all([])
+    |> broadcast(:home_page_updated)
+
+    :ok
   end
 
   def load_home_page() do
     VideoTutorials.Repo.get_by!(Page, name: "home")
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(VideoTutorials.PubSub, @topic)
+  end
+
+  defp broadcast({0, _}, _event), do: :ok
+  defp broadcast({1, _}, event) do
+    Phoenix.PubSub.broadcast(VideoTutorials.PubSub, @topic, event)
   end
 end
