@@ -13,6 +13,9 @@ use Mix.Config
 config :video_tutorials,
   ecto_repos: [VideoTutorials.Repo]
 
+config :video_tutorials, VideoTutorials.Repo,
+  migration_primary_key: [name: :id, type: :binary_id]
+
 config :video_tutorials_web,
   ecto_repos: [VideoTutorials.Repo],
   generators: [context_app: :video_tutorials]

@@ -16,6 +16,11 @@ module.exports = (env, options) => {
         new OptimizeCSSAssetsPlugin({})
       ]
     },
+    resolve: {
+      alias: {
+          jquery: path.resolve(__dirname, './vendor/jquery-3.2.1.slim.min.js')
+      }
+    },
     entry: {
       'app': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
     },

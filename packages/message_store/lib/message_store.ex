@@ -32,7 +32,7 @@ defmodule MessageStore do
       message.expected_version
     ]
 
-    execute_function(conn(), "SELECT #{function_call}", params)
+    execute_function(conn(), function_call, params)
 
     :ok
   end
@@ -41,7 +41,7 @@ defmodule MessageStore do
     function_call = "get_stream_messages($1)"
 
     conn()
-    |> execute_function("SELECT #{function_call}", [stream_name])
+    |> execute_function(function_call, [stream_name])
     |> handle_result_rows
   end
 
@@ -49,7 +49,7 @@ defmodule MessageStore do
     function_call = "get_category_messages($1, $2)"
 
     conn()
-    |> execute_function("SELECT #{function_call}", [stream_name, position])
+    |> execute_function(function_call, [stream_name, position])
     |> handle_result_rows
   end
 
@@ -57,33 +57,19 @@ defmodule MessageStore do
     function_call = "get_last_stream_message($1)"
 
     conn()
-    |> execute_function("SELECT * FROM #{function_call}", [stream_name])
-    |> handle_result_row
+    |> execute_function(function_call, [stream_name])
+    |> handle_result_rows
+    |> List.first
   end
 
   defp conn(), do: Process.whereis(MessageStore.Repo)
 
-  defp handle_result_row(%Postgrex.Result{rows: [row]}), do: to_message(row)
-  defp handle_result_row(%Postgrex.Result{rows: []}), do: nil
-
-  defp handle_result_rows(%Postgrex.Result{rows: [rows]}) do
+  defp handle_result_rows(%Postgrex.Result{rows: []}), do: []
+  defp handle_result_rows(%Postgrex.Result{rows: rows}) do
     Enum.map(rows, &to_message(&1))
   end
 
-  defp to_message({id, stream_name, type, position, gobal_position, data, metadata, time}) do
-      Message.new(
-        id: id,
-        stream_name: stream_name,
-        type: type,
-        position: position,
-        global_position: gobal_position,
-        data: Jason.decode!(data),
-        metadata: Jason.decode!(metadata),
-        time: time
-      )
-  end
-
-  defp to_message([id, stream_name, type, position, gobal_position, data, metadata, time]) do
+  defp to_message([{id, stream_name, type, position, gobal_position, data, metadata, time}]) do
     Message.new(
       id: id,
       stream_name: stream_name,
@@ -98,7 +84,7 @@ defmodule MessageStore do
 
   defp execute_function(conn, sql, params) do
     try do
-      query = Postgrex.prepare!(conn, "", sql)
+      query = Postgrex.prepare!(conn, "", "SELECT #{sql}")
       Postgrex.execute!(conn, query, params)
     rescue
       error in [Postgrex.Error] ->

@@ -34,6 +34,8 @@ defmodule VideoTutorialsWeb.ConnCase do
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorials.Repo)
 
+    MessageStore.Repo.truncate_messages()
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(VideoTutorials.Repo, {:shared, self()})
     end

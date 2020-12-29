@@ -5,6 +5,8 @@ defmodule VideoTutorials.Application do
 
   use Application
 
+  @mix_env Mix.env()
+
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
@@ -14,8 +16,18 @@ defmodule VideoTutorials.Application do
       {Phoenix.PubSub, name: VideoTutorials.PubSub}
       # Start a worker by calling: VideoTutorials.Worker.start_link(arg)
       # {VideoTutorials.Worker, arg}
-    ]
+    ] ++ aggregators(@mix_env)
 
     Supervisor.start_link(children, strategy: :one_for_one, name: VideoTutorials.Supervisor)
+  end
+
+  defp aggregators(:test), do: []
+  defp aggregators(_env) do
+    [
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:home-page", subscribed_to: "viewing", handler: VideoTutorials.HomePage}]
+      }
+    ]
   end
 end
