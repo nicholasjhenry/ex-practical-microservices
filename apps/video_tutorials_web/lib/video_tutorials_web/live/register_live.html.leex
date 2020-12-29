@@ -2,6 +2,7 @@
 
 <%= f = form_for @changeset, "#",
   id: "registration-form",
+  phx_change: "validate_registration",
   phx_submit: "register_user" %>
 
   <%= hidden_input f, :id %>

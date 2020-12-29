@@ -1,5 +1,5 @@
 defmodule VideoTutorials.HomePageTest do
-  use VideoTutorials.DataCase, async: false
+  use VideoTutorials.DataCase
 
   alias MessageStore.Message
   alias VideoTutorials.{HomePage, Page}

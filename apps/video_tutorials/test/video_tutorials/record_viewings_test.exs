@@ -1,5 +1,5 @@
 defmodule VideoTutorials.RecordViewingsTest do
-  use ExUnit.Case
+  use VideoTutorials.DataCase
 
   alias VideoTutorials.RecordViewings
 

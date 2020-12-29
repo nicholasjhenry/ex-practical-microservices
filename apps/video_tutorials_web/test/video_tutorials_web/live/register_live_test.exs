@@ -12,9 +12,16 @@ defmodule VideoTutorialsWeb.RegisterLiveTest do
   test "registering a user", %{conn: conn} do
     {:ok, register_live, _} = live(conn, "/register")
 
+    assert register_live
+      |> form("#registration-form", registration: %{})
+      |> render_change() =~ "can&apos;t be blank"
+
+
+    valid_attrs = %{email: "jane@example.com", password: "abc123#"}
+
     {:ok, _, html} =
       register_live
-      |> form("#registration-form")
+      |> form("#registration-form", registration: valid_attrs)
       |> render_submit()
       |> follow_redirect(conn, Routes.completed_registration_path(conn, :show))
 
