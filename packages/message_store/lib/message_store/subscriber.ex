@@ -11,7 +11,7 @@ defmodule MessageStore.Subscriber do
   end
 
   def handle_message(%{subscribed_to: subscribed_to} = subscriber, message, handler) do
-    if match?([^subscribed_to, _id], String.split(message.stream_name, "-")) do
+    if match?([^subscribed_to | _], String.split(message.stream_name, "-")) do
       result = call_handler(handler, message)
       updated_subscriber = %{subscriber | current_position: message.global_position, handled_message_result: result}
       {:ok, updated_subscriber}
