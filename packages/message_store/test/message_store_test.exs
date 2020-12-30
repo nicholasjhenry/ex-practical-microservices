@@ -81,4 +81,45 @@ defmodule MessageStoreTest do
       assert is_nil(message)
     end
   end
+
+  defmodule FakeProjection do
+    defstruct [:id, :name]
+
+    def init() do
+      %__MODULE__{}
+    end
+
+    def apply(entity, %{type: "VideoCreated", data: data}) do
+      %{entity | id: data["id"], name: data["name"]}
+    end
+
+    def apply(entity, %{type: "VideoTitleUpcased"}) do
+      %{entity | name: String.upcase(entity.name)}
+    end
+  end
+
+  describe "fetching the stream" do
+    test "projects the stream using the projection" do
+      message = build_new_message(
+        stream_name: "video-1",
+        type: "VideoCreated",
+        data: %{name: "YouTube Video"}
+      )
+
+      MessageStore.write_message(message)
+
+      message = build_new_message(
+        stream_name: "video-1",
+        type: "VideoTitleUpcased",
+        data: %{},
+        expected_version: 0
+      )
+
+      MessageStore.write_message(message)
+
+      %{name: name} = MessageStore.fetch("video-1", FakeProjection)
+
+      assert name == "YOUTUBE VIDEO"
+    end
+  end
 end

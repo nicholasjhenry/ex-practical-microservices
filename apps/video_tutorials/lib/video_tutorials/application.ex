@@ -16,17 +16,21 @@ defmodule VideoTutorials.Application do
       {Phoenix.PubSub, name: VideoTutorials.PubSub}
       # Start a worker by calling: VideoTutorials.Worker.start_link(arg)
       # {VideoTutorials.Worker, arg}
-    ] ++ aggregators(@mix_env)
+    ] ++ consumers(@mix_env)
 
     Supervisor.start_link(children, strategy: :one_for_one, name: VideoTutorials.Supervisor)
   end
 
-  defp aggregators(:test), do: []
-  defp aggregators(_env) do
+  defp consumers(:test), do: []
+  defp consumers(_env) do
     [
       {
         MessageStore.SubscriberWorker,
         [config: %{stream_name: "aggregators:home-page", subscribed_to: "viewing", handler: VideoTutorials.HomePage}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "components:identity:command", subscribed_to: "identity:command", handler: VideoTutorials.Identity}]
       }
     ]
   end

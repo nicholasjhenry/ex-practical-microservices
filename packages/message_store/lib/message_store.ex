@@ -62,6 +62,12 @@ defmodule MessageStore do
     |> List.first
   end
 
+  def fetch(stream_name, projection) do
+    stream_name
+    |> get_stream_messages()
+    |> project(projection)
+  end
+
   defp conn(), do: Process.whereis(MessageStore.Repo)
 
   defp handle_result_rows(%Postgrex.Result{rows: []}), do: []
@@ -90,5 +96,9 @@ defmodule MessageStore do
       error in [Postgrex.Error] ->
         VersionConflictError.reraise(error)
     end
+  end
+
+  defp project(events, projection) do
+    Enum.reduce(events, projection.init(), &projection.apply(&2, &1))
   end
 end
