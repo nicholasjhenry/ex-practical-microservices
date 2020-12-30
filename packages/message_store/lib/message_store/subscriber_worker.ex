@@ -10,6 +10,16 @@ defmodule MessageStore.SubscriberWorker do
     GenServer.start_link(__MODULE__, config, [{:name, String.to_atom(config.stream_name)} | opts])
   end
 
+  def child_spec(opts) do
+    %{
+      id: String.to_atom(opts[:config].stream_name),
+      start: {__MODULE__, :start_link, [opts]},
+      type: :worker,
+      restart: :permanent,
+      shutdown: 500
+    }
+  end
+
   # Callbacks
 
   @impl true
