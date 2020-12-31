@@ -10,10 +10,6 @@ defmodule VideoTutorialsWeb.RegisterLive do
   end
 
   @impl true
-  def handle_event("register_user", %{"registration" => registration_params}, socket) do
-    register_user(socket, registration_params)
-  end
-
   def handle_event("validate_registration", %{"registration" => registration_params}, socket) do
     changeset =
       %Registration{}
@@ -21,6 +17,10 @@ defmodule VideoTutorialsWeb.RegisterLive do
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  def handle_event("register_user", %{"registration" => registration_params}, socket) do
+    register_user(socket, registration_params)
   end
 
   def register_user(socket, params) do

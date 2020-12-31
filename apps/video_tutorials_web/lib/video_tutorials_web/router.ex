@@ -17,8 +17,12 @@ defmodule VideoTutorialsWeb.Router do
   scope "/", VideoTutorialsWeb do
     pipe_through :browser
 
+    get("/create", SessionController, :create)
+    get("/auth/log-out", SessionController, :delete)
+
     live "/", PageLive, :index
     live "/register", RegisterLive, :new
+    live "/auth/log-in", AuthenticateLive, :new
     live "/completed_registration", CompletedRegistrationLive, :show
   end
 

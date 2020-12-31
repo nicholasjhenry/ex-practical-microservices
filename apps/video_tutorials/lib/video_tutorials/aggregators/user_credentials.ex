@@ -9,7 +9,7 @@ defmodule VideoTutorials.UserCredentials do
 
   def create_user_credential(user_id, email, password_hash) do
     Repo.insert!(
-      %UserCredential{id: user_id, email: email, password_hash: password_hash},
+      %UserCredential{id: user_id, email: email, password_hash: to_string(password_hash)},
       on_conflict: :nothing
     )
   end
