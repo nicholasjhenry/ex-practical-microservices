@@ -1,5 +1,14 @@
 # Video Tutorials
 
+Status: `in-progress`
+
+This is an exploration of message-based systems based on the book Practical Microservices.
+Do not consider this code production ready, quality Elixir code or complete test coverage. My
+intention here is to move as quickly as possible to demonstrate the approach to developing
+applications. I hope to iterate on this repo in the future to improve the code and test quality.
+
+## Structure of message-based systems
+
 Five categories in a message-based system, [Practical Microservices](https://pragprog.com/titles/egmicro/practical-microservices/) pg 23:
 
 > * __Applications__: If you’ve done MVC CRUD, then everything you built is properly understood as
