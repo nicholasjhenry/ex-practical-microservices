@@ -1,5 +1,5 @@
 defmodule VideoTutorials.RegisterUsers do
-  alias VideoTutorials.{Registration, Repo, UserCredential}
+  alias VideoTutorials.{Password, Registration, Repo, UserCredential}
 
   defstruct [:changeset, :existing_identity, :trace_id, :password_hash]
 
@@ -51,10 +51,8 @@ defmodule VideoTutorials.RegisterUsers do
     case Ecto.Changeset.get_change(context.changeset, :password) do
       nil -> context
       password ->
-        {:ok, salt} = :bcrypt.gen_salt()
-        {:ok, hash} = :bcrypt.hashpw(password, salt)
-
-        Map.put(context, :password_hash, hash)
+        password_hash = Password.hash(password)
+        Map.put(context, :password_hash, password_hash)
     end
   end
 

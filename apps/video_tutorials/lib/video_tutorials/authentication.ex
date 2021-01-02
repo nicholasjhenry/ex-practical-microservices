@@ -1,5 +1,5 @@
 defmodule VideoTutorials.Authentication do
-  alias VideoTutorials.{Login, Repo, UserCredential}
+  alias VideoTutorials.{Login, Password, Repo, UserCredential}
 
   defstruct [:endpoint, :email, :password, :user_credential, :signature]
 
@@ -15,8 +15,8 @@ defmodule VideoTutorials.Authentication do
     |> configure_session(renew: true)
   end
 
-  def authenticate(endpoint, params) do
-    context = %__MODULE__{endpoint: endpoint, email: Map.fetch!(params, "email")}
+  def authenticate(endpoint, %{"email" => email, "password" => password}) do
+    context = %__MODULE__{endpoint: endpoint, email: email, password: password}
 
     with context <- load_user_credential(context),
       {:ok, context} <- ensure_user_credential_found(context),
@@ -40,8 +40,11 @@ defmodule VideoTutorials.Authentication do
   end
 
   def validate_password(context) do
-    # TODO: check password
-    {:ok, context}
+    if Password.equal?(context.password, context.user_credential.password_hash) do
+      {:ok, context}
+    else
+      {:error, :credentials_mismatch}
+    end
   end
 
   def sign_token(context) do

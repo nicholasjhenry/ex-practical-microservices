@@ -3,11 +3,12 @@ defmodule VideoTutorialsWeb.AuthenticateLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias VideoTutorials.{Page, UserCredential}
+  alias VideoTutorials.{Page, Password, UserCredential}
 
   setup do
     VideoTutorials.Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
-    VideoTutorials.Repo.insert!(%UserCredential{email: "jane@example.com", password_hash: "abc123#"})
+    password_hash = Password.hash("test")
+    VideoTutorials.Repo.insert!(%UserCredential{email: "jane@example.com", password_hash: password_hash})
 
     :ok
   end
@@ -25,7 +26,7 @@ defmodule VideoTutorialsWeb.AuthenticateLiveTest do
       |> form("#login-form", login: %{})
       |> render_change() =~ "can&apos;t be blank"
 
-    valid_attrs = %{email: "jane@example.com", password: "abc123#"}
+    valid_attrs = %{email: "jane@example.com", password: "test"}
 
     {:ok, conn} =
       register_live
