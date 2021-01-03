@@ -35,6 +35,10 @@ defmodule VideoTutorials.Application do
       {
         MessageStore.SubscriberWorker,
         [config: %{stream_name: "aggregators:user-credentials", subscribed_to: "identity", handler: VideoTutorials.UserCredentials}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "components:send-email:command", subscribed_to: "email:command", handler: VideoTutorials.SendEmail}]
       }
     ]
   end
