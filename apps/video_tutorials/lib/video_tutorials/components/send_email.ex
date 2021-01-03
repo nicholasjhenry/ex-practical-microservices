@@ -81,9 +81,9 @@ defmodule VideoTutorials.SendEmail do
       stream_name: stream_name,
       type: "Sent",
       metadata: %{
-        original_stream_name: Map.fetch!(send_command.metadata, "originalStreamName"),
-        trace_id: Map.fetch!(send_command.metadata, "traceId"),
-        user_id: Map.fetch!(send_command.metadata, "userId")
+        original_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
+        trace_id: Map.fetch!(send_command.metadata, "trace_id"),
+        user_id: Map.fetch!(send_command.metadata, "user_id")
       },
       data: send_command.data
     )
@@ -99,9 +99,9 @@ defmodule VideoTutorials.SendEmail do
       stream_name: stream_name,
       type: "Failed",
       metadata: %{
-        original_stream_name: Map.fetch!(send_command.metadata, "originalStreamName"),
-        trace_id: Map.fetch!(send_command.metadata, "traceId"),
-        user_id: Map.fetch!(send_command.metadata, "userId")
+        original_stream_name: Map.fetch!(send_command.metadata, "original_stream_name"),
+        trace_id: Map.fetch!(send_command.metadata, "trace_id"),
+        user_id: Map.fetch!(send_command.metadata, "user_id")
       },
       data: Map.put(send_command.data, :reason, error.message)
     )

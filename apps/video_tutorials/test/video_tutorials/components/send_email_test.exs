@@ -20,7 +20,7 @@ defmodule VideoTutorials.SendEmailTest do
         stream_name: "email:command-1",
         type: "Send",
         data: data,
-        metadata: %{"traceId" => UUID.uuid4, "originalStreamName" => "sendEmail-1", "userId" => UUID.uuid4},
+        metadata: %{"trace_id" => UUID.uuid4, "origin_stream_name" => "sendEmail-1", "user_id" => UUID.uuid4},
         position: 0,
         global_position: 11,
         time: NaiveDateTime.local_now()
