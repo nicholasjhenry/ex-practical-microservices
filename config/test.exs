@@ -26,3 +26,6 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :video_tutorials, VideoTutorials.Mailer,
+  adapter: Bamboo.TestAdapter

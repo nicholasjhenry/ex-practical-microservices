@@ -21,6 +21,7 @@ defmodule VideoTutorials.Application do
     Supervisor.start_link(children, strategy: :one_for_one, name: VideoTutorials.Supervisor)
   end
 
+   # TODO: add own supervisor for consumers
   defp consumers(:test), do: []
   defp consumers(_env) do
     [
@@ -34,7 +35,19 @@ defmodule VideoTutorials.Application do
       },
       {
         MessageStore.SubscriberWorker,
+        [config: %{stream_name: "components:identity", subscribed_to: "identity", handler: VideoTutorials.Identity}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "components:identity:sendEmailEvents", subscribed_to: "sendEmail", handler: VideoTutorials.Identity, opts: [origin_stream_name: "identity"]}]
+      },
+      {
+        MessageStore.SubscriberWorker,
         [config: %{stream_name: "aggregators:user-credentials", subscribed_to: "identity", handler: VideoTutorials.UserCredentials}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "components:send-email:command", subscribed_to: "sendEmail:command", handler: VideoTutorials.SendEmail}]
       }
     ]
   end
