@@ -70,6 +70,36 @@ defmodule MessageStore.SubscriberTest do
 
       assert {:error, :message_from_another_stream} = subject
     end
+
+    test "given a matched origin invokes the handler and records the new position" do
+      message = build_message(
+        stream_name: "video-1",
+        type: "VideoCreated",
+        metadata: %{"origin_stream_name" => "user-1"},
+        data: %{name: "YouTube Video"}
+      )
+
+      subscriber = Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: "user")
+      {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
+
+      assert subject.current_position == 0
+      assert subject.handled_message_result == "YOUTUBE VIDEO"
+    end
+
+    test "given a mis-matched origin returns the original subscriber" do
+      message = build_message(
+        stream_name: "video-1",
+        type: "VideoCreated",
+        metadata: %{"origin_stream_name" => "user-1"},
+        data: %{name: "YouTube Video"}
+      )
+
+      subscriber = Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: ":mismatch:")
+      {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
+
+      assert subject.current_position == 0
+      assert subject.handled_message_result == nil
+    end
   end
 
   describe "handling a batch of messages" do

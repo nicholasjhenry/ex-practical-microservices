@@ -24,7 +24,7 @@ defmodule MessageStore.SubscriberWorker do
 
   @impl true
   def init(config) do
-    {:ok, subscriber} = SubscriberService.start(config.stream_name, config.subscribed_to)
+    {:ok, subscriber} = SubscriberService.start(config.stream_name, config.subscribed_to, config[:opts] || [])
 
     Process.send_after(self(), :tick, 10)
 

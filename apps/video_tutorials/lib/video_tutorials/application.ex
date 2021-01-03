@@ -39,7 +39,7 @@ defmodule VideoTutorials.Application do
       },
       {
         MessageStore.SubscriberWorker,
-        [config: %{origin_stream_name: "identity", stream_name: "components:identity:sendEmailEvents", subscribed_to: "sendEmail", handler: VideoTutorials.Identity}]
+        [config: %{stream_name: "components:identity:sendEmailEvents", subscribed_to: "sendEmail", handler: VideoTutorials.Identity, opts: [origin_stream_name: "identity"]}]
       },
       {
         MessageStore.SubscriberWorker,
@@ -47,7 +47,7 @@ defmodule VideoTutorials.Application do
       },
       {
         MessageStore.SubscriberWorker,
-        [config: %{stream_name: "components:send-email:command", subscribed_to: "email:command", handler: VideoTutorials.SendEmail}]
+        [config: %{stream_name: "components:send-email:command", subscribed_to: "sendEmail:command", handler: VideoTutorials.SendEmail}]
       }
     ]
   end

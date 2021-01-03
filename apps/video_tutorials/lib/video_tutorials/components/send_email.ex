@@ -27,7 +27,7 @@ defmodule VideoTutorials.SendEmail do
     Mailer.deliver_now(email)
   end
 
-  def handle(%{type: "Send"} = command) do
+  def handle_message(%{type: "Send"} = command) do
     context = %__MODULE__{send_command: command, just_send_it: &send/1}
 
     with context <- load_email(context),
@@ -81,7 +81,7 @@ defmodule VideoTutorials.SendEmail do
       stream_name: stream_name,
       type: "Sent",
       metadata: %{
-        original_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
+        origin_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
         trace_id: Map.fetch!(send_command.metadata, "trace_id"),
         user_id: Map.fetch!(send_command.metadata, "user_id")
       },

@@ -26,7 +26,7 @@ defmodule VideoTutorials.SendEmailTest do
         time: NaiveDateTime.local_now()
       )
 
-      {:ok, :email_sent} = SendEmail.handle(command)
+      {:ok, :email_sent} = SendEmail.handle_message(command)
     end
 
     test "given a message handles the send command" do
@@ -54,7 +54,7 @@ defmodule VideoTutorials.SendEmailTest do
         time: NaiveDateTime.local_now()
       )
 
-      assert {:ok, :noop} == SendEmail.handle(command)
+      assert {:ok, :noop} == SendEmail.handle_message(command)
     end
   end
 end

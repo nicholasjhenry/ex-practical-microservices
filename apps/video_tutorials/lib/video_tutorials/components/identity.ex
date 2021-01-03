@@ -34,6 +34,10 @@ defmodule VideoTutorials.Identity do
     record_registration_email(event)
   end
 
+  def handle_message(_) do
+    nil
+  end
+
   def register_user(command) do
     context = %{command: command, identity_id: command.data["user_id"], identity: nil}
 
@@ -157,7 +161,7 @@ defmodule VideoTutorials.Identity do
     event = context.event
 
     registered_event = NewMessage.new(
-      stream_name: "identity-#{event.data["user_id"]}",
+      stream_name: "identity-#{context.identity_id}",
       type: "RegistrationEmailSent",
       metadata: %{
         trace_id: Map.fetch!(event.metadata, "trace_id"),

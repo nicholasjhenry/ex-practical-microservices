@@ -7,6 +7,9 @@ defmodule VideoTutorials.UserCredentials do
     create_user_credential(user_id, email, password_hash)
   end
 
+  def handle_message(_) do
+  end
+
   def create_user_credential(user_id, email, password_hash) do
     Repo.insert!(
       %UserCredential{id: user_id, email: email, password_hash: to_string(password_hash)},
