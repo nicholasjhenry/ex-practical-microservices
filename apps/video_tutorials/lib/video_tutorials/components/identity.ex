@@ -29,6 +29,11 @@ defmodule VideoTutorials.Identity do
     send_email(event)
   end
 
+  # Event Handler
+  def handle_message(%{type: "Sent"} = event) do
+    record_registration_email(event)
+  end
+
   def register_user(command) do
     context = %{command: command, identity_id: command.data["user_id"], identity: nil}
 
@@ -133,5 +138,44 @@ defmodule VideoTutorials.Identity do
     )
 
     MessageStore.write_message(send_email_command)
+  end
+
+  def record_registration_email(event) do
+    identity_id = stream_name_to_id(event.metadata["origin_stream_name"])
+    context = %{identity_id: identity_id, event: event}
+
+    with context <- load_identity(context),
+      {:ok, context} <- ensure_registration_email_not_sent(context),
+      _context <- write_registration_email_sent_event(context) do
+        {:ok, :registration_email_sent}
+      else
+        {:error, {:already_sent_registration_email_error}} -> {:ok, :noop}
+      end
+  end
+
+  def write_registration_email_sent_event(context) do
+    event = context.event
+
+    registered_event = NewMessage.new(
+      stream_name: "identity-#{event.data["user_id"]}",
+      type: "RegistrationEmailSent",
+      metadata: %{
+        trace_id: Map.fetch!(event.metadata, "trace_id"),
+        user_id: context.identity_id
+      },
+      data: %{
+        user_id: context.identity_id,
+        email_id: Map.fetch!(event.data, "email_id"),
+      },
+      # TODO
+      expected_version: nil
+    )
+
+    MessageStore.write_message(registered_event)
+  end
+
+  defp stream_name_to_id(stream_name) do
+    [_category | rest] = String.split(stream_name, "-")
+    Enum.join(rest, "-")
   end
 end

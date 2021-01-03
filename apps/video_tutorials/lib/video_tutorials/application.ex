@@ -39,6 +39,10 @@ defmodule VideoTutorials.Application do
       },
       {
         MessageStore.SubscriberWorker,
+        [config: %{origin_stream_name: "identity", stream_name: "components:identity:sendEmailEvents", subscribed_to: "sendEmail", handler: VideoTutorials.Identity}]
+      },
+      {
+        MessageStore.SubscriberWorker,
         [config: %{stream_name: "aggregators:user-credentials", subscribed_to: "identity", handler: VideoTutorials.UserCredentials}]
       },
       {
