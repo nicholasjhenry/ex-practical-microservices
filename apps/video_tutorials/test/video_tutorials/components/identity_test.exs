@@ -2,13 +2,13 @@ defmodule VideoTutorials.IdentityTest do
   use VideoTutorials.DataCase
 
   alias VideoTutorials.Identity
-  alias MessageStore.Message
+  alias MessageStore.{Message, NewMessage}
 
   test "registering a user" do
     command = Message.new(
       id: UUID.uuid4,
       stream_name: "identity:command-1",
-      type: "Registered",
+      type: "Register",
       data: %{"user_id" => "1", "email" => "jane@example.com", "password_hash" => "abc123#"},
       metadata: %{"user_id" => "1", "trace_id" => UUID.uuid4},
       position: 0,
@@ -23,5 +23,36 @@ defmodule VideoTutorials.IdentityTest do
     assert identity.id == "1"
     assert identity.email == "jane@example.com"
     assert identity.registered?
+  end
+
+  test "sending registration email" do
+    registered_event = NewMessage.new(
+      stream_name: "identity-1",
+      type: "Registered",
+      metadata: %{
+        trace_id: UUID.uuid4,
+        user_id: 1
+      },
+      data: %{
+        user_id: 1,
+        email: "jane@example.com",
+        password_hash: "abc123#"
+      }
+    )
+
+    MessageStore.write_message(registered_event)
+
+    event = Message.new(
+      id: UUID.uuid4,
+      stream_name: "identity-1",
+      type: "Registered",
+      data: %{"user_id" => "1", "email" => "jane@example.com", "password_hash" => "abc123#"},
+      metadata: %{"user_id" => "1", "trace_id" => registered_event.metadata["trace_id"]},
+      position: 0,
+      global_position: 1,
+      time: NaiveDateTime.local_now()
+    )
+
+    Identity.handle_message(event)
   end
 end
