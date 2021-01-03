@@ -42,6 +42,7 @@ defmodule VideoTutorials.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
+      {:bamboo, "~> 1.6"},
       {:message_store, path: "../../packages/message_store"}
     ]
   end
