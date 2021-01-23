@@ -36,6 +36,21 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
     ]
   ]
 
+config :creators_portal_web, CreatorsPortalWeb.Endpoint,
+  http: [port: 4003],
+  debug_errors: true,
+  code_reloader: true,
+  check_origin: false,
+  watchers: [
+    node: [
+      "node_modules/webpack/bin/webpack.js",
+      "--mode",
+      "development",
+      "--watch-stdin",
+      cd: Path.expand("../apps/creators_portal_web/assets", __DIR__)
+    ]
+  ]
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
@@ -68,6 +83,16 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
       ~r"priv/gettext/.*(po)$",
       ~r"lib/video_tutorials_web/(live|views)/.*(ex)$",
       ~r"lib/video_tutorials_web/templates/.*(eex)$"
+    ]
+  ]
+
+config :creators_portal_web, CreatorsPortalWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/creators_portal_web/(live|views)/.*(ex)$",
+      ~r"lib/creators_portal_web/templates/.*(eex)$"
     ]
   ]
 

@@ -13,6 +13,10 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :creators_portal_web, CreatorsPortalWeb.Endpoint,
+  url: [host: "example.com", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json"
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
