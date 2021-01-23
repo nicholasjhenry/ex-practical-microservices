@@ -3,6 +3,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
 
   def project do
     [
+      apps: [:video_tutorials, :video_tutorials_web],
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
