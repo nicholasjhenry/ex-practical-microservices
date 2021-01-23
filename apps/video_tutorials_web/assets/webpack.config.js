@@ -18,11 +18,11 @@ module.exports = (env, options) => {
     },
     resolve: {
       alias: {
-          jquery: path.resolve(__dirname, '../shared_assets/vendor/jquery-3.2.1.slim.min.js')
+          jquery: path.resolve(__dirname, '../../shared_assets/vendor/jquery-3.2.1.slim.min.js')
       }
     },
     entry: {
-      'app': glob.sync('../shared_assets/vendor/**/*.js').concat(['./js/app.js'])
+      'app': glob.sync('../../shared_assets/vendor/**/*.js').concat(['./js/app.js'])
     },
     output: {
       filename: '[name].js',
