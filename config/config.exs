@@ -35,6 +35,12 @@ config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   pubsub_server: CreatorsPortal.PubSub,
   live_view: [signing_salt: "9gshzUVU"]
 
+config :creators_portal_web,
+  ecto_repos: [VideoTutorials.Repo],
+  generators: [context_app: :creators_portal]
+
+config :creators_portal, ecto_repos: [VideoTutorials.Repo]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
