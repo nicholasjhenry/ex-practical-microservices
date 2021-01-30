@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-12">
+        <h1>Creators Portal</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2>Video Name</h2>
+                <%= f = form_for @changeset, "#",
+                    id: "user-form",
+                    phx_change: "validate",
+                    phx_submit: "save" %>
+                    <div class="form-group">
+                        <%= text_input f, :name, class: "form-control", type: "text", placeholder: "Untitled" %>
+                        <%= error_tag f, :name %>
+                    </div>
+                    <%= submit "Name video", phx_disable_with: "Naming..." %>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2>Video Description</h2>
+                <%= f = form_for @changeset, "#",
+                    id: "user-form",
+                    phx_change: "validate",
+                    phx_submit: "save" %>
+                    <div class="form-group">
+                        <%= text_input f, :description, class: "form-control", type: "text", placeholder: "No description" %>
+                        <%= error_tag f, :description %>
+                    </div>
+                    <%= submit "Describe video", phx_disable_with: "Describing..." %>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <div class="col-12"><iframe width="100%" src="https://www.youtube.com/embed/{videoCode}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe></div>
+        </div>
+    </div>
+</div>

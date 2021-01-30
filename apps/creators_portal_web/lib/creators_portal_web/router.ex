@@ -18,6 +18,7 @@ defmodule CreatorsPortalWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/video/:id/edit", VideoLive, :edit
   end
 
   # Other scopes may use custom stacks.

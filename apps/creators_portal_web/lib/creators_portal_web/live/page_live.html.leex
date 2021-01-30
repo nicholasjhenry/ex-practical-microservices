@@ -18,7 +18,8 @@
           <%= for video <- @videos do %>
             <tr>
               <td>
-                <%= link to: "/creators-portal/videos/${video.id}" do %>
+
+                <%= live_patch to: Routes.video_path(@socket, :edit, video) do %>
                   <%= if !video.name do %>
                     <em>Untitled</em>
                   <% else %>

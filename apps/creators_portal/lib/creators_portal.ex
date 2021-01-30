@@ -13,7 +13,6 @@ defmodule CreatorsPortal do
   require Ecto.Query
 
   def dashboard(owner_id) do
-
     Video
     |> by_owner_id(owner_id)
     |> Repo.all()
@@ -23,5 +22,11 @@ defmodule CreatorsPortal do
     import Ecto.Query
 
     from(videos in query, where: videos.owner_id == ^owner_id)
+  end
+
+  def get_video!(id), do: Repo.get!(Video, id)
+
+  def change_video(%Video{} = video, _attrs \\ %{}) do
+    Ecto.Changeset.change(video)
   end
 end
