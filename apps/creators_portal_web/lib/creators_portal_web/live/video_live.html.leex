@@ -10,8 +10,7 @@
                 <h2>Video Name</h2>
                 <%= f = form_for @changeset, "#",
                     id: "user-form",
-                    phx_change: "validate",
-                    phx_submit: "save" %>
+                    phx_submit: "name_video" %>
                     <div class="form-group">
                         <%= text_input f, :name, class: "form-control", type: "text", placeholder: "Untitled" %>
                         <%= error_tag f, :name %>
@@ -25,8 +24,7 @@
                 <h2>Video Description</h2>
                 <%= f = form_for @changeset, "#",
                     id: "user-form",
-                    phx_change: "validate",
-                    phx_submit: "save" %>
+                    phx_submit: "TODO" %>
                     <div class="form-group">
                         <%= text_input f, :description, class: "form-control", type: "text", placeholder: "No description" %>
                         <%= error_tag f, :description %>

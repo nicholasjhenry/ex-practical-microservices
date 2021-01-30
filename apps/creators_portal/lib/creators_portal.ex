@@ -29,4 +29,8 @@ defmodule CreatorsPortal do
   def change_video(%Video{} = video, _attrs \\ %{}) do
     Ecto.Changeset.change(video)
   end
+
+  def name_video(video, _attrs) do
+    {:ok, video}
+  end
 end
