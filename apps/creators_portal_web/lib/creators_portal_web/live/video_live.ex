@@ -16,17 +16,19 @@ defmodule CreatorsPortalWeb.VideoLive do
   end
 
   @impl true
-  def handle_event("name_video", %{"video" => video_params}, socket) do
-    name_video(socket, video_params)
+  def handle_event("name_video", %{"video" => video_params} = params, socket) do
+    context = %{trace_id: params["trace_id"] || UUID.uuid4, user_id: UUID.uuid4}
+
+    name_video(socket, context, video_params)
   end
 
-  def name_video(socket, video_params) do
-    case CreatorsPortal.name_video(socket.assigns.video, video_params) do
+  def name_video(socket, context, video_params) do
+    case CreatorsPortal.name_video(context, socket.assigns.video, video_params) do
       {:ok, _video} ->
         {:noreply,
          socket
          |> put_flash(:info, "Video named pending")
-         |> push_redirect(to: "/")}
+         |> push_redirect(to: "/creators-portal/video-operations/#{context.trace_id}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

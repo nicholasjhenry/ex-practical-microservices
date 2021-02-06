@@ -11,6 +11,16 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
     assert render(video_live) =~ "Video Name"
   end
 
+  test "name video", %{conn: conn, video: video} do
+    {:ok, view, _html} = live(conn, "/video/#{video.id}/edit")
+
+    trace_id = UUID.uuid4
+
+    render_click(view, :name_video, %{"video" => %{}, "trace_id" => trace_id})
+    flash = assert_redirected view, "/creators-portal/video-operations/#{trace_id}"
+    assert flash["info"] == "Video named pending"
+  end
+
   def create_video(_context) do
     video = %CreatorsPortal.Video{
       owner_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",

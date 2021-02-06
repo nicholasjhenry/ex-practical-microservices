@@ -30,7 +30,24 @@ defmodule CreatorsPortal do
     Ecto.Changeset.change(video)
   end
 
-  def name_video(video, _attrs) do
+  def name_video(context, video, attrs) do
+    stream_name = "videoPublishing:command-#{video.id}"
+
+    command = MessageStore.NewMessage.new(
+      stream_name: stream_name,
+      type: "NameVideo",
+      metadata: %{
+        trace_id: context.trace_id,
+        user_id: context.user_id
+      },
+      data: %{
+        name: attrs["name"],
+        video_id: video.id,
+      }
+    )
+
+    MessageStore.write_message(command)
+
     {:ok, video}
   end
 end
