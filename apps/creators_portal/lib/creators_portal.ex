@@ -7,7 +7,9 @@ defmodule CreatorsPortal do
   if it comes from the database, an external API or others.
   """
 
-  alias CreatorsPortal.Video
+  import Ecto.Query
+
+  alias CreatorsPortal.{Video, VideoOperation}
   alias VideoTutorials.Repo
 
   require Ecto.Query
@@ -19,8 +21,6 @@ defmodule CreatorsPortal do
   end
 
   defp by_owner_id(query, owner_id) do
-    import Ecto.Query
-
     from(videos in query, where: videos.owner_id == ^owner_id)
   end
 
@@ -43,11 +43,16 @@ defmodule CreatorsPortal do
       data: %{
         name: attrs["name"],
         video_id: video.id,
-      }
+      },
+      expected_version: nil
     )
 
     MessageStore.write_message(command)
 
     {:ok, video}
+  end
+
+  def get_video_operation_by_trace_id(trace_id) do
+    Repo.get_by(VideoOperation, trace_id: trace_id)
   end
 end

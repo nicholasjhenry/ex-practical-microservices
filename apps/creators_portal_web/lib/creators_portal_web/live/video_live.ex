@@ -28,7 +28,7 @@ defmodule CreatorsPortalWeb.VideoLive do
         {:noreply,
          socket
          |> put_flash(:info, "Video named pending")
-         |> push_redirect(to: "/creators-portal/video-operations/#{context.trace_id}")}
+         |> push_redirect(to: Routes.video_operation_path(socket, :show, context.trace_id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

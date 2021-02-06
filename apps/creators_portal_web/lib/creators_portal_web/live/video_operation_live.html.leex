@@ -1,0 +1,21 @@
+<%= if @pending? do %>
+  <div class="row">
+    <div class="col-12">
+      <h1>Operation pending</h1>
+      <p>Your operation is pending... one moment please</p>
+      <p><%= @timestamp %></p>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col-12">
+
+      <h1>Operation failed</h1>
+      <p class="alert alert-danger"><%= @video_operation.failure_reason["message"] %></p>
+
+      <p>
+        <%= link Routes.video_path(@socket, :edit, @video_operation.video_id), to: "Back to video" %>
+      </p>
+    </div>
+  </div>
+<% end %>

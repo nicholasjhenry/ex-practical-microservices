@@ -17,7 +17,7 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
     trace_id = UUID.uuid4
 
     render_click(view, :name_video, %{"video" => %{}, "trace_id" => trace_id})
-    flash = assert_redirected view, "/creators-portal/video-operations/#{trace_id}"
+    flash = assert_redirected view, Routes.video_operation_path(conn, :show, trace_id)
     assert flash["info"] == "Video named pending"
   end
 
