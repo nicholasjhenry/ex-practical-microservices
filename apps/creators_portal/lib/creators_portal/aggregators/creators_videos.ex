@@ -14,6 +14,7 @@ defmodule CreatorsPortal.CreatorsVideos do
   end
 
   def handle_message(_) do
+    ## Add logger
   end
 
   defp stream_to_entity_id(stream_name) do

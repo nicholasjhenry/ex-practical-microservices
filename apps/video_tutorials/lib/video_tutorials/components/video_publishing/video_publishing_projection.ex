@@ -17,7 +17,15 @@ defmodule VideoTutorials.VideoPublishing.VideoPublishingProjection do
     %{video | name: data["name"], sequence: global_position}
   end
 
+  def apply(video, %{type: "VideoNamed", data: data, global_position: global_position}) do
+    %{video | name: data["name"], sequence: global_position}
+  end
+
   def apply(video, %{type: "videoNameRejected", data: data, global_position: global_position}) do
+    %{video | name: data["name"], sequence: global_position}
+  end
+
+  def apply(video, %{type: "VideoNameRejected", data: data, global_position: global_position}) do
     %{video | name: data["name"], sequence: global_position}
   end
 end

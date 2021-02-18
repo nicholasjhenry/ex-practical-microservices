@@ -58,7 +58,7 @@ defmodule VideoTutorials.NameVideo do
 
     video_named_event = NewMessage.new(
       stream_name: stream_name,
-      type: "videoNamed",
+      type: "VideoNamed",
       metadata: %{
         trace_id: Map.fetch!(command.metadata, "trace_id"),
         user_id: Map.fetch!(command.metadata, "user_id"),
@@ -87,7 +87,7 @@ defmodule VideoTutorials.NameVideo do
 
     video_name_rejected_event = NewMessage.new(
       stream_name: stream_name,
-      type: "videoNameRejected",
+      type: "VideoNameRejected",
       metadata: %{
         trace_id: Map.fetch!(command.metadata, "trace_id"),
         user_id: Map.fetch!(command.metadata, "user_id"),

@@ -48,6 +48,14 @@ defmodule VideoTutorials.Application do
       {
         MessageStore.SubscriberWorker,
         [config: %{stream_name: "components:send-email:command", subscribed_to: "sendEmail:command", handler: VideoTutorials.SendEmail}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "components:name-video", subscribed_to: "videoPublishing:command", handler: VideoTutorials.NameVideo}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:video-operations", subscribed_to: "videoPublishing", handler: VideoTutorials.VideoOperations}]
       }
     ]
   end

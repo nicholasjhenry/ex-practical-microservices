@@ -22,6 +22,11 @@ defmodule CreatorsPortal.Application do
    # TODO: add own supervisor for consumers
   defp consumers(:test), do: []
   defp consumers(_env) do
-    [ ]
+    [
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:creators-videos", subscribed_to: "videoPublishing", handler: CreatorsPortal.CreatorsVideos}]
+      }
+    ]
   end
 end
