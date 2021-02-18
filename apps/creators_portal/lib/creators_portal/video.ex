@@ -8,5 +8,6 @@ defmodule CreatorsPortal.Video do
     field :views, :integer
     field :source_uri, :string
     field :transcoded_uri, :string
+    field :position, :integer
   end
 end
