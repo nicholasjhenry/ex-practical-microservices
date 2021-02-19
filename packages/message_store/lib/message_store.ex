@@ -3,7 +3,7 @@ defmodule MessageStore do
   Documentation for `MessageStore`.
   """
 
-  alias MessageStore.Message
+  alias MessageStore.{Message, Repo}
 
   defmodule VersionConflictError do
     @regex ~r/Wrong expected version: \d+ \(Stream: \D+-\d+, Stream Version: ([0-9-])+\)/
@@ -32,7 +32,7 @@ defmodule MessageStore do
       message.expected_version
     ]
 
-    execute_function(conn(), function_call, params)
+    execute_function(function_call, params)
 
     :ok
   end
@@ -40,24 +40,24 @@ defmodule MessageStore do
   def get_stream_messages(stream_name) do
     function_call = "get_stream_messages($1)"
 
-    conn()
-    |> execute_function(function_call, [stream_name])
+    function_call
+    |> execute_function([stream_name])
     |> handle_result_rows
   end
 
   def get_category_messages(stream_name, position) do
     function_call = "get_category_messages($1, $2)"
 
-    conn()
-    |> execute_function(function_call, [stream_name, position])
+    function_call
+    |> execute_function([stream_name, position])
     |> handle_result_rows
   end
 
   def read_last_message(stream_name) do
     function_call = "get_last_stream_message($1)"
 
-    conn()
-    |> execute_function(function_call, [stream_name])
+    function_call
+    |> execute_function([stream_name])
     |> handle_result_rows
     |> List.first
   end
@@ -67,8 +67,6 @@ defmodule MessageStore do
     |> get_stream_messages()
     |> project(projection)
   end
-
-  defp conn(), do: Process.whereis(MessageStore.Repo)
 
   defp handle_result_rows(%Postgrex.Result{rows: []}), do: []
   defp handle_result_rows(%Postgrex.Result{rows: rows}) do
@@ -88,10 +86,9 @@ defmodule MessageStore do
     )
   end
 
-  defp execute_function(conn, sql, params) do
+  defp execute_function(sql, params) do
     try do
-      query = Postgrex.prepare!(conn, "", "SELECT #{sql}")
-      Postgrex.execute!(conn, query, params)
+      Repo.query("SELECT #{sql}", params)
     rescue
       error in [Postgrex.Error] ->
         VersionConflictError.reraise(error)

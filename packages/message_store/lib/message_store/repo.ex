@@ -76,4 +76,8 @@ defmodule MessageStore.Repo do
 
     Postgrex.query!(conn, query, [])
   end
+
+  def query(sql, params) do
+    MessageStore.Driver.get().query(sql, params)
+  end
 end
