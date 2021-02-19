@@ -10,13 +10,10 @@ config :video_tutorials, VideoTutorials.Repo,
   password: "postgres",
   database: "video_tutorials_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  after_connect: {Postgrex, :query!, ["SET search_path TO public, message_store", []]}
 
-config :message_store, MessageStore.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "video_tutorials_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost"
+config :message_store, driver: VideoTutorials.Repo
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

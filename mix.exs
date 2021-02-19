@@ -8,7 +8,9 @@ defmodule VideoTutorials.Umbrella.MixProject do
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      releases: releases(),
+      default_release: :video_tutorials_prod
     ]
   end
 
@@ -41,6 +43,20 @@ defmodule VideoTutorials.Umbrella.MixProject do
     [
       # run `mix setup` in all child apps
       setup: ["cmd mix setup"]
+    ]
+  end
+
+  defp releases do
+    [
+      video_tutorials_prod: [
+        include_executables_for: [:unix],
+        applications: [
+          creators_portal: :permanent,
+          creators_portal_web: :permanent,
+          video_tutorials: :permanent,
+          video_tutorials_web: :permanent
+        ]
+      ]
     ]
   end
 end
