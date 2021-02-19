@@ -1,48 +1,56 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
+<h1>Creators Portal</h1>
+<div class="row">
+  <div class="col-sm">
+    <h2>Your Videos</h2>
 
-  <form phx-change="suggest" phx-submit="search">
-    <input type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
-    <datalist id="results">
-      <%= for {app, _vsn} <- @results do %>
-        <option value="<%= app %>"><%= app %></option>
-      <% end %>
-    </datalist>
-    <button type="submit" phx-disable-with="Searching...">Go to Hexdocs</button>
-  </form>
-</section>
+    <%= if length(@videos) == 0 do %>
+      <p class="alert alert-info">You don't have any videos.  Upload one!</p>
+    <% else %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Views</td>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for video <- @videos do %>
+            <tr>
+              <td>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-    </ul>
-  </article>
-</section>
+                <%= live_patch to: Routes.video_path(@socket, :edit, video) do %>
+                  <%= if !video.name do %>
+                    <em>Untitled</em>
+                  <% else %>
+                    <%= video.name %>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <%= if !video.description do %>
+                  <em>No description</em>
+                <% else %>
+                  <%= video.description %>
+                <% end %>
+              <td><%= video.views || 0 %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+
+  <div class="col-lg-4">
+    <h2>Upload a video</h2>
+    <form id"#video-form" action="/videos" method="POST">
+      <input id="video-id" type='hidden' value=newVideoId name="videoId" />
+      <div id="form-group">
+        <label for="video-file">Choose video file</label>
+        <input class="form-control-file" id="video-file" type="file" />
+      </div>
+      <button class="btn btn-success" type="submit">Upload!</button>
+    </form>
+    <img id="loader" src="/img/ajax-loader.gif" style="display: none" />
+  </div>
+</div>

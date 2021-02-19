@@ -36,7 +36,7 @@ defmodule VideoTutorials.VideoPublishing do
     TranscodeVideo.transcode_video(context)
   end
 
-  defp write_video_published_event(context) do
+  def write_video_published_event(context) do
     command = context.command
 
     stream_name = "videoPublishing-#{command.data["video_id"]}"
