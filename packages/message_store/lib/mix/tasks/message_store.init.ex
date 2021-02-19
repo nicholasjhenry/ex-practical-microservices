@@ -7,15 +7,22 @@ defmodule Mix.Tasks.MessageStore.Init do
   @path Path.join([Application.app_dir(:message_store), "priv", @dirname])
 
   def run(_args) do
-    %{database: database, password: password, username: username, hostname: hostname} =
-      MessageStore.Repo.config() |> Map.new
+    config = MessageStore.Repo.config()
+    %{database: database, password: password, username: username, hostname: hostname} = Map.new(config)
+
+    ssl = if config[:ssl] == true do
+        "require"
+      else
+        "allow"
+      end
 
     env = [
       {"DATABASE_NAME", database},
       {"PGPASSWORD", password},
       {"PGUSER", username},
       {"PGHOST", hostname},
-      {"CREATE_DATABASE", "off"}
+      {"PGSSLMODE", ssl},
+      {"CREATE_DATABASE", "off"},
     ]
 
     opts = [

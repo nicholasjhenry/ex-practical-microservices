@@ -88,7 +88,7 @@ defmodule MessageStore do
 
   defp execute_function(sql, params) do
     try do
-      Repo.query("SELECT #{sql}", params)
+      Repo.query!("SELECT #{sql}", params)
     rescue
       error in [Postgrex.Error] ->
         VersionConflictError.reraise(error)

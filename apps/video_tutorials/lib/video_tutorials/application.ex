@@ -11,15 +11,20 @@ defmodule VideoTutorials.Application do
     children = [
       # Start the Ecto repository
       VideoTutorials.Repo,
-      MessageStore.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: VideoTutorials.PubSub}
       # Start a worker by calling: VideoTutorials.Worker.start_link(arg)
       # {VideoTutorials.Worker, arg}
-    ] ++ consumers(@mix_env)
+    ] ++ children(@mix_env) ++ consumers(@mix_env)
 
     Supervisor.start_link(children, strategy: :one_for_one, name: VideoTutorials.Supervisor)
   end
+
+  # Use a independent Postgres connection so we don't pollute the logs
+  defp children(:dev) do
+    [MessageStore.Repo]
+  end
+  defp children(_env), do: []
 
    # TODO: add own supervisor for consumers
   defp consumers(:test), do: []

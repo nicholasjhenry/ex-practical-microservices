@@ -4,13 +4,16 @@ defmodule MessageStore.Driver do
   end
 
   defmodule Postgrex do
-    def query(sql, params) do
-      query = Elixir.Postgrex.prepare!(conn(), "", sql)
-      Elixir.Postgrex.execute!(conn(), query, params)
+    def config() do
+      Application.fetch_env!(:message_store, MessageStore.Repo)
     end
 
-    def query!(query, params) do
-      Elixir.Postgrex.query!(conn(), query, params)
+    def query(sql, params) do
+      Elixir.Postgrex.query(conn(), sql, params)
+    end
+
+    def query!(sql, params) do
+      Elixir.Postgrex.query!(conn(), sql, params)
     end
 
     defp conn(), do: Process.whereis(MessageStore.Repo)
