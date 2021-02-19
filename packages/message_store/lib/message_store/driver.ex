@@ -9,6 +9,10 @@ defmodule MessageStore.Driver do
       Elixir.Postgrex.execute!(conn(), query, params)
     end
 
+    def query!(query, params) do
+      Elixir.Postgrex.query!(conn(), query, params)
+    end
+
     defp conn(), do: Process.whereis(MessageStore.Repo)
   end
 end

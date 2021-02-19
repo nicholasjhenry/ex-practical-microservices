@@ -4,8 +4,8 @@ defmodule MessageStore.SubscriberWorkerTest do
   alias MessageStore.{NewMessage, Repo, SubscriberWorker}
 
   setup do
-    Repo.truncate_messages()
     start_supervised!(Repo)
+    Repo.truncate_messages()
     me = self()
     handler = fn(message) ->
       send(me, {:message_processed, message.id})

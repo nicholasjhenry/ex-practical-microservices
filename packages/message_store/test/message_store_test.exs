@@ -4,8 +4,8 @@ defmodule MessageStoreTest do
   alias MessageStore.{NewMessage, Repo, VersionConflictError}
 
   setup do
-    Repo.truncate_messages()
     start_supervised!(MessageStore.Repo)
+    Repo.truncate_messages()
 
     :ok
   end

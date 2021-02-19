@@ -62,22 +62,24 @@ defmodule MessageStore.Repo do
   end
 
   def truncate_messages do
-    {:ok, conn} = Postgrex.start_link(config())
-
     query = """
     truncate table #{@schema_name}.messages;
     """
 
-    Postgrex.query!(conn, query, [])
+    query!(query, [])
 
     query = """
     ALTER SEQUENCE #{@schema_name}.messages_global_position_seq RESTART WITH 1;
     """
 
-    Postgrex.query!(conn, query, [])
+    query!(query, [])
   end
 
   def query(sql, params) do
     MessageStore.Driver.get().query(sql, params)
+  end
+
+  def query!(sql, params) do
+    MessageStore.Driver.get().query!(sql, params)
   end
 end
