@@ -29,6 +29,19 @@ if config_env() == :prod do
       For example: example.com
       """
 
+config :master_proxy,
+  http: [port: String.to_integer(System.get_env("PORT", "4000"))],
+  log_requests: true,
+  backends: [
+    %{
+      path: ~r{^/creators_portal},
+      phoenix_endpoint: CreatorsPortalWeb.Endpoint
+    },
+    %{
+      phoenix_endpoint: VideoTutorialsWeb.Endpoint
+    }
+  ]
+
   config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
     url: [
       host: host,

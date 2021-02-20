@@ -11,11 +11,11 @@ use Mix.Config
 # before starting your production server.
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
-  server: true
+  server: false
 
 config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
-  server: true
+  server: false
 
 # ## SSL Support
 #

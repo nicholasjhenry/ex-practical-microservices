@@ -10,18 +10,18 @@ defmodule CreatorsPortalWeb.Endpoint do
     signing_salt: "EHgI5Pz8"
   ]
 
-  socket "/socket", CreatorsPortalWeb.UserSocket,
+  socket "/creators_portal/socket", CreatorsPortalWeb.UserSocket,
     websocket: true,
     longpoll: false
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/creators_portal/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/",
+    at: "/creators_portal",
     from: :creators_portal_web,
     gzip: false,
     only: ~w(css fonts images img js favicon.ico robots.txt)
@@ -29,7 +29,7 @@ defmodule CreatorsPortalWeb.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
-    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
+    socket "/phoenix/live_reload/socket/creators_portal", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end

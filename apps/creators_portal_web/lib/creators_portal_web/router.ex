@@ -14,7 +14,7 @@ defmodule CreatorsPortalWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", CreatorsPortalWeb do
+  scope "/creators_portal", CreatorsPortalWeb do
     pipe_through :browser
 
     live "/", PageLive, :index

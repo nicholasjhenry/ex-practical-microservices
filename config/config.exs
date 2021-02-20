@@ -20,7 +20,6 @@ config :video_tutorials_web,
   ecto_repos: [VideoTutorials.Repo],
   generators: [context_app: :video_tutorials]
 
-# Configures the endpoint
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "nWG8mQULVwThV/NqajHmzKVVECvb/UEvSJj0ysLavVZffOt/sN6wafoew294Pfyg",
@@ -28,18 +27,20 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   pubsub_server: VideoTutorials.PubSub,
   live_view: [signing_salt: "ogYiZTbx"]
 
-config :creators_portal_web, CreatorsPortalWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "H8QmQV7cskO0xeFoM+zHkg9YKksmYn8DudcIt7Qn8ZfNS+K23KeigQwk3M1cxtQI",
-  render_errors: [view: CreatorsPortalWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: CreatorsPortal.PubSub,
-  live_view: [signing_salt: "9gshzUVU"]
+config :creators_portal,
+  ecto_repos: [VideoTutorials.Repo]
 
 config :creators_portal_web,
   ecto_repos: [VideoTutorials.Repo],
   generators: [context_app: :creators_portal]
 
-config :creators_portal, ecto_repos: [VideoTutorials.Repo]
+config :creators_portal_web, CreatorsPortalWeb.Endpoint,
+  url: [host: "localhost"],
+  static_url: [path: "/creators_portal"],
+  secret_key_base: "H8QmQV7cskO0xeFoM+zHkg9YKksmYn8DudcIt7Qn8ZfNS+K23KeigQwk3M1cxtQI",
+  render_errors: [view: CreatorsPortalWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: CreatorsPortal.PubSub,
+  live_view: [signing_salt: "9gshzUVU"]
 
 # Configures Elixir's Logger
 config :logger, :console,

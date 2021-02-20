@@ -22,7 +22,7 @@ config :message_store, MessageStore.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 4001],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -88,6 +88,7 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
 
 config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   live_reload: [
+    suffix: "/creators_portal",
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
