@@ -44,15 +44,13 @@ config :master_proxy,
       phoenix_endpoint: CreatorsPortalWeb.Endpoint
     },
     %{
+      path: ~r{^/},
       phoenix_endpoint: VideoTutorialsWeb.Endpoint
     }
   ]
 
   config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
-    url: [
-      host: host,
-      port: String.to_integer(System.get_env("PORT") || "4000")
-    ],
+    url: [scheme: "https", host: host, port: 443],
     http: [
       port: String.to_integer(System.get_env("PORT") || "4000"),
       transport_options: [socket_opts: [:inet6]]
@@ -60,10 +58,7 @@ config :master_proxy,
     secret_key_base: secret_key_base
 
   config :creators_portal_web, CreatorsPortalWeb.Endpoint,
-    url: [
-      host: host,
-      port: String.to_integer(System.get_env("PORT") || "4003")
-     ],
+    url: [scheme: "https", host: host, port: 443],
     http: [
       port: String.to_integer(System.get_env("PORT") || "4003"),
       transport_options: [socket_opts: [:inet6]]
