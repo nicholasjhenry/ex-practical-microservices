@@ -8,10 +8,16 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
+  database_ssl = if System.get_env("DATABASE_SSL") == "0" do
+    false
+  else
+    true
+  end
+
   config :video_tutorials, VideoTutorials.Repo,
-    # ssl: true,
+    ssl: database_ssl,
     url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "5"),
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     after_connect: {Postgrex, :query!, ["SET search_path TO public, message_store", []]}
 
   config :message_store, driver: VideoTutorials.Repo

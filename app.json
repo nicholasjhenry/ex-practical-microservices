@@ -1,0 +1,19 @@
+{
+  "name": "Video Tutorials",
+  "description": "An example web application built with autonomous services.",
+  "success_url": "/",
+  "stack": "container",
+  "addons": ["heroku-postgresql:hobby-dev"],
+  "env": {
+    "SECRET_KEY_BASE": {
+      "generator": "secret"
+    },
+    "HOST": {
+      "description": "Example: mysterious-meadow-6277.herokuapp.com",
+      "required": true
+    }
+  },
+  "scripts": {
+    "postdeploy": "bin/message_store_init && bin/db_migrate && bin/db_seed"
+  }
+}

@@ -28,3 +28,9 @@ Five categories in a message-based system, [Practical Microservices](https://pra
 > * __Message Store__: At the center of it all is the Message Store. The state transitions we're using as
 >   authoritative state live here. It is at the same time a durable state store as well as a transport
 >   mechanism.
+
+## Deploy on Heroku
+
+    heroku apps:create --stack=container --addons heroku-postgresql:hobby-dev
+    heroku config:add SECRET_KEY_BASE={secret} HOST={app name}.herokuapp.com
+    git push heroku HEAD:master
