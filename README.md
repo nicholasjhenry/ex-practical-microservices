@@ -31,6 +31,6 @@ Five categories in a message-based system, [Practical Microservices](https://pra
 
 ## Deploy on Heroku
 
-    heroku apps:create --stack=container --addons heroku-postgresql:hobby-dev
+    heroku apps:create --stack=container --addons heroku-postgresql:standard-0 # THIS WILL COST MONEY
     heroku config:add SECRET_KEY_BASE={secret} HOST={app name}.herokuapp.com
     git push heroku HEAD:master

@@ -62,7 +62,7 @@ defmodule MessageStore.Repo do
     Postgrex.query!(conn, query, [])
   end
 
-  @dirname "message-db"
+  @dirname "message-db-patch"
 
   defp do_init do
     config = config()
