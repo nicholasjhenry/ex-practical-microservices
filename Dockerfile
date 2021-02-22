@@ -93,7 +93,7 @@ COPY --from=releaser /app/_build/$MIX_ENV/rel/video_tutorials_$MIX_ENV .
 RUN ln -s /app/bin/video_tutorials_$MIX_ENV /app/bin/video_tutorials
 
 # Copy shell scripts
-# COPY bin/db_migrate /app/bin/db_migrate
+COPY bin/db_migrate /app/bin/db_migrate
 
 RUN \
   adduser -s /bin/sh -u 1001 -G root -h /app -S -D default && \
