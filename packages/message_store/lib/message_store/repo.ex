@@ -64,7 +64,7 @@ defmodule MessageStore.Repo do
 
   @dirname "message-db"
 
-  def init do
+  defp do_init do
     config = config()
     %{database: database, password: password, username: username, hostname: hostname} = Map.new(config)
 
@@ -94,6 +94,22 @@ defmodule MessageStore.Repo do
     System.cmd("bash", ["database/install.sh"], opts)
   end
 
+  def init() do
+    result = query!("SELECT EXISTS (
+      SELECT FROM pg_catalog.pg_class c
+      JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+      WHERE  n.nspname = 'message_store'
+      AND    c.relname = 'messages'
+      AND    c.relkind = 'r'
+      );")
+
+    if match?(%{rows: [[false]]}, result) do
+      do_init()
+    else
+      IO.puts("Message store already initialized.")
+    end
+  end
+
   def truncate_messages do
     query = """
     truncate table #{@schema_name}.messages;
@@ -112,7 +128,7 @@ defmodule MessageStore.Repo do
     MessageStore.Driver.get().query(sql, params)
   end
 
-  def query!(sql, params) do
+  def query!(sql, params \\ []) do
     MessageStore.Driver.get().query!(sql, params)
   end
 end
