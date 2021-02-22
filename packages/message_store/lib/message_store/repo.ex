@@ -62,6 +62,38 @@ defmodule MessageStore.Repo do
     Postgrex.query!(conn, query, [])
   end
 
+  @dirname "message-db"
+
+  def init do
+    config = config()
+    %{database: database, password: password, username: username, hostname: hostname} = Map.new(config)
+
+    ssl = if config[:ssl] == true do
+        "require"
+      else
+        "allow"
+      end
+
+    env = [
+      {"DATABASE_NAME", database},
+      {"PGPASSWORD", password},
+      {"PGUSER", username},
+      {"PGHOST", hostname},
+      {"PGSSLMODE", ssl},
+      {"CREATE_DATABASE", "off"},
+    ]
+
+    path = Path.join([Application.app_dir(:message_store), "priv", @dirname])
+
+    opts = [
+      cd: path,
+      env: env,
+      stderr_to_stdout: true,
+      into: IO.stream(:stdio, :line)
+    ]
+    System.cmd("bash", ["database/install.sh"], opts)
+  end
+
   def truncate_messages do
     query = """
     truncate table #{@schema_name}.messages;

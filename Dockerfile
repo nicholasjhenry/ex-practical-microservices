@@ -80,7 +80,7 @@ RUN MIX_ENV=$MIX_ENV mix do phx.digest, release video_tutorials_$MIX_ENV
 FROM alpine:3.11 as runner
 # bash and openssl for Phoenix
 # and curl to perform deployments on Heroku
-RUN apk add --no-cache -U bash libssl1.1 openssl openssh curl python imagemagick
+RUN apk add --no-cache -U bash libssl1.1 openssl openssh curl python imagemagick postgresql-client
 
 WORKDIR /app
 
@@ -93,7 +93,7 @@ COPY --from=releaser /app/_build/$MIX_ENV/rel/video_tutorials_$MIX_ENV .
 RUN ln -s /app/bin/video_tutorials_$MIX_ENV /app/bin/video_tutorials
 
 # Copy shell scripts
-COPY bin/db_migrate /app/bin/db_migrate
+COPY bin/ /app/bin
 
 RUN \
   adduser -s /bin/sh -u 1001 -G root -h /app -S -D default && \
