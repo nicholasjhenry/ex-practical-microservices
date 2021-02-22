@@ -1,5 +1,18 @@
 import Config
 
+config :master_proxy,
+  http: [port: String.to_integer(System.get_env("PORT", "4000"))],
+  log_requests: true,
+  backends: [
+    %{
+      path: ~r{^/creators_portal},
+      phoenix_endpoint: CreatorsPortalWeb.Endpoint
+    },
+    %{
+      phoenix_endpoint: VideoTutorialsWeb.Endpoint
+    }
+  ]
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -34,20 +47,6 @@ if config_env() == :prod do
       environment variable HOST is missing.
       For example: example.com
       """
-
-config :master_proxy,
-  http: [port: String.to_integer(System.get_env("PORT", "4000"))],
-  log_requests: true,
-  backends: [
-    %{
-      path: ~r{^/creators_portal},
-      phoenix_endpoint: CreatorsPortalWeb.Endpoint
-    },
-    %{
-      path: ~r{^/},
-      phoenix_endpoint: VideoTutorialsWeb.Endpoint
-    }
-  ]
 
   config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
     url: [scheme: "https", host: host, port: 443],
