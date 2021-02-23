@@ -14,12 +14,8 @@ defmodule VideoTutorials.Tasks.DbSeed do
   end
 
   def run_seeds(app) do
-    # Run the seed script if it exists
+    IO.puts("Running seed script..")
     seed_script = Path.join([:code.priv_dir(app), "repo/seeds.exs"])
-
-    if File.exists?(seed_script) do
-      IO.puts("Running seed script..")
-      Code.eval_file(seed_script)
-    end
+    Code.eval_file(seed_script)
   end
 end
