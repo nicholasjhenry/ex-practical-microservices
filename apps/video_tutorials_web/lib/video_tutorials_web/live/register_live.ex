@@ -1,11 +1,11 @@
 defmodule VideoTutorialsWeb.RegisterLive do
   use VideoTutorialsWeb, :live_view
 
-  alias VideoTutorials.{RegisterUsers, Registration}
+  alias VideoTutorials.Registration
 
   @impl true
   def mount(_params, _session, socket) do
-    changeset = RegisterUsers.change_registration(%Registration{id: UUID.uuid4})
+    changeset = Registration.change_registration(%Registration{id: UUID.uuid4})
     {:ok, assign(socket, changeset: changeset)}
   end
 
@@ -13,7 +13,7 @@ defmodule VideoTutorialsWeb.RegisterLive do
   def handle_event("validate_registration", %{"registration" => registration_params}, socket) do
     changeset =
       %Registration{}
-      |> RegisterUsers.change_registration(registration_params)
+      |> Registration.change_registration(registration_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -24,7 +24,7 @@ defmodule VideoTutorialsWeb.RegisterLive do
   end
 
   def register_user(socket, params) do
-     case RegisterUsers.register_user(params) do
+     case Registration.register_user(params) do
       :ok ->
         {:noreply,
           socket

@@ -1,14 +1,27 @@
-defmodule VideoTutorials.RegisterUsers do
-  alias VideoTutorials.{Password, Registration, Repo, UserCredential}
+defmodule VideoTutorials.Registration do
+  alias VideoTutorials.{Password, Repo, UserCredential}
 
-  defstruct [:changeset, :existing_identity, :trace_id, :password_hash]
+  use VideoTutorials.Schema
+  import Ecto.Changeset
+
+  embedded_schema do
+    field :email, :string
+    field :password, :string
+  end
+
+  defmodule Context do
+    defstruct [:changeset, :existing_identity, :trace_id, :password_hash]
+  end
 
   def change_registration(registration, attrs \\ %{}) do
-    Registration.changeset(registration, attrs)
+    registration
+    |> cast(attrs, [:id, :email, :password])
+    |> validate_required([:id, :email, :password])
+    |> validate_length(:password, min: 6)
   end
 
   def register_user(attrs) do
-    %__MODULE__{trace_id: UUID.uuid4}
+    %Context{trace_id: UUID.uuid4}
     |> validate(attrs)
     |> load_existing_identity
     |> ensure_there_was_no_existing_identity
@@ -25,7 +38,7 @@ defmodule VideoTutorials.RegisterUsers do
   end
 
   defp validate(context, attrs) do
-    changeset = Registration.changeset(%Registration{}, attrs)
+    changeset = change_registration(%__MODULE__{}, attrs)
     Map.put(context, :changeset, changeset)
   end
 
