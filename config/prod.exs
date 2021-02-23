@@ -19,6 +19,9 @@ config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   server: false
 
+config :video_tutorials, VideoTutorials.Mailer,
+  adapter: Bamboo.LocalAdapter
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
