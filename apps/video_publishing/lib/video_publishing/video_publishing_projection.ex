@@ -1,4 +1,4 @@
-defmodule VideoTutorials.VideoPublishing.VideoPublishingProjection do
+defmodule VideoPublishing.VideoPublishingProjection do
   defstruct [:id, :publishing_attempted?, :source_uri, :transcoded_uri, :owner_id, :sequence, :name]
 
   def init() do

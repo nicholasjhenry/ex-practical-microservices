@@ -1,6 +1,6 @@
-defmodule VideoTutorials.VideoPublishing.NameVideo do
+defmodule VideoPublishing.NameVideo do
   alias MessageStore.NewMessage
-  alias VideoTutorials.VideoPublishing.VideoPublishingProjection
+  alias VideoPublishing.VideoPublishingProjection
 
   def handle_message(%{type: "NameVideo"} = command) do
     context = %{video_id: command.data["video_id"], command: command}

@@ -1,5 +1,5 @@
-defmodule VideoTutorials.VideoPublishing.PublishVideo do
-  alias VideoTutorials.VideoPublishing.{TranscodeVideo, VideoPublishingProjection}
+defmodule VideoPublishing.PublishVideo do
+  alias VideoPublishing.{TranscodeVideo, VideoPublishingProjection}
   alias MessageStore.NewMessage
 
   def handle_message(%{type: "PublishVideo"} = command) do

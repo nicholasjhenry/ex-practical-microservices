@@ -1,7 +1,7 @@
-defmodule VideoTutorials.VideoPublishing.NameVideoTest do
+defmodule VideoPublishing.NameVideoTest do
   use VideoTutorials.DataCase
 
-  alias VideoTutorials.VideoPublishing.{PublishVideo, NameVideo, VideoPublishingProjection}
+  alias VideoPublishing.{PublishVideo, NameVideo, VideoPublishingProjection}
   alias MessageStore.Message
 
   test "name a video with valid data" do

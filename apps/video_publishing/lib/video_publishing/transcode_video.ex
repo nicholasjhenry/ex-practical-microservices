@@ -1,4 +1,4 @@
-defmodule VideoTutorials.VideoPublishing.TranscodeVideo do
+defmodule VideoPublishing.TranscodeVideo do
   require Logger
 
   @fake_transcoding_destination "https://www.youtube.com/watch?v=GI_P3UtZXAA"
