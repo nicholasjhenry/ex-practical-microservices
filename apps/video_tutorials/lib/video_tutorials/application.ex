@@ -56,7 +56,7 @@ defmodule VideoTutorials.Application do
       },
       {
         MessageStore.SubscriberWorker,
-        [config: %{stream_name: "components:name-video", subscribed_to: "videoPublishing:command", handler: VideoTutorials.NameVideo}]
+        [config: %{stream_name: "components:name-video", subscribed_to: "videoPublishing:command", handler: VideoTutorials.VideoPublishing.NameVideo}]
       },
       {
         MessageStore.SubscriberWorker,

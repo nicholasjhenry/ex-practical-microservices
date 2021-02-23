@@ -1,4 +1,4 @@
-defmodule VideoTutorials.NameVideo do
+defmodule VideoTutorials.VideoPublishing.NameVideo do
   alias MessageStore.NewMessage
   alias VideoTutorials.VideoPublishing.VideoPublishingProjection
 
