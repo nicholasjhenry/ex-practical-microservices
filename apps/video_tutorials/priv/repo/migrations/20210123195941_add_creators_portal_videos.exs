@@ -3,7 +3,7 @@ defmodule CreatorsPortal.Repo.Migrations.AddCreatorsPortalVideos do
 
   def change do
     create table(:creators_portal_videos) do
-      add :owner_id, :binary, null: false
+      add :owner_id, :uuid, null: false
       add :name, :string, null: false
       add :description, :string, null: false
       add :views, :integer, null: false, default: 0
