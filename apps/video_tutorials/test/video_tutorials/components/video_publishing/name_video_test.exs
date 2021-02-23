@@ -1,8 +1,7 @@
 defmodule VideoTutorials.VideoPublishing.NameVideoTest do
   use VideoTutorials.DataCase
 
-  alias VideoTutorials.VideoPublishing
-  alias VideoTutorials.VideoPublishing.{NameVideo, VideoPublishingProjection}
+  alias VideoTutorials.VideoPublishing.{PublishVideo, NameVideo, VideoPublishingProjection}
   alias MessageStore.Message
 
   test "name a video with valid data" do
@@ -66,6 +65,6 @@ defmodule VideoTutorials.VideoPublishing.NameVideoTest do
     )
 
     context = %{command: command, transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"}
-    VideoPublishing.write_video_published_event(context)
+    PublishVideo.write_video_published_event(context)
   end
 end
