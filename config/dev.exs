@@ -13,7 +13,8 @@ config :message_store, MessageStore.Repo,
   username: "postgres",
   password: "postgres",
   database: "video_tutorials_dev",
-  hostname: "localhost"
+  hostname: "localhost",
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
