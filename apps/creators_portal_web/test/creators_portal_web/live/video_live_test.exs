@@ -6,13 +6,13 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
   setup :create_video
 
   test "disconnected and connected render", %{conn: conn, video: video} do
-    {:ok, video_live, disconnected_html} = live(conn, "/video/#{video.id}/edit")
+    {:ok, video_live, disconnected_html} = live(conn, "/creators_portal/video/#{video.id}/edit")
     assert disconnected_html =~ "Video Name"
     assert render(video_live) =~ "Video Name"
   end
 
   test "name video", %{conn: conn, video: video} do
-    {:ok, view, _html} = live(conn, "/video/#{video.id}/edit")
+    {:ok, view, _html} = live(conn, "/creators_portal/video/#{video.id}/edit")
 
     trace_id = UUID.uuid4
 
