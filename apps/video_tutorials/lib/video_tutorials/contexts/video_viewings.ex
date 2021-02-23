@@ -1,4 +1,4 @@
-defmodule VideoTutorials.RecordViewings do
+defmodule VideoTutorials.VideoViewings do
   alias MessageStore.NewMessage
 
   def record_viewing(trace_id, video_id, user_id) do
