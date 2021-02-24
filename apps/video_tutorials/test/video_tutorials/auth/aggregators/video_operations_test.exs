@@ -1,7 +1,8 @@
 defmodule VideoTutorials.VideoOperationsTest do
   use VideoTutorials.DataCase
 
-  alias VideoTutorials.{VideoOperation, VideoOperations}
+  alias VideoTutorialsData.VideoOperation
+  alias VideoTutorials.VideoOperations
   alias MessageStore.Message
 
   test "handling a video named event" do

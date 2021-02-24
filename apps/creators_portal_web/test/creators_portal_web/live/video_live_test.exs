@@ -3,6 +3,8 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
 
   import Phoenix.LiveViewTest
 
+  alias VideoTutorialsData.Video
+
   setup :create_video
 
   test "disconnected and connected render", %{conn: conn, video: video} do
@@ -22,7 +24,7 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
   end
 
   def create_video(_context) do
-    video = %VideoTutorials.Video{
+    video = %Video{
       owner_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
       name: "Untitled",
       description: "Example",

@@ -1,5 +1,5 @@
-defmodule VideoTutorials.Video do
-  use VideoTutorials.Schema
+defmodule VideoTutorialsData.Video do
+  use VideoTutorialsData.Schema
 
   schema "creators_portal_videos" do
     field :owner_id, :binary_id

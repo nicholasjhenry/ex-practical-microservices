@@ -1,6 +1,5 @@
 defmodule VideoTutorials.VideoOperations do
-  alias VideoTutorialsData.Repo
-  alias VideoTutorials.VideoOperation
+  alias VideoTutorialsData.{Repo, VideoOperation}
 
   def handle_message(%{type: "VideoNamed"} = event) do
     video_id = stream_to_entity_id(event.stream_name)

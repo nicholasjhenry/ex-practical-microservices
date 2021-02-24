@@ -1,6 +1,8 @@
 defmodule CreatorsPortalTest do
   use CreatorsPortal.DataCase
 
+  alias VideoTutorialsData.Video
+
   describe "naming a video" do
     test "queues a command to name a video" do
       video = insert_video()
@@ -13,7 +15,7 @@ defmodule CreatorsPortalTest do
 
   def insert_video() do
     Repo.insert!(
-      %VideoTutorials.Video{
+      %Video{
         owner_id: Ecto.UUID.generate(),
         name: "Unknown",
         description: "Unknown",

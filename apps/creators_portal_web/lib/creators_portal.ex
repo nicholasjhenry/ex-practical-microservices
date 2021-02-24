@@ -9,10 +9,7 @@ defmodule CreatorsPortal do
 
   import Ecto.Query
 
-  alias VideoTutorialsData.Repo
-  alias VideoTutorials.{Video, VideoOperation}
-
-  require Ecto.Query
+  alias VideoTutorialsData.{Repo, Video, VideoOperation}
 
   def dashboard(owner_id) do
     Video
