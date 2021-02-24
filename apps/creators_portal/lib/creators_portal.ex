@@ -9,8 +9,7 @@ defmodule CreatorsPortal do
 
   import Ecto.Query
 
-  alias CreatorsPortal.VideoOperation
-  alias VideoTutorials.{Repo, Video}
+  alias VideoTutorials.{Repo, Video, VideoOperation}
 
   require Ecto.Query
 

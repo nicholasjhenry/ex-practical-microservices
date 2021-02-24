@@ -1,7 +1,7 @@
 defmodule VideoTutorials.VideoOperationsTest do
   use VideoTutorials.DataCase
 
-  alias VideoTutorials.VideoOperations
+  alias VideoTutorials.{VideoOperation, VideoOperations}
   alias MessageStore.Message
 
   test "handling a video named event" do
@@ -22,7 +22,7 @@ defmodule VideoTutorials.VideoOperationsTest do
 
       VideoOperations.handle_message(event)
 
-      video_operation = Repo.get_by!(CreatorsPortal.VideoOperation, video_id: video_id)
+      video_operation = Repo.get_by!(VideoOperation, video_id: video_id)
       assert video_operation.trace_id == trace_id
       assert video_operation.succeeded
       refute video_operation.failure_reason
@@ -46,7 +46,7 @@ defmodule VideoTutorials.VideoOperationsTest do
 
       VideoOperations.handle_message(event)
 
-      video_operation = Repo.get_by!(CreatorsPortal.VideoOperation, video_id: video_id)
+      video_operation = Repo.get_by!(VideoOperation, video_id: video_id)
       refute video_operation.succeeded
       assert video_operation.failure_reason == %{"name" => "Invalid"}
   end

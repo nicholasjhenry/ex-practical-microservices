@@ -50,7 +50,7 @@ defmodule CreatorsPortalWeb.VideoOperationLiveTest do
   end
 
   def insert_failed_video_operation(_context \\ %{}) do
-    video_operation = %CreatorsPortal.VideoOperation{
+    video_operation = %VideoTutorials.VideoOperation{
       video_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
       trace_id: "7682F3EB-65DF-4ABF-87E3-0F1143A67457",
       succeeded: false,
@@ -61,7 +61,7 @@ defmodule CreatorsPortalWeb.VideoOperationLiveTest do
   end
 
   def insert_completed_video_operation(_context \\ %{}) do
-    video_operation = %CreatorsPortal.VideoOperation{
+    video_operation = %VideoTutorials.VideoOperation{
       video_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
       trace_id: "7682F3EB-65DF-4ABF-87E3-0F1143A67457",
       succeeded: true
