@@ -12,6 +12,6 @@
 
 
 VideoTutorialsData.Repo.insert!(
-  %VideoTutorials.Page{name: "home", data: %{"videos_watched" => 0, "last_view_processed" => 0}},
+  %VideoTutorialsData.Page{name: "home", data: %{"videos_watched" => 0, "last_view_processed" => 0}},
   on_conflict: :nothing
 )

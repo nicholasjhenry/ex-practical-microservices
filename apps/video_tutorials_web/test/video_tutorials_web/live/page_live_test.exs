@@ -3,7 +3,7 @@ defmodule VideoTutorialsWeb.PageLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias VideoTutorials.Page
+  alias VideoTutorialsData.Page
 
   setup do
     Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})

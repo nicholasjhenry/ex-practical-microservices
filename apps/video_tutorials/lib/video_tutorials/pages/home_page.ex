@@ -1,6 +1,5 @@
 defmodule VideoTutorials.HomePage do
-  alias VideoTutorials.Page
-  alias VideoTutorialsData.Repo
+  alias VideoTutorialsData.{Page, Repo}
 
   @topic "viewings"
 

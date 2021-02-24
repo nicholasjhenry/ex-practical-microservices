@@ -1,5 +1,5 @@
-defmodule VideoTutorials.Page do
-  use VideoTutorials.Schema
+defmodule VideoTutorialsData.Page do
+  use VideoTutorialsData.Schema
 
   schema "pages" do
     field :name, :string

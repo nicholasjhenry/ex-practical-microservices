@@ -3,8 +3,8 @@ defmodule VideoTutorialsWeb.AuthenticateLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias VideoTutorialsData.UserCredential
-  alias VideoTutorials.{Page, Password}
+  alias VideoTutorialsData.{Page, UserCredential}
+  alias VideoTutorials.Password
 
   setup do
     Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})

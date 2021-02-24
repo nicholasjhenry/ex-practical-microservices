@@ -2,7 +2,8 @@ defmodule VideoTutorials.HomePageTest do
   use VideoTutorials.DataCase
 
   alias MessageStore.Message
-  alias VideoTutorials.{HomePage, Page}
+  alias VideoTutorials.HomePage
+  alias VideoTutorialsData.Page
 
   setup do
     Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
