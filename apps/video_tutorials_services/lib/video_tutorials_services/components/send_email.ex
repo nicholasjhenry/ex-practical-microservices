@@ -1,6 +1,6 @@
-defmodule VideoTutorials.SendEmail do
+defmodule VideoTutorialsServices.SendEmail do
   alias MessageStore.NewMessage
-  alias VideoTutorials.Mailer
+  alias VideoTutorialsServices.Mailer
 
   import Bamboo.Email
 

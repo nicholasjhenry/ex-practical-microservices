@@ -1,8 +1,8 @@
-defmodule VideoTutorials.SendEmailTest do
-  use VideoTutorials.DataCase
+defmodule VideoTutorialsServices.SendEmailTest do
+  use VideoTutorialsServices.DataCase
 
   alias MessageStore.{Message, NewMessage}
-  alias VideoTutorials.SendEmail
+  alias VideoTutorialsServices.SendEmail
 
   describe "sending an email" do
     test "given no messsage handle send command" do

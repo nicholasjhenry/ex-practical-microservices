@@ -1,7 +1,7 @@
-defmodule VideoTutorials.IdentityTest do
-  use VideoTutorials.DataCase
+defmodule VideoTutorialsServices.IdentityTest do
+  use VideoTutorialsServices.DataCase
 
-  alias VideoTutorials.Identity
+  alias VideoTutorialsServices.Identity
   alias MessageStore.{Message, NewMessage}
 
   test "registering a user" do

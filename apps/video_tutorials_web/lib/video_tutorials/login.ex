@@ -1,5 +1,5 @@
 defmodule VideoTutorials.Login do
-  use VideoTutorials.Schema
+  use Ecto.Schema
   import Ecto.Changeset
 
   embedded_schema do

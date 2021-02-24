@@ -2,7 +2,7 @@ defmodule VideoTutorials.Registration do
   alias VideoTutorialsData.{Repo, UserCredential}
   alias VideoTutorials.Password
 
-  use VideoTutorials.Schema
+  use Ecto.Schema
   import Ecto.Changeset
 
   embedded_schema do

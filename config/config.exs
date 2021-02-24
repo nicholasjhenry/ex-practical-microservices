@@ -10,7 +10,7 @@
 use Mix.Config
 
 # Configure Mix tasks and generators
-config :video_tutorials,
+config :video_tutorials_services,
   ecto_repos: [VideoTutorialsData.Repo]
 
 config :video_tutorials_data,
@@ -20,8 +20,7 @@ config :video_tutorials_data, VideoTutorialsData.Repo,
   migration_primary_key: [name: :id, type: :binary_id]
 
 config :video_tutorials_web,
-  ecto_repos: [VideoTutorialsData.Repo],
-  generators: [context_app: :video_tutorials]
+  ecto_repos: [VideoTutorialsData.Repo]
 
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   url: [host: "localhost"],

@@ -1,4 +1,4 @@
-defmodule VideoTutorials.CreatorsVideos do
+defmodule VideoTutorialsServices.CreatorsVideos do
   alias VideoTutorialsData.{Repo, Video}
 
   import Ecto.Query

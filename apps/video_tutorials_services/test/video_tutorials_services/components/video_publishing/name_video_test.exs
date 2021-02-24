@@ -1,5 +1,5 @@
 defmodule VideoPublishing.NameVideoTest do
-  use VideoTutorials.DataCase
+  use VideoTutorialsServices.DataCase
 
   alias VideoPublishing.{PublishVideo, NameVideo, VideoPublishingProjection}
   alias MessageStore.Message

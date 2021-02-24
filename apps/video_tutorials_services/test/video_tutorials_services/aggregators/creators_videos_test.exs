@@ -1,7 +1,7 @@
-defmodule VideoTutorials.CreatorsVideosTest do
-  use VideoTutorials.DataCase
+defmodule VideoTutorialsServices.CreatorsVideosTest do
+  use VideoTutorialsServices.DataCase
 
-  alias VideoTutorials.CreatorsVideos
+  alias VideoTutorialsServices.CreatorsVideos
   alias VideoTutorialsData.Video
   alias MessageStore.Message
 

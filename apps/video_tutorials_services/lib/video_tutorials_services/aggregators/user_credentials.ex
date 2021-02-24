@@ -1,4 +1,4 @@
-defmodule VideoTutorials.UserCredentials do
+defmodule VideoTutorialsServices.UserCredentials do
   # Aggregator
 
   alias VideoTutorialsData.{Repo, UserCredential}

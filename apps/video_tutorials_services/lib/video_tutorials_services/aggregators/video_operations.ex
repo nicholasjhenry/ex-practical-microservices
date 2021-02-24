@@ -1,4 +1,4 @@
-defmodule VideoTutorials.VideoOperations do
+defmodule VideoTutorialsServices.VideoOperations do
   alias VideoTutorialsData.{Repo, VideoOperation}
 
   def handle_message(%{type: "VideoNamed"} = event) do

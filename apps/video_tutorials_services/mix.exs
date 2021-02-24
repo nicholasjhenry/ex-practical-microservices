@@ -1,9 +1,9 @@
-defmodule VideoTutorials.MixProject do
+defmodule VideoTutorialsServices.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :video_tutorials,
+      app: :video_tutorials_services,
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -22,7 +22,7 @@ defmodule VideoTutorials.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {VideoTutorials.Application, []},
+      mod: {VideoTutorialsServices.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -37,14 +37,8 @@ defmodule VideoTutorials.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.5.7"},
-      {:bcrypt, "~> 1.1"},
-      {:phoenix_pubsub, "~> 2.0"},
-      {:ecto_sql, "~> 3.4"},
-      {:postgrex, ">= 0.0.0"},
-      {:jason, "~> 1.0"},
       {:bamboo, "~> 1.6"},
-      {:video_tutorials_data, in_umbrella: true},
-      {:message_store, path: "../../packages/message_store"}
+      {:video_tutorials_data, in_umbrella: true}
     ]
   end
 
@@ -53,9 +47,6 @@ defmodule VideoTutorials.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs", "run priv/repo/demo.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end

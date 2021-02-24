@@ -28,5 +28,5 @@ config :creators_portal_web, CreatorsPortalWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :video_tutorials, VideoTutorials.Mailer,
+config :video_tutorials_services, VideoTutorialsServices.Mailer,
   adapter: Bamboo.TestAdapter
