@@ -28,7 +28,6 @@ RUN echo " ===> [debug] RELEASE_TAG=$RELEASE_TAG"
 WORKDIR /app
 
 COPY mix.* /app/
-COPY apps/creators_portal/mix.* /app/apps/creators_portal/
 COPY apps/creators_portal_web/mix.* /app/apps/creators_portal_web/
 COPY apps/video_tutorials/mix.* /app/apps/video_tutorials/
 COPY apps/video_tutorials_proxy/mix.* /app/apps/video_tutorials_proxy/

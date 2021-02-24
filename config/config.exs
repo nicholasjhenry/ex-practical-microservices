@@ -27,9 +27,6 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   pubsub_server: VideoTutorials.PubSub,
   live_view: [signing_salt: "ogYiZTbx"]
 
-config :creators_portal,
-  ecto_repos: [VideoTutorials.Repo]
-
 config :creators_portal_web,
   ecto_repos: [VideoTutorials.Repo],
   generators: [context_app: :creators_portal]
