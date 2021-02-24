@@ -44,3 +44,4 @@ Five categories in a message-based system, [Practical Microservices](https://pra
     heroku addons:attach {database_name} --credential message_store -a {app_name}
     git push heroku HEAD:master
     heroku run /app/bin/db_demo
+    heroku ps:scale worker=1
