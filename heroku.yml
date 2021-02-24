@@ -3,10 +3,12 @@ build:
     MIX_ENV: prod
     RELEASE_TAG: prod
   docker:
-    web: Dockerfile
+    web: Dockerfile.frontend
+    worker: Dockerfile.backend
 release:
-  image: web
+  image: worker
   command:
     - /app/bin/message_store_init && /app/bin/db_migrate && /app/bin/db_seed
 run:
   web: /app/bin/video_tutorials start
+  worker: /app/bin/video_tutorials start
