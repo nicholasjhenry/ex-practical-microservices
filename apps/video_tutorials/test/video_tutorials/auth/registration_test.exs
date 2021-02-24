@@ -1,7 +1,8 @@
 defmodule VideoTutorials.RegistrationTest do
   use VideoTutorials.DataCase
 
-  alias VideoTutorials.{Registration, UserCredential}
+  alias VideoTutorialsData.UserCredential
+  alias VideoTutorials.Registration
 
   def fixture(:registration) do
     %Registration{}

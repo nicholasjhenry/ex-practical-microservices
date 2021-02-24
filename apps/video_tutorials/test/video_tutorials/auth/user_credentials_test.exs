@@ -1,7 +1,8 @@
 defmodule VideoTutorials.UserCredentialsTest do
   use VideoTutorials.DataCase
 
-  alias VideoTutorials.{UserCredential, UserCredentials}
+  alias VideoTutorialsData.UserCredential
+  alias VideoTutorials.UserCredentials
   alias MessageStore.Message
 
   test "handling a registration events" do

@@ -1,8 +1,7 @@
 defmodule VideoTutorials.UserCredentials do
   # Aggregator
 
-  alias VideoTutorialsData.Repo
-  alias VideoTutorials.UserCredential
+  alias VideoTutorialsData.{Repo, UserCredential}
 
   def handle_message(%{type: "Registered"} = event) do
     %{"user_id" => user_id, "email" => email, "password_hash" => password_hash} = event.data

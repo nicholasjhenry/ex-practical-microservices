@@ -1,5 +1,5 @@
-defmodule VideoTutorials.UserCredential do
-  use VideoTutorials.Schema
+defmodule VideoTutorialsData.UserCredential do
+  use VideoTutorialsData.Schema
 
   schema "user_credentials" do
     field :email, :string

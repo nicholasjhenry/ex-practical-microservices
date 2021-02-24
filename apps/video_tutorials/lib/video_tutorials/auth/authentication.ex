@@ -1,6 +1,6 @@
 defmodule VideoTutorials.Authentication do
-  alias VideoTutorialsData.Repo
-  alias VideoTutorials.{Login, Password, UserCredential}
+  alias VideoTutorialsData.{Repo, UserCredential}
+  alias VideoTutorials.{Login, Password}
   alias MessageStore.NewMessage
 
   defstruct [:trace_id, :endpoint, :email, :password, :user_credential, :signature]
