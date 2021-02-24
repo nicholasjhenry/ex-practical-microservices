@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(VideoTutorials.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(VideoTutorialsData.Repo, :manual)

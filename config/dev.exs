@@ -1,7 +1,7 @@
 use Mix.Config
 
 # Configure your database
-config :video_tutorials, VideoTutorials.Repo,
+config :video_tutorials_data, VideoTutorialsData.Repo,
   username: "postgres",
   password: "postgres",
   database: "video_tutorials_dev",

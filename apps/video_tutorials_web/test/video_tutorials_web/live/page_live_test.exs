@@ -6,7 +6,7 @@ defmodule VideoTutorialsWeb.PageLiveTest do
   alias VideoTutorials.Page
 
   setup do
-    VideoTutorials.Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
+    Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
 
     :ok
   end

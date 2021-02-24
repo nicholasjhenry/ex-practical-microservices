@@ -6,7 +6,7 @@ defmodule VideoTutorials.Tasks.DbMigrate do
   import VideoTutorials.Tasks
 
   def exec do
-    migrate(:video_tutorials, [VideoTutorials.Repo])
+    migrate(:video_tutorials, [VideoTutorialsData.Repo])
   end
 
   def migrate(app, repos) do

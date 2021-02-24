@@ -18,7 +18,7 @@ defmodule CreatorsPortal.DataCase do
 
   using do
     quote do
-      alias VideoTutorials.Repo
+      alias VideoTutorialsData.Repo
 
       import Ecto
       import Ecto.Changeset
@@ -28,12 +28,12 @@ defmodule CreatorsPortal.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorials.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorialsData.Repo)
 
     MessageStore.Repo.truncate_messages()
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(VideoTutorials.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(VideoTutorialsData.Repo, {:shared, self()})
     end
 
     :ok

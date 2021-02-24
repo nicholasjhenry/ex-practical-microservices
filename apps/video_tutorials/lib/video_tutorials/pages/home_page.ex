@@ -1,5 +1,6 @@
 defmodule VideoTutorials.HomePage do
   alias VideoTutorials.Page
+  alias VideoTutorialsData.Repo
 
   @topic "viewings"
 
@@ -31,14 +32,14 @@ defmodule VideoTutorials.HomePage do
     )]]
 
     query
-    |> VideoTutorials.Repo.update_all([])
+    |> Repo.update_all([])
     |> broadcast(:home_page_updated)
 
     :ok
   end
 
   def load_home_page() do
-    VideoTutorials.Repo.get_by!(Page, name: "home")
+    Repo.get_by!(Page, name: "home")
   end
 
   def subscribe do

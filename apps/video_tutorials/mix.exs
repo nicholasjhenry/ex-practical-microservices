@@ -43,6 +43,7 @@ defmodule VideoTutorials.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:bamboo, "~> 1.6"},
+      {:video_tutorials_data, in_umbrella: true},
       {:message_store, path: "../../packages/message_store"}
     ]
   end

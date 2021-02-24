@@ -3,7 +3,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
 
   def project do
     [
-      apps: [:video_tutorials_proxy, :video_tutorials, :video_tutorials_web, :creators_portal_web],
+      apps: [:video_tutorials_proxy, :video_tutorials, :video_tutorials_data, :video_tutorials_web, :creators_portal_web],
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
@@ -53,6 +53,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
         applications: [
           creators_portal_web: :permanent,
           video_tutorials: :permanent,
+          video_tutorials_data: :permanent,
           video_tutorials_web: :permanent,
           video_tutorials_proxy: :permanent
         ]

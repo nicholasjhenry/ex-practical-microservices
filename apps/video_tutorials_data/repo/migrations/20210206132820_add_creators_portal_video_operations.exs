@@ -1,4 +1,4 @@
-defmodule VideoTutorials.Repo.Migrations.AddCreatorsPortalVideoOperations do
+defmodule VideoTutorialsData.Repo.Migrations.AddCreatorsPortalVideoOperations do
   use Ecto.Migration
 
   def change do

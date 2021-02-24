@@ -2,7 +2,7 @@ defmodule VideoTutorials.Tasks.DbSeed do
   import VideoTutorials.Tasks
 
   def exec do
-    seed(:video_tutorials, [VideoTutorials.Repo])
+    seed(:video_tutorials, [VideoTutorialsData.Repo])
   end
 
   def seed(app, repos) do

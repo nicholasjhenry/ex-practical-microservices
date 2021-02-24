@@ -1,4 +1,4 @@
-defmodule VideoTutorials.Repo.Migrations.CreateUserCredentials do
+defmodule VideoTutorialsData.Repo.Migrations.CreateUserCredentials do
   use Ecto.Migration
 
   def change do

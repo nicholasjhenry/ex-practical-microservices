@@ -30,6 +30,7 @@ WORKDIR /app
 COPY mix.* /app/
 COPY apps/creators_portal_web/mix.* /app/apps/creators_portal_web/
 COPY apps/video_tutorials/mix.* /app/apps/video_tutorials/
+COPY apps/video_tutorials/mix.* /app/apps/video_tutorials_data/
 COPY apps/video_tutorials_proxy/mix.* /app/apps/video_tutorials_proxy/
 COPY apps/video_tutorials_web/mix.* /app/apps/video_tutorials_web/
 COPY packages packages

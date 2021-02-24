@@ -1,4 +1,4 @@
-defmodule VideoTutorials.Repo.Migrations.CreatePages do
+defmodule VideoTutorialsData.Repo.Migrations.CreatePages do
   use Ecto.Migration
 
   def change do

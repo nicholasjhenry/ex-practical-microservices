@@ -5,8 +5,8 @@ defmodule VideoTutorials.HomePageTest do
   alias VideoTutorials.{HomePage, Page}
 
   setup do
-    VideoTutorials.Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
-    VideoTutorials.HomePage.subscribe()
+    Repo.insert!(%Page{name: "home", data: %{"videos_watched" => 5, "last_view_processed" => 10}})
+    HomePage.subscribe()
 
     :ok
   end

@@ -12,7 +12,7 @@ defmodule CreatorsPortalTest do
   end
 
   def insert_video() do
-    VideoTutorials.Repo.insert!(
+    Repo.insert!(
       %VideoTutorials.Video{
         owner_id: Ecto.UUID.generate(),
         name: "Unknown",

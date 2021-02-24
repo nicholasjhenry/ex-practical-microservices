@@ -9,8 +9,6 @@ defmodule VideoTutorials.Application do
 
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      VideoTutorials.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: VideoTutorials.PubSub}
       # Start a worker by calling: VideoTutorials.Worker.start_link(arg)

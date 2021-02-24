@@ -11,13 +11,16 @@ use Mix.Config
 
 # Configure Mix tasks and generators
 config :video_tutorials,
-  ecto_repos: [VideoTutorials.Repo]
+  ecto_repos: [VideoTutorialsData.Repo]
 
-config :video_tutorials, VideoTutorials.Repo,
+config :video_tutorials_data,
+  ecto_repos: [VideoTutorialsData.Repo]
+
+config :video_tutorials_data, VideoTutorialsData.Repo,
   migration_primary_key: [name: :id, type: :binary_id]
 
 config :video_tutorials_web,
-  ecto_repos: [VideoTutorials.Repo],
+  ecto_repos: [VideoTutorialsData.Repo],
   generators: [context_app: :video_tutorials]
 
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
@@ -28,7 +31,7 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   live_view: [signing_salt: "ogYiZTbx"]
 
 config :creators_portal_web,
-  ecto_repos: [VideoTutorials.Repo],
+  ecto_repos: [VideoTutorialsData.Repo],
   generators: [context_app: :creators_portal]
 
 config :creators_portal_web, CreatorsPortalWeb.Endpoint,

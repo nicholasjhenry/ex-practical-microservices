@@ -28,7 +28,7 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
       description: "Example",
       source_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA",
       transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"
-    } |> VideoTutorials.Repo.insert!
+    } |> Repo.insert!
 
     [video: video]
   end

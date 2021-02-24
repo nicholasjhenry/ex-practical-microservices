@@ -29,10 +29,10 @@ defmodule VideoTutorialsWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorials.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorialsData.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(VideoTutorials.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(VideoTutorialsData.Repo, {:shared, self()})
     end
 
     :ok

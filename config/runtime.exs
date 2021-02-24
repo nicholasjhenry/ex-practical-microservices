@@ -27,13 +27,13 @@ if config_env() == :prod do
     true
   end
 
-  config :video_tutorials, VideoTutorials.Repo,
+  config :video_tutorials_data, VideoTutorialsData.Repo,
     ssl: database_ssl,
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     after_connect: {Postgrex, :query!, ["SET search_path TO public, message_store", []]}
 
-  config :message_store, driver: VideoTutorials.Repo
+  config :message_store, driver: VideoTutorialsData.Repo
 
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||

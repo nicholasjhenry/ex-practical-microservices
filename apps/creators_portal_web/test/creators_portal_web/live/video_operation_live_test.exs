@@ -55,7 +55,7 @@ defmodule CreatorsPortalWeb.VideoOperationLiveTest do
       trace_id: "7682F3EB-65DF-4ABF-87E3-0F1143A67457",
       succeeded: false,
       failure_reason: %{message: "Unknown Error"}
-    } |> VideoTutorials.Repo.insert!
+    } |> Repo.insert!
 
     [video_operation: video_operation]
   end
@@ -65,7 +65,7 @@ defmodule CreatorsPortalWeb.VideoOperationLiveTest do
       video_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
       trace_id: "7682F3EB-65DF-4ABF-87E3-0F1143A67457",
       succeeded: true
-    } |> VideoTutorials.Repo.insert!
+    } |> Repo.insert!
 
     [video_operation: video_operation]
   end
