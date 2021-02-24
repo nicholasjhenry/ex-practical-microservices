@@ -1,4 +1,4 @@
-defmodule VideoTutorials.Tasks do
+defmodule VideoTutorialsData.Tasks do
   @start_apps [
     :crypto,
     :ssl,

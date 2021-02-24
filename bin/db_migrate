@@ -1,3 +1,3 @@
 #!/bin/sh
 
-/app/bin/video_tutorials eval "Elixir.VideoTutorials.Tasks.DbMigrate.exec()"
+/app/bin/video_tutorials eval "Elixir.VideoTutorialsData.Tasks.DbMigrate.exec()"

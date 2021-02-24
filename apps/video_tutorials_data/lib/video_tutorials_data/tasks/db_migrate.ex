@@ -1,12 +1,12 @@
-defmodule VideoTutorials.Tasks.DbMigrate do
+defmodule VideoTutorialsData.Tasks.DbMigrate do
   @moduledoc """
   Functions called when releasing a new version of the application.
   """
 
-  import VideoTutorials.Tasks
+  import VideoTutorialsData.Tasks
 
   def exec do
-    migrate(:video_tutorials, [VideoTutorialsData.Repo])
+    migrate(:video_tutorials_data, [VideoTutorialsData.Repo])
   end
 
   def migrate(app, repos) do
