@@ -25,7 +25,7 @@ defmodule CreatorsPortal.Application do
     [
       {
         MessageStore.SubscriberWorker,
-        [config: %{stream_name: "aggregators:creators-videos", subscribed_to: "videoPublishing", handler: CreatorsPortal.CreatorsVideos}]
+        [config: %{stream_name: "aggregators:creators-videos", subscribed_to: "videoPublishing", handler: VideoTutorials.CreatorsVideos}]
       }
     ]
   end

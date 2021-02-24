@@ -1,7 +1,7 @@
-defmodule CreatorsPortal.CreatorsVideosTest do
-  use CreatorsPortal.DataCase
+defmodule VideoTutorials.CreatorsVideosTest do
+  use VideoTutorials.DataCase
 
-  alias CreatorsPortal.{CreatorsVideos, Video}
+  alias VideoTutorials.{CreatorsVideos, Video}
   alias MessageStore.Message
 
   @tag :wip

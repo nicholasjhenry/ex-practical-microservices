@@ -1,6 +1,5 @@
-defmodule CreatorsPortal.CreatorsVideos do
-  alias VideoTutorials.Repo
-  alias CreatorsPortal.Video
+defmodule VideoTutorials.CreatorsVideos do
+  alias VideoTutorials.{Repo, Video}
 
   import Ecto.Query
 
