@@ -10,14 +10,14 @@
 use Mix.Config
 
 # Configure Mix tasks and generators
-config :video_tutorials_services,
-  ecto_repos: [VideoTutorialsData.Repo]
-
 config :video_tutorials_data,
   ecto_repos: [VideoTutorialsData.Repo]
 
 config :video_tutorials_data, VideoTutorialsData.Repo,
   migration_primary_key: [name: :id, type: :binary_id]
+
+config :video_tutorials_services,
+  ecto_repos: [VideoTutorialsData.Repo]
 
 config :video_tutorials_web,
   ecto_repos: [VideoTutorialsData.Repo]
