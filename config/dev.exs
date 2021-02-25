@@ -1,7 +1,7 @@
 use Mix.Config
 
 # Configure your database
-config :video_tutorials, VideoTutorials.Repo,
+config :video_tutorials_data, VideoTutorialsData.Repo,
   username: "postgres",
   password: "postgres",
   database: "video_tutorials_dev",
@@ -13,7 +13,8 @@ config :message_store, MessageStore.Repo,
   username: "postgres",
   password: "postgres",
   database: "video_tutorials_dev",
-  hostname: "localhost"
+  hostname: "localhost",
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -22,7 +23,7 @@ config :message_store, MessageStore.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 4001],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -88,6 +89,7 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
 
 config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   live_reload: [
+    suffix: "/creators_portal",
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
@@ -106,5 +108,5 @@ config :phoenix, :plug_init_mode, :runtime
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
-config :video_tutorials, VideoTutorials.Mailer,
+config :video_tutorials_services, VideoTutorialsServices.Mailer,
   adapter: Bamboo.LocalAdapter

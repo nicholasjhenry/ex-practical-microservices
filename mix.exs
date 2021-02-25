@@ -3,12 +3,20 @@ defmodule VideoTutorials.Umbrella.MixProject do
 
   def project do
     [
-      apps: [:video_tutorials, :video_tutorials_web, :creators_portal, :creators_portal_web],
+      apps: [
+        :creators_portal_web,
+        :video_tutorials_data,
+        :video_tutorials_proxy,
+        :video_tutorials_services,
+        :video_tutorials_web
+      ],
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      releases: releases(),
+      default_release: :video_tutorials_prod
     ]
   end
 
@@ -41,6 +49,37 @@ defmodule VideoTutorials.Umbrella.MixProject do
     [
       # run `mix setup` in all child apps
       setup: ["cmd mix setup"]
+    ]
+  end
+
+  defp releases do
+    [
+      video_tutorials_prod: [
+        include_executables_for: [:unix],
+        applications: [
+          creators_portal_web: :permanent,
+          video_tutorials_data: :permanent,
+          video_tutorials_proxy: :permanent,
+          video_tutorials_services: :permanent,
+          video_tutorials_web: :permanent
+        ]
+      ],
+      video_tutorials_frontend: [
+        include_executables_for: [:unix],
+        applications: [
+          creators_portal_web: :permanent,
+          video_tutorials_data: :permanent,
+          video_tutorials_proxy: :permanent,
+          video_tutorials_web: :permanent
+        ]
+      ],
+      video_tutorials_backend: [
+        include_executables_for: [:unix],
+        applications: [
+          video_tutorials_data: :permanent,
+          video_tutorials_services: :permanent
+        ]
+      ]
     ]
   end
 end

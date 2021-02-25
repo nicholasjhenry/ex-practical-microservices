@@ -3,6 +3,8 @@ defmodule CreatorsPortalWeb.VideoOperationLiveTest do
 
   import Phoenix.LiveViewTest
 
+  alias VideoTutorialsData.VideoOperation
+
   describe "disconnected and connected render" do
     test "video operation pending", %{conn: conn} do
       {:ok, video_live, disconnected_html} = live(conn, Routes.video_operation_path(conn, :show, 1, mode: "manual"))
@@ -50,22 +52,22 @@ defmodule CreatorsPortalWeb.VideoOperationLiveTest do
   end
 
   def insert_failed_video_operation(_context \\ %{}) do
-    video_operation = %CreatorsPortal.VideoOperation{
+    video_operation = %VideoOperation{
       video_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
       trace_id: "7682F3EB-65DF-4ABF-87E3-0F1143A67457",
       succeeded: false,
       failure_reason: %{message: "Unknown Error"}
-    } |> VideoTutorials.Repo.insert!
+    } |> Repo.insert!
 
     [video_operation: video_operation]
   end
 
   def insert_completed_video_operation(_context \\ %{}) do
-    video_operation = %CreatorsPortal.VideoOperation{
+    video_operation = %VideoOperation{
       video_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
       trace_id: "7682F3EB-65DF-4ABF-87E3-0F1143A67457",
       succeeded: true
-    } |> VideoTutorials.Repo.insert!
+    } |> Repo.insert!
 
     [video_operation: video_operation]
   end

@@ -25,6 +25,7 @@ defmodule CreatorsPortalWeb.ConnCase do
       import CreatorsPortalWeb.ConnCase
 
       alias CreatorsPortalWeb.Router.Helpers, as: Routes
+      alias VideoTutorialsData.Repo
 
       # The default endpoint for testing
       @endpoint CreatorsPortalWeb.Endpoint
@@ -32,12 +33,12 @@ defmodule CreatorsPortalWeb.ConnCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorials.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(VideoTutorialsData.Repo)
 
     MessageStore.Repo.truncate_messages()
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(VideoTutorials.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(VideoTutorialsData.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

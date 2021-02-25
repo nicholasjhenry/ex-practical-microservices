@@ -5,8 +5,8 @@ defmodule MessageStore.SubscriberServiceTest do
   alias MessageStore.{NewMessage, Repo, SubscriberService}
 
   setup do
-    Repo.truncate_messages()
     start_supervised!(MessageStore.Repo)
+    Repo.truncate_messages()
 
     :ok
   end

@@ -10,12 +10,17 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  server: false
 
 config :creators_portal_web, CreatorsPortalWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  server: false
+
+config :video_tutorials_services, VideoTutorialsServices.Mailer,
+  adapter: Bamboo.LocalAdapter
 
 # ## SSL Support
 #
@@ -53,7 +58,3 @@ config :creators_portal_web, CreatorsPortalWeb.Endpoint,
 
 # Do not print debug messages in production
 config :logger, level: :info
-
-# Finally import the config/prod.secret.exs which loads secrets
-# and configuration from environment variables.
-import_config "prod.secret.exs"

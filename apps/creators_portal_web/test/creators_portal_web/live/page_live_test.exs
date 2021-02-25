@@ -4,7 +4,7 @@ defmodule CreatorsPortalWeb.PageLiveTest do
   import Phoenix.LiveViewTest
 
   test "disconnected and connected render", %{conn: conn} do
-    {:ok, page_live, disconnected_html} = live(conn, "/")
+    {:ok, page_live, disconnected_html} = live(conn, "/creators_portal")
     assert disconnected_html =~ "Creators Portal"
     assert render(page_live) =~ "Creators Portal"
   end

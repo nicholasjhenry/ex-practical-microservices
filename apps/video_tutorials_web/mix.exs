@@ -4,7 +4,7 @@ defmodule VideoTutorialsWeb.MixProject do
   def project do
     [
       app: :video_tutorials_web,
-      version: Application.spec(:video_tutorials, :vsn) |> to_string(),
+      version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
@@ -44,12 +44,14 @@ defmodule VideoTutorialsWeb.MixProject do
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.4"},
+      {:phoenix_pubsub, "~> 2.0"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
-      {:video_tutorials, in_umbrella: true},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:bcrypt, "~> 1.1"},
+      {:video_tutorials_data, in_umbrella: true}
     ]
   end
 
