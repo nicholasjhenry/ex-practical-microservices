@@ -16,8 +16,13 @@ module.exports = (env, options) => {
         new OptimizeCSSAssetsPlugin({})
       ]
     },
+    resolve: {
+      alias: {
+          jquery: path.resolve(__dirname, '../../shared_assets/vendor/jquery-3.2.1.slim.min.js')
+      }
+    },
     entry: {
-      'app': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
+      'app': glob.sync('../../shared_assets/vendor/**/*.js').concat(['./js/app.js'])
     },
     output: {
       filename: '[name].js',
@@ -46,7 +51,8 @@ module.exports = (env, options) => {
     },
     plugins: [
       new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-      new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+      new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
+      new CopyWebpackPlugin([{ from: '../../shared_assets/static/', to: '../' }])
     ]
     .concat(devMode ? [new HardSourceWebpackPlugin()] : [])
   }

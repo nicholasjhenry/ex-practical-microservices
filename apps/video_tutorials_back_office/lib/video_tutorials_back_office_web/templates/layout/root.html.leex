@@ -5,24 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "VideoTutorialsBackOffice", suffix: " · Phoenix Framework" %>
+    <%= live_title_tag assigns[:page_title] || "Admin", suffix: " · Video Tutorials" %>
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
+
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header>
-    <%= @inner_content %>
+    <div class="container-fluid" style="margin-top: 30px">
+        <div class="row">
+            <div class="col-sm-2">
+                <h4>Views</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="/admin/users">Users</a></li>
+                </ul>
+                <hr>
+                <h4>Messages</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="/admin/messages">Messages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/streams">Streams</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/categories">Categories (to do)</a></li>
+                </ul>
+                <hr>
+                <h4>System Health</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="/admin/subscriber-positions">Component Read Positions</a></li>
+                </ul>
+            </div>
+            <div class="col"><%= @inner_content %></div>
+        </div>
+    </div>
   </body>
-</html>
+</html
