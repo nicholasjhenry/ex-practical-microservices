@@ -9,6 +9,10 @@ config :master_proxy,
       phoenix_endpoint: CreatorsPortalWeb.Endpoint
     },
     %{
+      path: ~r{^/admin},
+      phoenix_endpoint: VideoTutorialsBackOfficeWeb.Endpoint
+    },
+    %{
       phoenix_endpoint: VideoTutorialsWeb.Endpoint
     }
   ]
@@ -49,6 +53,14 @@ if config_env() == :prod do
       """
 
   config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
+    url: [scheme: "https", host: host, port: 443],
+    http: [
+      port: String.to_integer(System.get_env("PORT") || "4000"),
+      transport_options: [socket_opts: [:inet6]]
+    ],
+    secret_key_base: secret_key_base
+
+  config :video_tutorials_back_office, VideoTutorialsBackOfficeWeb.Endpoint,
     url: [scheme: "https", host: host, port: 443],
     http: [
       port: String.to_integer(System.get_env("PORT") || "4000"),

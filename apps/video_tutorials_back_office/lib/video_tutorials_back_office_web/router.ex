@@ -14,7 +14,7 @@ defmodule VideoTutorialsBackOfficeWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", VideoTutorialsBackOfficeWeb do
+  scope "/admin", VideoTutorialsBackOfficeWeb do
     pipe_through :browser
 
     live "/", PageLive, :index

@@ -29,6 +29,17 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   pubsub_server: VideoTutorials.PubSub,
   live_view: [signing_salt: "ogYiZTbx"]
 
+config :video_tutorials_back_office,
+  ecto_repos: [VideoTutorialsData.Repo]
+
+config :video_tutorials_back_office, VideoTutorialsBackOfficeWeb.Endpoint,
+  url: [host: "localhost"],
+  static_url: [path: "/admin"],
+  secret_key_base: "nWG8mQULVwThV/NqajHmzKVVECvb/UEvSJj0ysLavVZffOt/sN6wafoew294Pfyg",
+  render_errors: [view: VideoTutorialsBackOfficeWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: VideoTutorialsBackOffice.PubSub,
+  live_view: [signing_salt: "aaEvNyio"]
+
 config :creators_portal_web,
   ecto_repos: [VideoTutorialsData.Repo],
   generators: [context_app: :creators_portal]

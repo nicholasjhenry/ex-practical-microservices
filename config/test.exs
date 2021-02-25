@@ -21,6 +21,10 @@ config :video_tutorials_web, VideoTutorialsWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+config :video_tutorials_back_office, VideoTutorialsBackOfficeWeb.Endpoint,
+  http: [port: 4006],
+  server: false
+
 config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   http: [port: 4004],
   server: false
