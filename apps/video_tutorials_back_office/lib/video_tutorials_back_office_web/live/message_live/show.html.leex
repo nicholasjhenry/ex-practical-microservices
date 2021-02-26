@@ -1,0 +1,37 @@
+<h1>Message: <%= @message.id %></h1>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">id</th>
+      <td><%= @message.id %> </td>
+    </tr>
+    <tr>
+      <th scope="row">global position</th>
+      <td><%= @message.global_position %> </td>
+    </tr>
+    <tr>
+      <th scope="row">trace id</th>
+      <td><%= link @message.metadata["trace_id"], to: "#" %></td>
+    </tr>
+    <tr>
+      <th scope="row">user id</th>
+      <td><%= link @message.metadata["user_id"], to: "#" %></td>
+    </tr>
+    <tr>
+      <th scope="col">stream name</th>
+      <td><%= link @message.stream_name, to: "#" %></td>
+    </tr>
+    <tr>
+      <th scope="col">type</th>
+      <td><%= link @message.type, to: "#" %></td>
+    </tr>
+    <tr>
+      <th scope="col">time</th>
+      <td><%= @message.time %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Data</h2>
+<pre><%= inspect(@message.data) %></pre>

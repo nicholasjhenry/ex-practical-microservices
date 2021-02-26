@@ -25,6 +25,7 @@ defmodule VideoTutorialsBackOfficeWeb.ConnCase do
       import VideoTutorialsBackOfficeWeb.ConnCase
 
       alias VideoTutorialsBackOfficeWeb.Router.Helpers, as: Routes
+      alias VideoTutorialsData.Repo
 
       # The default endpoint for testing
       @endpoint VideoTutorialsBackOfficeWeb.Endpoint
