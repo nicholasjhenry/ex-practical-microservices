@@ -1,0 +1,32 @@
+<h1>Messages</h1>
+
+<%= if length(@messages) == 0 do %>
+  <p>There are no messages.</p>
+<% else %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">global position</th>
+        <th scope="col">trace id</th>
+        <th scope="col">user id</th>
+        <th scope="col">stream name</th>
+        <th scope="col">type</th>
+        <th scope="col">time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for message <- @messages do %>
+        <tr>
+          <td><%= link message.id, to: "#" %></td>
+          <td><%= message.global_position %></td>
+          <td><%= link message.metadata["trace_id"], to: "#" %></td>
+          <td><%= link message.metadata["user_id"], to: "#" %></td>
+          <td><%= link message.stream_name, to: "#" %></td>
+          <td><%= link message.type, to: "#" %></td>
+          <td><%= message.time %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
