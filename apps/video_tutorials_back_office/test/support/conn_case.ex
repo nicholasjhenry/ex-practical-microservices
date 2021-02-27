@@ -24,6 +24,7 @@ defmodule VideoTutorialsBackOfficeWeb.ConnCase do
       import Phoenix.ConnTest
       import VideoTutorialsBackOfficeWeb.ConnCase
 
+      use AssertHTML
       alias VideoTutorialsBackOfficeWeb.Router.Helpers, as: Routes
       alias VideoTutorialsData.Repo
 

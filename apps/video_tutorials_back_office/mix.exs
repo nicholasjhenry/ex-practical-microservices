@@ -47,6 +47,9 @@ defmodule VideoTutorialsBackOffice.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+
+      # -- Custom
+      {:assert_html, "~> 0.1.2", only: :test} ,
       {:video_tutorials_data, in_umbrella: true}
     ]
   end

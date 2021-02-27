@@ -18,12 +18,12 @@
     <tbody>
       <%= for message <- @messages do %>
         <tr>
-          <td><%= live_redirect message.id, to: Routes.message_show_path(@socket, :show, message) %></td>
+          <td data-message="id"><%= live_redirect message.id, to: Routes.message_show_path(@socket, :show, message) %></td>
           <td><%= message.global_position %></td>
           <td><%= link message.metadata["trace_id"], to: "#" %></td>
           <td><%= link message.metadata["user_id"], to: "#" %></td>
           <td><%= link message.stream_name, to: "#" %></td>
-          <td><%= link message.type, to: "#" %></td>
+          <td><%= live_redirect message.type, to: Routes.message_index_path(@socket, :index, %{type: message.type}) %></td>
           <td><%= message.time %></td>
         </tr>
       <% end %>

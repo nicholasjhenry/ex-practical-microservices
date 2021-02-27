@@ -12,8 +12,13 @@ defmodule VideoTutorialsBackOffice do
 
   import Ecto.Query, only: [from: 2]
 
-  def list_messages do
+  def list_messages() do
     query = from(messages in Message, order_by: messages.global_position)
+    Repo.all(query)
+  end
+
+  def list_messages(%{type: type}) do
+    query = from(messages in Message, order_by: messages.global_position, where: messages.type == ^type)
     Repo.all(query)
   end
 
