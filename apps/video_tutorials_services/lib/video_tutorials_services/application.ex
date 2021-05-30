@@ -38,6 +38,10 @@ defmodule VideoTutorialsServices.Application do
       },
       {
         MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:admin-users", subscribed_to: "identity", handler: VideoTutorialsServices.AdminUsers}]
+      },
+      {
+        MessageStore.SubscriberWorker,
         [config: %{stream_name: "components:send-email:command", subscribed_to: "sendEmail:command", handler: VideoTutorialsServices.SendEmail}]
       },
       {
