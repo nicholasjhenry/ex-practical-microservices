@@ -9,6 +9,7 @@ defmodule VideoTutorialsBackOffice do
 
   alias VideoTutorialsBackOffice.Message
   alias VideoTutorialsData.Repo
+  alias VideoTutorialsData.AdminUser
 
   import Ecto.Query, only: [from: 2]
 
@@ -24,5 +25,10 @@ defmodule VideoTutorialsBackOffice do
 
   def get_message!(id) do
     Repo.get!(Message, id)
+  end
+
+  def list_users() do
+    query = from(user in AdminUser, order_by: user.email)
+    Repo.all(query)
   end
 end

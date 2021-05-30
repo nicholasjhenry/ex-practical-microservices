@@ -20,6 +20,8 @@ defmodule VideoTutorialsBackOfficeWeb.Router do
     live "/", PageLive, :index
     live "/messages", MessageLive.Index, :index
     live "/messages/:id", MessageLive.Show, :show
+    live "/users", UserLive.Index, :index
+    live "/users/:id", UserLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
