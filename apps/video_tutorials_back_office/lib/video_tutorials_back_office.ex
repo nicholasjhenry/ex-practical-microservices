@@ -20,7 +20,7 @@ defmodule VideoTutorialsBackOffice do
 
   def list_messages(category: category, user_id: user_id) do
     query = from(messages in Message,
-      where: fragment("category(?)", messages.stream_name) == type(^category, :string),
+      where: fragment("message_store.category(?)", messages.stream_name) == type(^category, :string),
       where: fragment("data->>'user_id'") == type(^user_id, :string),
       order_by: messages.global_position
       )
@@ -47,5 +47,9 @@ defmodule VideoTutorialsBackOffice do
   def list_users() do
     query = from(user in AdminUser, order_by: user.email)
     Repo.all(query)
+  end
+
+  def get_user!(id) do
+    Repo.get!(AdminUser, id)
   end
 end

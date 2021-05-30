@@ -1,0 +1,51 @@
+<h1>User: <%= @user.id %></h1>
+
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th scope="row">id</th>
+      <td><%= @user.id %> </td>
+    </tr>
+    <tr>
+      <th scope="row">email</th>
+      <td><%= @user.email %> </td>
+    </tr>
+    <tr>
+      <th scope="row">registration_email_sent</th>
+      <td><%= @user.registration_email_sent %></td>
+    </tr>
+    <tr>
+      <th scope="row">last_identity_event_global_position</th>
+      <td><%= @user.last_identity_event_global_position %></td>
+    </tr>
+    <tr>
+      <th scope="col">login countl</th>
+      <td><%= @user.login_count %></td>
+    </tr>
+    <tr>
+      <th scope="col">last_authentication_event_global_position</th>
+      <td><%= @user.last_authentication_event_global_position %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Viewing Activity</h2>
+
+<%= if length(@viewing_activity) do %>
+  <p>No viewing activity</p>
+<% end  %>
+
+<%= for entry <- @viewing_activity do %>
+  <p><pre><%= inspect(entry) %></pre></p>
+<% end %>
+
+<h2>Login Activity</h2>
+
+<%= if length(@login_activity) do %>
+  <p>No login activity</p>
+<% end  %>
+
+
+<%= for entry <- @login_activity do %>
+  <p><pre><%= inspect(entry) %></pre></p>
+<% end %>
