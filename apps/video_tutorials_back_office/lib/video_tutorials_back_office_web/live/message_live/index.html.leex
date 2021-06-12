@@ -20,7 +20,7 @@
         <tr>
           <td data-message="id"><%= live_redirect message.id, to: Routes.message_show_path(@socket, :show, message) %></td>
           <td><%= message.global_position %></td>
-          <td><%= link message.metadata["trace_id"], to: "#" %></td>
+          <td><%= live_redirect message.metadata["trace_id"], to: Routes.message_index_path(@socket, :index, %{trace_id: message.metadata["trace_id"]}) %></td>
           <td><%= link message.metadata["user_id"], to: "#" %></td>
           <td><%= link message.stream_name, to: "#" %></td>
           <td><%= live_redirect message.type, to: Routes.message_index_path(@socket, :index, %{type: message.type}) %></td>

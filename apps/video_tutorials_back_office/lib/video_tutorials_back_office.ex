@@ -40,6 +40,11 @@ defmodule VideoTutorialsBackOffice do
     Repo.all(query)
   end
 
+  def list_messages(%{trace_id: trace_id}) do
+    query = from(messages in Message, order_by: messages.global_position, where: fragment("metadata->>'trace_id' = ?", ^trace_id))
+    Repo.all(query)
+  end
+
   def get_message!(id) do
     Repo.get!(Message, id)
   end
