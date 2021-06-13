@@ -45,6 +45,28 @@ defmodule MessageStore do
     |> handle_result_rows
   end
 
+  def get_category_messages("$all", position) do
+    function_call = """
+      id::varchar,
+      stream_name::varchar,
+      type::varchar,
+      position::bigint,
+      global_position::bigint,
+      data::varchar,
+      metadata::varchar,
+      time::timestamp
+    FROM
+      messages
+    WHERE
+      global_position > $1
+    LIMIT 1000
+    """
+
+    function_call
+    |> execute_function([position])
+    |> handle_result_rows
+  end
+
   def get_category_messages(stream_name, position) do
     function_call = "get_category_messages($1, $2)"
 
@@ -85,6 +107,8 @@ defmodule MessageStore do
       time: time
     )
   end
+
+  defp to_message(row), do: row |> List.to_tuple |> List.wrap |> to_message()
 
   defp execute_function(sql, params) do
     try do

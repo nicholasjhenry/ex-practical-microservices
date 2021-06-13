@@ -82,6 +82,20 @@ defmodule MessageStoreTest do
     end
   end
 
+  describe "getting all messages" do
+    test "given a message exists the last message" do
+      message = build_new_message(
+        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+        stream_name: "video-1"
+      )
+
+      MessageStore.write_message(message)
+
+      assert [message] = MessageStore.get_category_messages("$all", 0)
+      assert message.id == "5e731bdc-07aa-430a-8aae-543b45dd7235"
+    end
+  end
+
   defmodule FakeProjection do
     defstruct [:id, :name]
 

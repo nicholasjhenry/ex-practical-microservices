@@ -15,7 +15,7 @@ defmodule MessageStore.Subscriber do
   end
 
   def handle_message(%{subscribed_to: subscribed_to} = subscriber, message, handler) do
-    if match?([^subscribed_to | _], String.split(message.stream_name, "-")) do
+    if subscribed_to == "$all" || match?([^subscribed_to | _], String.split(message.stream_name, "-")) do
       updated_subscriber = maybe_call_handler(subscriber, handler, message)
       {:ok, updated_subscriber}
     else
