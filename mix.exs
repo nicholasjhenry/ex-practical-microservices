@@ -5,6 +5,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
     [
       apps: [
         :creators_portal_web,
+        :video_tutorials_back_office,
         :video_tutorials_data,
         :video_tutorials_proxy,
         :video_tutorials_services,
@@ -58,6 +59,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
         include_executables_for: [:unix],
         applications: [
           creators_portal_web: :permanent,
+          video_tutorials_back_office: :permanent,
           video_tutorials_data: :permanent,
           video_tutorials_proxy: :permanent,
           video_tutorials_services: :permanent,
@@ -68,6 +70,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
         include_executables_for: [:unix],
         applications: [
           creators_portal_web: :permanent,
+          video_tutorials_back_office: :permanent,
           video_tutorials_data: :permanent,
           video_tutorials_proxy: :permanent,
           video_tutorials_web: :permanent

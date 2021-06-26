@@ -1,0 +1,32 @@
+<h1>Messages</h1>
+
+<%= if length(@messages) == 0 do %>
+  <p>There are no messages.</p>
+<% else %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">global position</th>
+        <th scope="col">trace id</th>
+        <th scope="col">user id</th>
+        <th scope="col">stream name</th>
+        <th scope="col">type</th>
+        <th scope="col">time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for message <- @messages do %>
+        <tr>
+          <td data-message="id"><%= live_redirect message.id, to: Routes.message_show_path(@socket, :show, message) %></td>
+          <td><%= message.global_position %></td>
+          <td><%= live_redirect message.metadata["trace_id"], to: Routes.message_index_path(@socket, :index, %{trace_id: message.metadata["trace_id"]}) %></td>
+          <td><%= link message.metadata["user_id"], to: "#" %></td>
+          <td><%= link message.stream_name, to: "#" %></td>
+          <td><%= live_redirect message.type, to: Routes.message_index_path(@socket, :index, %{type: message.type}) %></td>
+          <td><%= message.time %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

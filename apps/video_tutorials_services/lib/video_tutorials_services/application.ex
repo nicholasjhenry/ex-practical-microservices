@@ -38,6 +38,10 @@ defmodule VideoTutorialsServices.Application do
       },
       {
         MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:admin-users", subscribed_to: "identity", handler: VideoTutorialsServices.AdminUsers}]
+      },
+      {
+        MessageStore.SubscriberWorker,
         [config: %{stream_name: "components:send-email:command", subscribed_to: "sendEmail:command", handler: VideoTutorialsServices.SendEmail}]
       },
       {
@@ -51,6 +55,15 @@ defmodule VideoTutorialsServices.Application do
       {
         MessageStore.SubscriberWorker,
         [config: %{stream_name: "components:name-video", subscribed_to: "videoPublishing:command", handler: VideoPublishing.NameVideo}]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:admin-streams", subscribed_to: "$all", handler: VideoTutorialsServices.AdminStreams}]
+      },
+      # TODO subscribe_to: "components:*"
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:admin-subscriber-positions", subscribed_to: "$all", handler: VideoTutorialsServices.AdminSubscriberPositions, opts: [filter: "components"]}]
       }
     ]
   end

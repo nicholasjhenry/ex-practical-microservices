@@ -6,9 +6,15 @@ defmodule MessageStore.SubscriberService do
     subscriber = Subscriber.start(stream_name, subscribed_to, message, opts)
     {:ok, subscriber}
   end
+    require Logger
 
   def run(subscriber, handler) do
-    messages = MessageStore.get_category_messages(subscriber.subscribed_to, subscriber.current_position + 1)
+    messages =
+      MessageStore.get_category_messages(subscriber.subscribed_to, subscriber.current_position + 1)
+      |> filter(subscriber.filter)
+
+      Logger.debug(inspect(subscriber) <> "\n" <> inspect(messages))
+
     case messages do
       [] -> subscriber
       _ ->
@@ -29,5 +35,12 @@ defmodule MessageStore.SubscriberService do
         %{updated_subscriber | version: subscriber.version + 1}
       end
     end
+  end
+
+  # TODO Testing
+  defp filter(messages, nil), do: messages
+
+  defp filter(messages, prefix) do
+    Enum.filter(messages, &String.starts_with?(&1.stream_name, prefix))
   end
 end

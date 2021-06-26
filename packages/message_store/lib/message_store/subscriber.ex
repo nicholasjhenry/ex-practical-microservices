@@ -1,21 +1,23 @@
 defmodule MessageStore.Subscriber do
-  defstruct stream_name: nil, version: -1, subscribed_to: nil, current_position: 0, handled_message_result: nil, origin_stream_name: nil
+  defstruct stream_name: nil, version: -1, subscribed_to: nil, current_position: 0, handled_message_result: nil, origin_stream_name: nil, filter: nil
 
   def start(stream_name, subscribed_to, subscription_message, opts \\ [])
 
   def start(stream_name, subscribed_to, nil, opts) do
     origin_stream_name = Keyword.get(opts, :origin_stream_name)
-    %__MODULE__{stream_name: stream_name, subscribed_to: subscribed_to, origin_stream_name: origin_stream_name}
+    filter = Keyword.get(opts, :filter)
+    %__MODULE__{stream_name: stream_name, subscribed_to: subscribed_to, origin_stream_name: origin_stream_name, filter: filter}
   end
 
   def start(stream_name, subscribed_to, subscription_message, opts) do
     position = Map.fetch!(subscription_message.data, "position")
     origin_stream_name = Keyword.get(opts, :origin_stream_name)
-    %__MODULE__{stream_name: stream_name, version: subscription_message.position, subscribed_to: subscribed_to, current_position: position, origin_stream_name: origin_stream_name}
+    filter = Keyword.get(opts, :filter)
+    %__MODULE__{stream_name: stream_name, version: subscription_message.position, subscribed_to: subscribed_to, current_position: position, origin_stream_name: origin_stream_name, filter: filter}
   end
 
   def handle_message(%{subscribed_to: subscribed_to} = subscriber, message, handler) do
-    if match?([^subscribed_to | _], String.split(message.stream_name, "-")) do
+    if subscribed_to == "$all" || match?([^subscribed_to | _], String.split(message.stream_name, "-")) do
       updated_subscriber = maybe_call_handler(subscriber, handler, message)
       {:ok, updated_subscriber}
     else

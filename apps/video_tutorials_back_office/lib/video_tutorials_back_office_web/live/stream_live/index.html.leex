@@ -1,0 +1,24 @@
+<h1>Streams</h1>
+
+<%= if length(@streams) == 0 do %>
+  <p>There are no streams.</p>
+<% else %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Stream</th>
+        <th scope="col">Message Count</th>
+        <th scope="col">As of Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for stream <- @streams do %>
+        <tr>
+          <td data-stream="stream-name"><%= link stream.stream_name, to: "#" %></td>
+          <td><%= stream.message_count %></td>
+          <td><%= link stream.last_message_id, to: "#" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

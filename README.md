@@ -34,6 +34,14 @@ Five categories in a message-based system, [Practical Microservices](https://pra
     mix cmd --app video_tutorials mix ecto.create
     mix cmd --app video_tutorials mix message_store.init
     mix cmd --app video_tutorials mix ecto.setup
+## Running
+
+    make start
+    iex -S mix phx.server
+
+* Main site: http://localhost:4000/
+* Creator's Portal: http://localhost:4000/creators_portal
+* Backoffice: http://localhost:4000/admin
 
 ## Deploy on Heroku
 

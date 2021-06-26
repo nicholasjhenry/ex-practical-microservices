@@ -1,0 +1,30 @@
+<h1>Users</h1>
+
+<%= if length(@users) == 0 do %>
+  <p>There are no users.</p>
+<% else %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">email</th>
+        <th scope="col">registration_email_sent</th>
+        <th scope="col">last_identity_event_global_position</th>
+        <th scope="col">login_count</th>
+        <th scope="col">last_authentication_event_global_position</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for user <- @users do %>
+        <tr>
+          <td data-user="id"><%= live_redirect user.id, to: Routes.user_show_path(@socket, :show, user) %></td>
+          <td><%= user.email %></td>
+          <td><%= user.registration_email_sent %></td>
+          <td><%= user.last_identity_event_global_position %></td>
+          <td><%= user.login_count %></td>
+          <td><%= user.last_authentication_event_global_position %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
