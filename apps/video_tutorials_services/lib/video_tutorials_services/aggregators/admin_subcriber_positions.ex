@@ -5,7 +5,7 @@ defmodule VideoTutorialsServices.AdminSubscriberPositions do
 
   alias VideoTutorialsData.{Repo, AdminSubscriberPosition}
 
-  def handle_message(message) do
+  def handle_message(%{stream_name: "components:" <> _, type: "Read"} = message) do
     %{stream_name: stream_name, global_position: message_global_position, position: position} = message
     subscriber_id = stream_to_entity_id(stream_name)
 
@@ -26,6 +26,8 @@ defmodule VideoTutorialsServices.AdminSubscriberPositions do
 
     :ok
   end
+
+  def handle_message(_message), do: :ok
 
   defp stream_to_entity_id(stream_name) do
     stream_name

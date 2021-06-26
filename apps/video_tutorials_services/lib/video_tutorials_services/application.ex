@@ -59,6 +59,11 @@ defmodule VideoTutorialsServices.Application do
       {
         MessageStore.SubscriberWorker,
         [config: %{stream_name: "aggregators:admin-streams", subscribed_to: "$all", handler: VideoTutorialsServices.AdminStreams}]
+      },
+      # TODO subscribe_to: "components:*"
+      {
+        MessageStore.SubscriberWorker,
+        [config: %{stream_name: "aggregators:admin-subscriber-positions", subscribed_to: "$all", handler: VideoTutorialsServices.AdminSubscriberPositions, opts: [filter: "components"]}]
       }
     ]
   end

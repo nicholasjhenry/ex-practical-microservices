@@ -10,6 +10,7 @@ defmodule VideoTutorialsBackOffice do
   alias VideoTutorialsBackOffice.Message
   alias VideoTutorialsData.Repo
   alias VideoTutorialsData.AdminStream
+  alias VideoTutorialsData.AdminSubscriberPosition
   alias VideoTutorialsData.AdminUser
 
   import Ecto.Query, only: [from: 2]
@@ -56,6 +57,13 @@ defmodule VideoTutorialsBackOffice do
 
   def list_streams do
     query = from(stream in AdminStream, order_by: stream.stream_name)
+    Repo.all(query)
+  end
+
+  # Section: Subscriber Positions
+
+  def list_subscriber_positions do
+    query = from(subscriber in AdminSubscriberPosition, order_by: subscriber.subscriber_id)
     Repo.all(query)
   end
 

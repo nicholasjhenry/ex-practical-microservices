@@ -1,0 +1,22 @@
+<h1>Component Read Positions</h1>
+
+<%= if length(@subscriber_positions) == 0 do %>
+  <p>Nothing has reported in. Generate more messages. Register some more users or watch more videos.</p>
+<% else %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Subscriber Id</th>
+        <th scope="col">Position</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for subscriber_position <- @subscriber_positions do %>
+        <tr>
+          <td data-subscriber-position="subscriber-id"><%= link subscriber_position.subscriber_id, to: "#" %></td>
+          <td><%= subscriber_position.position %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
