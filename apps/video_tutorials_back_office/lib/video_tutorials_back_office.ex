@@ -23,29 +23,41 @@ defmodule VideoTutorialsBackOffice do
   end
 
   def list_messages(category: category, user_id: user_id) do
-    query = from(messages in Message,
-      where: fragment("message_store.category(?)", messages.stream_name) == type(^category, :string),
-      where: fragment("data->>'user_id'") == type(^user_id, :string),
-      order_by: messages.global_position
+    query =
+      from(messages in Message,
+        where:
+          fragment("message_store.category(?)", messages.stream_name) == type(^category, :string),
+        where: fragment("data->>'user_id'") == type(^user_id, :string),
+        order_by: messages.global_position
       )
+
     Repo.all(query)
   end
 
   def list_messages(stream_name: stream_name) do
-    query = from(messages in Message,
-      where: [stream_name: ^stream_name],
-      order_by: messages.global_position
+    query =
+      from(messages in Message,
+        where: [stream_name: ^stream_name],
+        order_by: messages.global_position
       )
+
     Repo.all(query)
   end
 
   def list_messages(%{type: type}) do
-    query = from(messages in Message, order_by: messages.global_position, where: messages.type == ^type)
+    query =
+      from(messages in Message, order_by: messages.global_position, where: messages.type == ^type)
+
     Repo.all(query)
   end
 
   def list_messages(%{trace_id: trace_id}) do
-    query = from(messages in Message, order_by: messages.global_position, where: fragment("metadata->>'trace_id' = ?", ^trace_id))
+    query =
+      from(messages in Message,
+        order_by: messages.global_position,
+        where: fragment("metadata->>'trace_id' = ?", ^trace_id)
+      )
+
     Repo.all(query)
   end
 

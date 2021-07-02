@@ -19,14 +19,21 @@ defmodule VideoTutorialsServices.AdminUsers do
     Repo.insert!(%AdminUser{id: id}, on_conflict: :nothing)
   end
 
-  defp set_email(id, email ,global_position) do
-
-    from(u in AdminUser, where: [id: ^id], where: u.last_identity_event_global_position < ^global_position)
+  defp set_email(id, email, global_position) do
+    from(u in AdminUser,
+      where: [id: ^id],
+      where: u.last_identity_event_global_position < ^global_position
+    )
     |> Repo.update_all(set: [email: email, last_identity_event_global_position: global_position])
   end
 
   defp mark_registation_email_sent(id, global_position) do
-    from(u in AdminUser, where: [id: ^id], where: u.last_identity_event_global_position < ^global_position)
-    |> Repo.update_all(set: [registration_email_sent: true, last_identity_event_global_position: global_position])
+    from(u in AdminUser,
+      where: [id: ^id],
+      where: u.last_identity_event_global_position < ^global_position
+    )
+    |> Repo.update_all(
+      set: [registration_email_sent: true, last_identity_event_global_position: global_position]
+    )
   end
 end

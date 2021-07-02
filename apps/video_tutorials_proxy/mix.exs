@@ -26,6 +26,7 @@ defmodule VideoTutorialsProxy.MixProject do
       extra_applications: [:logger, :runtime_tools]
     ]
   end
+
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.

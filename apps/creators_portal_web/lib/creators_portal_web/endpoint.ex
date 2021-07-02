@@ -14,10 +14,11 @@ defmodule CreatorsPortalWeb.Endpoint do
     websocket: [timeout: 45_000],
     longpoll: false
 
-  socket "/creators_portal/live", Phoenix.LiveView.Socket, websocket: [
-    timeout: 45_000,
-    connect_info: [session: @session_options]
-  ]
+  socket "/creators_portal/live", Phoenix.LiveView.Socket,
+    websocket: [
+      timeout: 45_000,
+      connect_info: [session: @session_options]
+    ]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

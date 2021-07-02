@@ -11,7 +11,13 @@ defmodule VideoTutorialsBackOfficeWeb.UserLive.Show do
     {:noreply,
      socket
      |> assign(:user, VideoTutorialsBackOffice.get_user!(id))
-     |> assign(:viewing_activity, VideoTutorialsBackOffice.list_messages(category: "viewing", user_id: id))
-     |> assign(:login_activity, VideoTutorialsBackOffice.list_messages(stream_name: "authentication-#{id}"))}
+     |> assign(
+       :viewing_activity,
+       VideoTutorialsBackOffice.list_messages(category: "viewing", user_id: id)
+     )
+     |> assign(
+       :login_activity,
+       VideoTutorialsBackOffice.list_messages(stream_name: "authentication-#{id}")
+     )}
   end
 end

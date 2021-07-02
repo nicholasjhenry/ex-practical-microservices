@@ -29,7 +29,10 @@ defmodule VideoTutorialsServices.CreatorsVideos do
     position = event.position
     name = Map.fetch!(event.data, "name")
 
-    from(v in Video, where: v.position < ^position and v.id == ^video_id, update: [set: [name: ^name, position: ^position]])
+    from(v in Video,
+      where: v.position < ^position and v.id == ^video_id,
+      update: [set: [name: ^name, position: ^position]]
+    )
     |> Repo.update_all([])
   end
 
@@ -40,6 +43,6 @@ defmodule VideoTutorialsServices.CreatorsVideos do
   defp stream_to_entity_id(stream_name) do
     stream_name
     |> String.split("-", parts: 2)
-    |> List.last
+    |> List.last()
   end
 end

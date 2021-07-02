@@ -24,8 +24,7 @@ config :creators_portal_web, CreatorsPortalWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   server: false
 
-config :video_tutorials_services, VideoTutorialsServices.Mailer,
-  adapter: Bamboo.LocalAdapter
+config :video_tutorials_services, VideoTutorialsServices.Mailer, adapter: Bamboo.LocalAdapter
 
 # ## SSL Support
 #

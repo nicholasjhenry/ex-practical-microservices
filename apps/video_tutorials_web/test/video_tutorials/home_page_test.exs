@@ -14,16 +14,17 @@ defmodule VideoTutorials.HomePageTest do
 
   describe "handling watched events" do
     test "given the page exists the counter" do
-      event = Message.new(
-        id: UUID.uuid4,
-        stream_name: "video-1",
-        type: "videoWatched",
-        data: %{},
-        metadata: %{},
-        position: 0,
-        global_position: 11,
-        time: NaiveDateTime.local_now()
-      )
+      event =
+        Message.new(
+          id: UUID.uuid4(),
+          stream_name: "video-1",
+          type: "videoWatched",
+          data: %{},
+          metadata: %{},
+          position: 0,
+          global_position: 11,
+          time: NaiveDateTime.local_now()
+        )
 
       HomePage.handle_message(event)
 
@@ -34,16 +35,17 @@ defmodule VideoTutorials.HomePageTest do
     end
 
     test "given the event had been previously processed the counter is not incremented" do
-      event = Message.new(
-        id: UUID.uuid4,
-        stream_name: "video-1",
-        type: "videoWatched",
-        data: %{},
-        metadata: %{},
-        position: 0,
-        global_position: 10,
-        time: NaiveDateTime.local_now()
-      )
+      event =
+        Message.new(
+          id: UUID.uuid4(),
+          stream_name: "video-1",
+          type: "videoWatched",
+          data: %{},
+          metadata: %{},
+          position: 0,
+          global_position: 10,
+          time: NaiveDateTime.local_now()
+        )
 
       HomePage.handle_message(event)
 

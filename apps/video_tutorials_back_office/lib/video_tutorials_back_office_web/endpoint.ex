@@ -14,10 +14,11 @@ defmodule VideoTutorialsBackOfficeWeb.Endpoint do
     websocket: [timeout: 45_000],
     longpoll: false
 
-  socket "/admin/live", Phoenix.LiveView.Socket, websocket: [
-    timeout: 45_000,
-    connect_info: [session: @session_options]
-  ]
+  socket "/admin/live", Phoenix.LiveView.Socket,
+    websocket: [
+      timeout: 45_000,
+      connect_info: [session: @session_options]
+    ]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

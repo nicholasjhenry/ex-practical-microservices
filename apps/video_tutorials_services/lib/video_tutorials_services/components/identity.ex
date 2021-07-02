@@ -66,37 +66,38 @@ defmodule VideoTutorialsServices.Identity do
   defp write_registered_event(context) do
     command = context.command
 
-    registered_event = NewMessage.new(
-      stream_name: "identity-#{command.data["user_id"]}",
-      type: "Registered",
-      metadata: %{
-        trace_id: Map.fetch!(command.metadata, "trace_id"),
-        user_id: Map.fetch!(command.metadata, "user_id")
-      },
-      data: %{
-        user_id: Map.fetch!(command.data, "user_id"),
-        email: Map.fetch!(command.data, "email"),
-        password_hash: Map.fetch!(command.data, "password_hash")
-      }
-    )
+    registered_event =
+      NewMessage.new(
+        stream_name: "identity-#{command.data["user_id"]}",
+        type: "Registered",
+        metadata: %{
+          trace_id: Map.fetch!(command.metadata, "trace_id"),
+          user_id: Map.fetch!(command.metadata, "user_id")
+        },
+        data: %{
+          user_id: Map.fetch!(command.data, "user_id"),
+          email: Map.fetch!(command.data, "email"),
+          password_hash: Map.fetch!(command.data, "password_hash")
+        }
+      )
 
     MessageStore.write_message(registered_event)
   end
 
   def send_email(event) do
-    email =
-      %{
-        subject: "You're Registered!",
-        text: "Foo",
-        html: "<p>Foo</p>"
-      }
+    email = %{
+      subject: "You're Registered!",
+      text: "Foo",
+      html: "<p>Foo</p>"
+    }
+
     context = %{identity_id: Map.fetch!(event.data, "user_id"), event: event, email: email}
 
     with context <- load_identity(context),
-      {:ok, context} <- ensure_registration_email_not_sent(context),
-      context <- render_registered_email(context),
-      _context <- write_send_command(context) do
-        {:ok, :registration_email_requested}
+         {:ok, context} <- ensure_registration_email_not_sent(context),
+         context <- render_registered_email(context),
+         _context <- write_send_command(context) do
+      {:ok, :registration_email_requested}
     else
       {:error, {:already_sent_registration_email, _context}} -> {:ok, :noop}
     end
@@ -122,24 +123,25 @@ defmodule VideoTutorialsServices.Identity do
 
     email_id = UUID.uuid5(uuid_v5_namespace, identity.email)
 
-    send_email_command = NewMessage.new(
-      stream_name: "sendEmail:command-#{email_id}",
-      type: "Send",
-      metadata: %{
-        origin_stream_name: "identity-#{identity.id}",
-        trace_id: Map.fetch!(event.metadata, "trace_id"),
-        user_id: Map.fetch!(event.metadata, "user_id")
-      },
-      data: %{
-        email_id: email_id,
-        to: identity.email,
-        subject: email.subject,
-        text: email.text,
-        html: email.html
-      },
-      # TODO: review expected version
-      expected_version: nil
-    )
+    send_email_command =
+      NewMessage.new(
+        stream_name: "sendEmail:command-#{email_id}",
+        type: "Send",
+        metadata: %{
+          origin_stream_name: "identity-#{identity.id}",
+          trace_id: Map.fetch!(event.metadata, "trace_id"),
+          user_id: Map.fetch!(event.metadata, "user_id")
+        },
+        data: %{
+          email_id: email_id,
+          to: identity.email,
+          subject: email.subject,
+          text: email.text,
+          html: email.html
+        },
+        # TODO: review expected version
+        expected_version: nil
+      )
 
     MessageStore.write_message(send_email_command)
   end
@@ -149,31 +151,32 @@ defmodule VideoTutorialsServices.Identity do
     context = %{identity_id: identity_id, event: event}
 
     with context <- load_identity(context),
-      {:ok, context} <- ensure_registration_email_not_sent(context),
-      _context <- write_registration_email_sent_event(context) do
-        {:ok, :registration_email_sent}
-      else
-        {:error, {:already_sent_registration_email_error}} -> {:ok, :noop}
-      end
+         {:ok, context} <- ensure_registration_email_not_sent(context),
+         _context <- write_registration_email_sent_event(context) do
+      {:ok, :registration_email_sent}
+    else
+      {:error, {:already_sent_registration_email_error}} -> {:ok, :noop}
+    end
   end
 
   def write_registration_email_sent_event(context) do
     event = context.event
 
-    registered_event = NewMessage.new(
-      stream_name: "identity-#{context.identity_id}",
-      type: "RegistrationEmailSent",
-      metadata: %{
-        trace_id: Map.fetch!(event.metadata, "trace_id"),
-        user_id: context.identity_id
-      },
-      data: %{
-        user_id: context.identity_id,
-        email_id: Map.fetch!(event.data, "email_id"),
-      },
-      # TODO
-      expected_version: nil
-    )
+    registered_event =
+      NewMessage.new(
+        stream_name: "identity-#{context.identity_id}",
+        type: "RegistrationEmailSent",
+        metadata: %{
+          trace_id: Map.fetch!(event.metadata, "trace_id"),
+          user_id: context.identity_id
+        },
+        data: %{
+          user_id: context.identity_id,
+          email_id: Map.fetch!(event.data, "email_id")
+        },
+        # TODO
+        expected_version: nil
+      )
 
     MessageStore.write_message(registered_event)
   end

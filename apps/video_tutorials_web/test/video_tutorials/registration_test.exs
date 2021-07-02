@@ -13,7 +13,6 @@ defmodule VideoTutorials.RegistrationTest do
     assert %Ecto.Changeset{} = Registration.change_registration(registration)
   end
 
-
   test "registering a user with valid data registers a user" do
     valid_attrs = %{id: UUID.uuid4(), email: "jane@example.com", password: "abc1234"}
 

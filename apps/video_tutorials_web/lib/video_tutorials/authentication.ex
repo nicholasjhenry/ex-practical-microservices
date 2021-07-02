@@ -18,13 +18,18 @@ defmodule VideoTutorials.Authentication do
   end
 
   def authenticate(endpoint, %{"email" => email, "password" => password}) do
-    context = %__MODULE__{endpoint: endpoint, email: email, password: password, trace_id: UUID.uuid4}
+    context = %__MODULE__{
+      endpoint: endpoint,
+      email: email,
+      password: password,
+      trace_id: UUID.uuid4()
+    }
 
     with context <- load_user_credential(context),
-      {:ok, context} <- ensure_user_credential_found(context),
-      {:ok, context} <- validate_password(context),
-      context <- sign_token(context),
-      context <- write_logged_in_event(context) do
+         {:ok, context} <- ensure_user_credential_found(context),
+         {:ok, context} <- validate_password(context),
+         context <- sign_token(context),
+         context <- write_logged_in_event(context) do
       {:ok, context.signature}
     else
       {:error, {:not_found_error, context}} -> handle_credential_not_found(context)
@@ -34,7 +39,7 @@ defmodule VideoTutorials.Authentication do
 
   defp load_user_credential(context) do
     user_credential = get_user_credential(context.email)
-     Map.put(context, :user_credential, user_credential)
+    Map.put(context, :user_credential, user_credential)
   end
 
   defp get_user_credential(email) do
@@ -61,17 +66,18 @@ defmodule VideoTutorials.Authentication do
   end
 
   defp write_logged_in_event(context) do
-    event = NewMessage.new(
-      stream_name: "authentication-#{context.user_credential.id}",
-      type: "UserLoggedIn",
-      metadata: %{
-        trace_id: context.trace_id,
-        user_id: context.user_credential.id
-      },
-      data: %{
-        user_id: context.user_credential.id
-      }
-    )
+    event =
+      NewMessage.new(
+        stream_name: "authentication-#{context.user_credential.id}",
+        type: "UserLoggedIn",
+        metadata: %{
+          trace_id: context.trace_id,
+          user_id: context.user_credential.id
+        },
+        data: %{
+          user_id: context.user_credential.id
+        }
+      )
 
     MessageStore.write_message(event)
 
@@ -83,18 +89,19 @@ defmodule VideoTutorials.Authentication do
   end
 
   defp handle_credentials_mismatch(context) do
-    event = NewMessage.new(
-      stream_name: "authentication-#{context.user_credential.id}",
-      type: "UserLoginFailed",
-      metadata: %{
-        trace_id: context.trace_id,
-        user_id: nil
-      },
-      data: %{
-        user_id: context.user_credential.id,
-        reason: "Incorrect password"
-      }
-    )
+    event =
+      NewMessage.new(
+        stream_name: "authentication-#{context.user_credential.id}",
+        type: "UserLoginFailed",
+        metadata: %{
+          trace_id: context.trace_id,
+          user_id: nil
+        },
+        data: %{
+          user_id: context.user_credential.id,
+          reason: "Incorrect password"
+        }
+      )
 
     MessageStore.write_message(event)
 

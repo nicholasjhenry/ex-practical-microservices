@@ -3,7 +3,7 @@ defmodule VideoTutorialsWeb.ConfigTest do
 
   alias VideoTutorialsWeb.Config
 
-  def subject(_context), do: [subject: Config.get]
+  def subject(_context), do: [subject: Config.get()]
 
   setup :subject
 

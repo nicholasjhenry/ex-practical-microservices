@@ -27,11 +27,12 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  database_ssl = if System.get_env("DATABASE_SSL") == "0" do
-    false
-  else
-    true
-  end
+  database_ssl =
+    if System.get_env("DATABASE_SSL") == "0" do
+      false
+    else
+      true
+    end
 
   config :video_tutorials_data, VideoTutorialsData.Repo,
     ssl: database_ssl,
@@ -47,6 +48,7 @@ if config_env() == :prod do
       environment variable SECRET_KEY_BASE is missing.
       You can generate one by calling: mix phx.gen.secret
       """
+
   host =
     System.get_env("HOST") ||
       raise """

@@ -5,11 +5,13 @@ defmodule VideoTutorialsWeb.SessionController do
 
   def create(conn, %{"token" => token} = params) do
     case Authentication.verify(VideoTutorialsWeb.Endpoint, token) do
-        {:ok, user_id} ->
-            conn
-            |> Authentication.login(user_id)
-            |> redirect(to: Routes.page_path(conn, :index))
-        _ -> create(conn, params)
+      {:ok, user_id} ->
+        conn
+        |> Authentication.login(user_id)
+        |> redirect(to: Routes.page_path(conn, :index))
+
+      _ ->
+        create(conn, params)
     end
   end
 

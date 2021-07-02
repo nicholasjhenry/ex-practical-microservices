@@ -26,8 +26,9 @@ defmodule VideoTutorialsWeb.AuthenticateLive do
     case Authentication.authenticate(VideoTutorialsWeb.Endpoint, params) do
       {:ok, token} ->
         {:noreply, redirect(socket, to: Routes.session_path(socket, :create, %{token: token}))}
+
       {:error, _} ->
-        {:noreply, put_flash(socket, :error, "Login failed!") }
+        {:noreply, put_flash(socket, :error, "Login failed!")}
     end
   end
 end

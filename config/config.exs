@@ -36,7 +36,11 @@ config :video_tutorials_back_office, VideoTutorialsBackOfficeWeb.Endpoint,
   url: [host: "localhost"],
   static_url: [path: "/admin"],
   secret_key_base: "nWG8mQULVwThV/NqajHmzKVVECvb/UEvSJj0ysLavVZffOt/sN6wafoew294Pfyg",
-  render_errors: [view: VideoTutorialsBackOfficeWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    view: VideoTutorialsBackOfficeWeb.ErrorView,
+    accepts: ~w(html json),
+    layout: false
+  ],
   pubsub_server: VideoTutorialsBackOffice.PubSub,
   live_view: [signing_salt: "aaEvNyio"]
 

@@ -32,8 +32,17 @@ defmodule VideoTutorialsBackOfficeWeb.MessageLive.IndexTest do
 
   test "render with message correlation", %{conn: conn} do
     trace_id = Ecto.UUID.generate()
-    message = Repo.insert!(%Message{stream_name: "test-stream", type: "test_type", position: 0, metadata: %{trace_id: trace_id}})
-    _not_correlated_message = Repo.insert!(%Message{stream_name: "another-stream", type: "test_type", position: 0})
+
+    message =
+      Repo.insert!(%Message{
+        stream_name: "test-stream",
+        type: "test_type",
+        position: 0,
+        metadata: %{trace_id: trace_id}
+      })
+
+    _not_correlated_message =
+      Repo.insert!(%Message{stream_name: "another-stream", type: "test_type", position: 0})
 
     {:ok, page_live, disconnected_html} =
       conn

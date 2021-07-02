@@ -10,8 +10,10 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-
 VideoTutorialsData.Repo.insert!(
-  %VideoTutorialsData.Page{name: "home", data: %{"videos_watched" => 0, "last_view_processed" => 0}},
+  %VideoTutorialsData.Page{
+    name: "home",
+    data: %{"videos_watched" => 0, "last_view_processed" => 0}
+  },
   on_conflict: :nothing
 )
