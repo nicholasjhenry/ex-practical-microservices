@@ -11,6 +11,8 @@ defmodule VideoTutorials.Registration do
   end
 
   defmodule Context do
+    @moduledoc false
+
     defstruct [:changeset, :existing_identity, :trace_id, :password_hash]
   end
 

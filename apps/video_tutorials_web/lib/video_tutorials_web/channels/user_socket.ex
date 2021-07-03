@@ -1,4 +1,6 @@
 defmodule VideoTutorialsWeb.UserSocket do
+  @moduledoc false
+
   use Phoenix.Socket
 
   ## Channels

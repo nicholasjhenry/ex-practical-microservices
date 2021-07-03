@@ -1,4 +1,6 @@
 defmodule CreatorsPortalWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :creators_portal_web
 
   # The session will be stored in the cookie and signed,

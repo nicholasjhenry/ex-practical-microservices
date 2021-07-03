@@ -1,4 +1,6 @@
 defmodule VideoTutorialsWeb.Router do
+  @moduledoc false
+
   use VideoTutorialsWeb, :router
 
   pipeline :browser do

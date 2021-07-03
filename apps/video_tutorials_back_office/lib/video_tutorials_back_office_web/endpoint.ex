@@ -1,4 +1,6 @@
 defmodule VideoTutorialsBackOfficeWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :video_tutorials_back_office
 
   # The session will be stored in the cookie and signed,

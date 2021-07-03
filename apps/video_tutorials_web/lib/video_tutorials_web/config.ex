@@ -1,4 +1,6 @@
 defmodule VideoTutorialsWeb.Config do
+  @moduledoc false
+
   # Idiomatically, this would be configured in the `config/`. Let's see how this plays out
   # based on the example on page 8.
 

@@ -1,24 +1,13 @@
 defmodule VideoTutorialsWeb do
   @moduledoc """
-  The entrypoint for defining your web interface, such
-  as controllers, views, channels and so on.
-
-  This can be used in your application as:
-
-      use VideoTutorialsWeb, :controller
-      use VideoTutorialsWeb, :view
-
-  The definitions below will be executed for every view,
-  controller, etc, so keep them short and clean, focused
-  on imports, uses and aliases.
-
-  Do NOT define functions inside the quoted expressions
-  below. Instead, define any helper function in modules
-  and import those modules here.
+  The entrypoint for video tutorials.
   """
 
+  @doc false
   def controller do
     quote do
+      @moduledoc false
+
       use Phoenix.Controller, namespace: VideoTutorialsWeb
 
       import Plug.Conn
@@ -27,8 +16,11 @@ defmodule VideoTutorialsWeb do
     end
   end
 
+  @doc false
   def view do
     quote do
+      @moduledoc false
+
       use Phoenix.View,
         root: "lib/video_tutorials_web/templates",
         namespace: VideoTutorialsWeb
@@ -42,8 +34,11 @@ defmodule VideoTutorialsWeb do
     end
   end
 
+  @doc false
   def live_view do
     quote do
+      @moduledoc false
+
       use Phoenix.LiveView,
         layout: {VideoTutorialsWeb.LayoutView, "live.html"}
 
@@ -51,16 +46,22 @@ defmodule VideoTutorialsWeb do
     end
   end
 
+  @doc false
   def live_component do
     quote do
+      @moduledoc false
+
       use Phoenix.LiveComponent
 
       unquote(view_helpers())
     end
   end
 
+  @doc false
   def router do
     quote do
+      @moduledoc false
+
       use Phoenix.Router
 
       import Plug.Conn
@@ -69,13 +70,17 @@ defmodule VideoTutorialsWeb do
     end
   end
 
+  @doc false
   def channel do
     quote do
+      @moduledoc false
+
       use Phoenix.Channel
       import VideoTutorialsWeb.Gettext
     end
   end
 
+  @doc false
   defp view_helpers do
     quote do
       # Use all HTML functionality (forms, tags, etc)
@@ -93,9 +98,7 @@ defmodule VideoTutorialsWeb do
     end
   end
 
-  @doc """
-  When used, dispatch to the appropriate controller/view/etc.
-  """
+  @doc false
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
   end
