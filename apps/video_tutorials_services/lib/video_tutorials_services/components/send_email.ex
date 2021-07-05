@@ -4,12 +4,10 @@ defmodule VideoTutorialsServices.SendEmail do
 
   import Bamboo.Email
 
-  defstruct [
-    email: nil,
-    send_command: nil,
-    system_sender_email_address: "foo@example.com",
-    just_send_it: nil
-  ]
+  defstruct email: nil,
+            send_command: nil,
+            system_sender_email_address: "foo@example.com",
+            just_send_it: nil
 
   defmodule EmailProjection do
     defstruct sent?: false
@@ -31,13 +29,13 @@ defmodule VideoTutorialsServices.SendEmail do
     context = %__MODULE__{send_command: command, just_send_it: &send/1}
 
     with context <- load_email(context),
-      {:ok, context} <- ensure_email_has_not_been_sent(context),
-      {:ok, context} <- send_email(context),
-      _context <- write_sent_event(context) do
-        {:ok, :email_sent}
-      else
-        {:error, {:already_sent_error, _context}} -> {:ok, :noop}
-        {:error, {:send_error, context, payload}} -> write_failed_event(context, payload)
+         {:ok, context} <- ensure_email_has_not_been_sent(context),
+         {:ok, context} <- send_email(context),
+         _context <- write_sent_event(context) do
+      {:ok, :email_sent}
+    else
+      {:error, {:already_sent_error, _context}} -> {:ok, :noop}
+      {:error, {:send_error, context, payload}} -> write_failed_event(context, payload)
     end
   end
 
@@ -60,13 +58,14 @@ defmodule VideoTutorialsServices.SendEmail do
     send_command = context.send_command
     just_send_it = context.just_send_it
 
-    email = new_email(
-      from: context.system_sender_email_address,
-      to: Map.fetch!(send_command.data, "to"),
-      subject: Map.fetch!(send_command.data, "subject"),
-      text_body: Map.fetch!(send_command.data, "text"),
-      html_body: Map.fetch!(send_command.data, "html")
-    )
+    email =
+      new_email(
+        from: context.system_sender_email_address,
+        to: Map.fetch!(send_command.data, "to"),
+        subject: Map.fetch!(send_command.data, "subject"),
+        text_body: Map.fetch!(send_command.data, "text"),
+        html_body: Map.fetch!(send_command.data, "html")
+      )
 
     _sent_email = just_send_it.(email)
 
@@ -77,16 +76,17 @@ defmodule VideoTutorialsServices.SendEmail do
     send_command = context.send_command
     stream_name = "sendEmail-#{send_command.data["email_id"]}"
 
-    event = NewMessage.new(
-      stream_name: stream_name,
-      type: "Sent",
-      metadata: %{
-        origin_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
-        trace_id: Map.fetch!(send_command.metadata, "trace_id"),
-        user_id: Map.fetch!(send_command.metadata, "user_id")
-      },
-      data: send_command.data
-    )
+    event =
+      NewMessage.new(
+        stream_name: stream_name,
+        type: "Sent",
+        metadata: %{
+          origin_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
+          trace_id: Map.fetch!(send_command.metadata, "trace_id"),
+          user_id: Map.fetch!(send_command.metadata, "user_id")
+        },
+        data: send_command.data
+      )
 
     MessageStore.write_message(event)
   end
@@ -95,16 +95,17 @@ defmodule VideoTutorialsServices.SendEmail do
     send_command = context.send_command
     stream_name = "sendEmail-#{send_command.data["email_id"]}"
 
-    event = NewMessage.new(
-      stream_name: stream_name,
-      type: "Failed",
-      metadata: %{
-        original_stream_name: Map.fetch!(send_command.metadata, "original_stream_name"),
-        trace_id: Map.fetch!(send_command.metadata, "trace_id"),
-        user_id: Map.fetch!(send_command.metadata, "user_id")
-      },
-      data: Map.put(send_command.data, :reason, error.message)
-    )
+    event =
+      NewMessage.new(
+        stream_name: stream_name,
+        type: "Failed",
+        metadata: %{
+          original_stream_name: Map.fetch!(send_command.metadata, "original_stream_name"),
+          trace_id: Map.fetch!(send_command.metadata, "trace_id"),
+          user_id: Map.fetch!(send_command.metadata, "user_id")
+        },
+        data: Map.put(send_command.data, :reason, error.message)
+      )
 
     MessageStore.write_message(event)
   end

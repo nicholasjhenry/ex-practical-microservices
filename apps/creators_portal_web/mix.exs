@@ -4,6 +4,8 @@ defmodule CreatorsPortalWeb.MixProject do
   def project do
     [
       app: :creators_portal_web,
+      name: "Creators Portal",
+      homepage_url: "../index.html",
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -14,7 +16,8 @@ defmodule CreatorsPortalWeb.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      docs: [output: "../../doc/creators_portal"]
     ]
   end
 

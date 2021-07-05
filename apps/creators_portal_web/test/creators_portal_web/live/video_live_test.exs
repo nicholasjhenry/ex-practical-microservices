@@ -16,21 +16,23 @@ defmodule CreatorsPortalWeb.VideoLiveTest do
   test "name video", %{conn: conn, video: video} do
     {:ok, view, _html} = live(conn, "/creators_portal/video/#{video.id}/edit")
 
-    trace_id = UUID.uuid4
+    trace_id = UUID.uuid4()
 
     render_click(view, :name_video, %{"video" => %{}, "trace_id" => trace_id})
-    flash = assert_redirected view, Routes.video_operation_path(conn, :show, trace_id)
+    flash = assert_redirected(view, Routes.video_operation_path(conn, :show, trace_id))
     assert flash["info"] == "Video named pending"
   end
 
   def create_video(_context) do
-    video = %Video{
-      owner_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
-      name: "Untitled",
-      description: "Example",
-      source_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA",
-      transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"
-    } |> Repo.insert!
+    video =
+      %Video{
+        owner_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
+        name: "Untitled",
+        description: "Example",
+        source_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA",
+        transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"
+      }
+      |> Repo.insert!()
 
     [video: video]
   end

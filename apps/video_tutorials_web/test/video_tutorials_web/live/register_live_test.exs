@@ -13,9 +13,8 @@ defmodule VideoTutorialsWeb.RegisterLiveTest do
     {:ok, register_live, _} = live(conn, "/register")
 
     assert register_live
-      |> form("#registration-form", registration: %{})
-      |> render_change() =~ "can&apos;t be blank"
-
+           |> form("#registration-form", registration: %{})
+           |> render_change() =~ "can&apos;t be blank"
 
     valid_attrs = %{email: "jane@example.com", password: "abc123#"}
 

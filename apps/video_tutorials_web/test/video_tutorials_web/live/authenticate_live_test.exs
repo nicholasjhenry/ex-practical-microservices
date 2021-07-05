@@ -24,8 +24,8 @@ defmodule VideoTutorialsWeb.AuthenticateLiveTest do
     {:ok, register_live, _} = live(conn, "/auth/log-in")
 
     assert register_live
-      |> form("#login-form", login: %{})
-      |> render_change() =~ "can&apos;t be blank"
+           |> form("#login-form", login: %{})
+           |> render_change() =~ "can&apos;t be blank"
 
     valid_attrs = %{email: "jane@example.com", password: "test"}
 

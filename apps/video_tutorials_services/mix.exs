@@ -4,6 +4,8 @@ defmodule VideoTutorialsServices.MixProject do
   def project do
     [
       app: :video_tutorials_services,
+      name: "Video Tutorials Services",
+      homepage_url: "../index.html",
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -13,7 +15,8 @@ defmodule VideoTutorialsServices.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      docs: [output: "../../doc/video_tutorials_services"]
     ]
   end
 

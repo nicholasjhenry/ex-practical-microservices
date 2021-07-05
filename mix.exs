@@ -3,6 +3,13 @@ defmodule VideoTutorials.Umbrella.MixProject do
 
   def project do
     [
+      name: "Video Tutorials Platform",
+      source_url: "https://github.com/nicholasjhenry/practical-microservices-ex",
+      homepage_url: "https://pragprog.com/titles/egmicro/practical-microservices/",
+      dialyzer: [
+        ignore_warnings: "dialyzer.ignore-warnings",
+        plt_add_apps: [:mix]
+      ],
       apps: [
         :creators_portal_web,
         :video_tutorials_back_office,
@@ -16,6 +23,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
+      docs: docs(),
       releases: releases(),
       default_release: :video_tutorials_prod
     ]
@@ -34,7 +42,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps/ folder.
   defp deps do
-    [{:mix_test_watch, "~> 1.0", only: :dev, runtime: false}]
+    [ ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -49,7 +57,35 @@ defmodule VideoTutorials.Umbrella.MixProject do
   defp aliases do
     [
       # run `mix setup` in all child apps
-      setup: ["cmd mix setup"]
+      setup: ["cmd mix setup"],
+      docs: ["docs --formatter html", "cmd mix docs --formatter html"],
+      check: ["compile --force", "dialyzer", "credo"]
+    ]
+  end
+
+  defp docs do
+    [
+      main: "overview",
+      authors: ["Nicholas Henry"],
+      extra_section: "GUIDES",
+      api_reference: false,
+      extras: extras(),
+      ignore_apps: [
+        :creators_portal_web,
+        :video_tutorials_back_office,
+        :video_tutorials_data,
+        :video_tutorials_proxy,
+        :video_tutorials_services,
+        :video_tutorials_utils,
+        :video_tutorials_web
+      ]
+    ]
+  end
+
+  defp extras do
+    [
+      "guides/overview.md": [title: "Overview"],
+      "guides/heroku.md": [title: "Deploy to Heroku"]
     ]
   end
 

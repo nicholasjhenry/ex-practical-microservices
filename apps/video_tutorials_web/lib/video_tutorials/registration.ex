@@ -11,6 +11,8 @@ defmodule VideoTutorials.Registration do
   end
 
   defmodule Context do
+    @moduledoc false
+
     defstruct [:changeset, :existing_identity, :trace_id, :password_hash]
   end
 
@@ -22,7 +24,7 @@ defmodule VideoTutorials.Registration do
   end
 
   def register_user(attrs) do
-    %Context{trace_id: UUID.uuid4}
+    %Context{trace_id: UUID.uuid4()}
     |> validate(attrs)
     |> load_existing_identity
     |> ensure_there_was_no_existing_identity
@@ -35,7 +37,7 @@ defmodule VideoTutorials.Registration do
     import Ecto.Query, only: [from: 2]
 
     query = from(user in UserCredential, where: user.email == ^email, select: [:id])
-    query |> Repo.all |> List.first
+    query |> Repo.all() |> List.first()
   end
 
   defp validate(context, attrs) do
@@ -45,7 +47,9 @@ defmodule VideoTutorials.Registration do
 
   defp load_existing_identity(context) do
     case Ecto.Changeset.get_change(context.changeset, :email) do
-      nil -> context
+      nil ->
+        context
+
       email ->
         user_credential = get_user_credential_by_email(email)
         Map.put(context, :existing_identity, user_credential)
@@ -54,7 +58,9 @@ defmodule VideoTutorials.Registration do
 
   defp ensure_there_was_no_existing_identity(context) do
     case context.existing_identity do
-      nil -> context
+      nil ->
+        context
+
       %UserCredential{} ->
         changeset = Ecto.Changeset.add_error(context.changeset, :email, "already taken")
         Map.put(context, :changeset, changeset)
@@ -63,7 +69,9 @@ defmodule VideoTutorials.Registration do
 
   defp hash_password(context) do
     case Ecto.Changeset.get_change(context.changeset, :password) do
-      nil -> context
+      nil ->
+        context
+
       password ->
         password_hash = Password.hash(password)
         Map.put(context, :password_hash, password_hash)
@@ -75,24 +83,27 @@ defmodule VideoTutorials.Registration do
       {:ok, registration} ->
         stream_name = "identity:command-#{registration.id}"
 
-        command = MessageStore.NewMessage.new(
-          stream_name: stream_name,
-          type: "Register",
-          metadata: %{
-            trace_id: context.trace_id,
-            user_id: registration.id
-          },
-          data: %{
-            user_id: registration.id,
-            email: registration.email,
-            password_hash: context.password_hash
-          }
-        )
+        command =
+          MessageStore.NewMessage.new(
+            stream_name: stream_name,
+            type: "Register",
+            metadata: %{
+              trace_id: context.trace_id,
+              user_id: registration.id
+            },
+            data: %{
+              user_id: registration.id,
+              email: registration.email,
+              password_hash: context.password_hash
+            }
+          )
 
         MessageStore.write_message(command)
 
         context
-      {:error, _} -> context
+
+      {:error, _} ->
+        context
     end
   end
 

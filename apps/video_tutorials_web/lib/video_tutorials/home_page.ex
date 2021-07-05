@@ -14,21 +14,30 @@ defmodule VideoTutorials.HomePage do
   def increment_videos_watched(global_position) do
     import Ecto.Query, only: [from: 2]
 
-    query = from page in Page,
-      where: page.name == "home" and
-             fragment("(data ->> 'last_view_processed')::int < ?", ^global_position),
-      update: [set: [data: fragment(
-      """
-      jsonb_set(
-        jsonb_set(
-          data,
-          '{videos_watched}',
-          ((data ->> 'videos_watched')::int + 1)::text::jsonb
-        ),
-        '{last_view_processed}', ?::text::jsonb
+    query =
+      from(page in Page,
+        where:
+          page.name == "home" and
+            fragment("(data ->> 'last_view_processed')::int < ?", ^global_position),
+        update: [
+          set: [
+            data:
+              fragment(
+                """
+                  jsonb_set(
+                    jsonb_set(
+                      data,
+                      '{videos_watched}',
+                      ((data ->> 'videos_watched')::int + 1)::text::jsonb
+                    ),
+                    '{last_view_processed}', ?::text::jsonb
+                  )
+                """,
+                ^to_string(global_position)
+              )
+          ]
+        ]
       )
-    """, ^to_string(global_position)
-    )]]
 
     query
     |> Repo.update_all([])
@@ -46,6 +55,7 @@ defmodule VideoTutorials.HomePage do
   end
 
   defp broadcast({0, _}, _event), do: :ok
+
   defp broadcast({1, _}, event) do
     Phoenix.PubSub.broadcast(VideoTutorials.PubSub, @topic, event)
   end

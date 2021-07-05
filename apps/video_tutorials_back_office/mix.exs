@@ -4,6 +4,8 @@ defmodule VideoTutorialsBackOffice.MixProject do
   def project do
     [
       app: :video_tutorials_back_office,
+      name: "Video Tutorials Back Office",
+      homepage_url: "../index.html",
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -14,7 +16,8 @@ defmodule VideoTutorialsBackOffice.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      docs: [output: "../../doc/video_tutorials_back_office"]
     ]
   end
 
@@ -49,7 +52,7 @@ defmodule VideoTutorialsBackOffice.MixProject do
       {:plug_cowboy, "~> 2.0"},
 
       # -- Custom
-      {:assert_html, "~> 0.1.2", only: :test} ,
+      {:assert_html, "~> 0.1.2", only: :test},
       {:video_tutorials_data, in_umbrella: true}
     ]
   end

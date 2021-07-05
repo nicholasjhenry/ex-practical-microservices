@@ -1,4 +1,6 @@
 defmodule VideoTutorialsBackOfficeWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :video_tutorials_back_office
 
   # The session will be stored in the cookie and signed,
@@ -14,10 +16,11 @@ defmodule VideoTutorialsBackOfficeWeb.Endpoint do
     websocket: [timeout: 45_000],
     longpoll: false
 
-  socket "/admin/live", Phoenix.LiveView.Socket, websocket: [
-    timeout: 45_000,
-    connect_info: [session: @session_options]
-  ]
+  socket "/admin/live", Phoenix.LiveView.Socket,
+    websocket: [
+      timeout: 45_000,
+      connect_info: [session: @session_options]
+    ]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

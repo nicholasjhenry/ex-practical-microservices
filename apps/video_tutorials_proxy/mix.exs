@@ -26,6 +26,7 @@ defmodule VideoTutorialsProxy.MixProject do
       extra_applications: [:logger, :runtime_tools]
     ]
   end
+
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
@@ -45,7 +46,9 @@ defmodule VideoTutorialsProxy.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get"],
+      # noop
+      docs: []
     ]
   end
 end

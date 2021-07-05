@@ -5,7 +5,7 @@ defmodule VideoTutorialsWeb.RegisterLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    changeset = Registration.change_registration(%Registration{id: UUID.uuid4})
+    changeset = Registration.change_registration(%Registration{id: UUID.uuid4()})
     {:ok, assign(socket, changeset: changeset)}
   end
 
@@ -24,15 +24,15 @@ defmodule VideoTutorialsWeb.RegisterLive do
   end
 
   def register_user(socket, params) do
-     case Registration.register_user(params) do
+    case Registration.register_user(params) do
       :ok ->
         {:noreply,
-          socket
-          |> put_flash(:info, "You have successfully registered!")
-          |> push_redirect(to: Routes.completed_registration_path(socket, :show))
-        }
+         socket
+         |> put_flash(:info, "You have successfully registered!")
+         |> push_redirect(to: Routes.completed_registration_path(socket, :show))}
+
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
-     end
+    end
   end
 end

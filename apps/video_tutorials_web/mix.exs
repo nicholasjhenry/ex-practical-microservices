@@ -4,6 +4,8 @@ defmodule VideoTutorialsWeb.MixProject do
   def project do
     [
       app: :video_tutorials_web,
+      name: "Video Tutorials",
+      homepage_url: "../index.html",
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -14,7 +16,8 @@ defmodule VideoTutorialsWeb.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      docs: [output: "../../doc/video_tutorials_web"]
     ]
   end
 

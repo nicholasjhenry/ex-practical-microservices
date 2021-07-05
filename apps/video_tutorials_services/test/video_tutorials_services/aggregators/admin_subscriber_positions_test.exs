@@ -1,4 +1,3 @@
-
 defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
   use VideoTutorialsServices.DataCase
 
@@ -7,8 +6,9 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
   alias VideoTutorialsServices.AdminSubscriberPositions
 
   test "handling component Read events" do
-      message = Message.new(
-        id: UUID.uuid4,
+    message =
+      Message.new(
+        id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
         type: "Read",
         data: %{"postition" => 0},
@@ -18,14 +18,15 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
         time: NaiveDateTime.local_now()
       )
 
-      AdminSubscriberPositions.handle_message(message)
+    AdminSubscriberPositions.handle_message(message)
 
-      assert position = Repo.get(AdminSubscriberPosition, "1")
-      assert position.position == 0
-      assert position.last_message_global_position == 11
+    assert position = Repo.get(AdminSubscriberPosition, "1")
+    assert position.position == 0
+    assert position.last_message_global_position == 11
 
-      message = Message.new(
-        id: UUID.uuid4,
+    message =
+      Message.new(
+        id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
         type: "Read",
         data: %{"postition" => 1},
@@ -35,23 +36,24 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
         time: NaiveDateTime.local_now()
       )
 
-      AdminSubscriberPositions.handle_message(message)
+    AdminSubscriberPositions.handle_message(message)
 
-      assert position = Repo.get(AdminSubscriberPosition, "1")
-      assert position.position == 1
-      assert position.last_message_global_position == 12
+    assert position = Repo.get(AdminSubscriberPosition, "1")
+    assert position.position == 1
+    assert position.last_message_global_position == 12
 
-      # # Older message
-      AdminSubscriberPositions.handle_message(message)
+    # # Older message
+    AdminSubscriberPositions.handle_message(message)
 
-      assert position = Repo.get(AdminSubscriberPosition, "1")
-      assert position.position == 1
-      assert position.last_message_global_position == 12
+    assert position = Repo.get(AdminSubscriberPosition, "1")
+    assert position.position == 1
+    assert position.last_message_global_position == 12
   end
 
   test "ignores other messages" do
-      message = Message.new(
-        id: UUID.uuid4,
+    message =
+      Message.new(
+        id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
         type: "Any",
         data: %{"postition" => 0},
@@ -61,8 +63,8 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
         time: NaiveDateTime.local_now()
       )
 
-      AdminSubscriberPositions.handle_message(message)
+    AdminSubscriberPositions.handle_message(message)
 
-      refute Repo.get(AdminSubscriberPosition, "1")
+    refute Repo.get(AdminSubscriberPosition, "1")
   end
 end

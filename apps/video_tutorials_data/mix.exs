@@ -4,6 +4,8 @@ defmodule VideoTutorialsData.MixProject do
   def project do
     [
       app: :video_tutorials_data,
+      name: "Video Tutorials Data",
+      homepage_url: "../index.html",
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
@@ -12,7 +14,8 @@ defmodule VideoTutorialsData.MixProject do
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      docs: [output: "../../doc/video_tutorials_data"]
     ]
   end
 
@@ -33,14 +36,20 @@ defmodule VideoTutorialsData.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
-      {:message_store, path: "../../packages/message_store"}
+      {:message_store, path: "../../packages/message_store"},
+      {:video_tutorials_utils, in_umbrella: true}
     ]
   end
 
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs", "run priv/repo/demo.exs"],
+      "ecto.setup": [
+        "ecto.create",
+        "ecto.migrate",
+        "run priv/repo/seeds.exs",
+        "run priv/repo/demo.exs"
+      ],
       "ecto.reset": ["ecto.drop", "ecto.setup"]
     ]
   end

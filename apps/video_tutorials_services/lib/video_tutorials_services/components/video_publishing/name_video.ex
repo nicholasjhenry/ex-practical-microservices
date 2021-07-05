@@ -5,14 +5,17 @@ defmodule VideoPublishing.NameVideo do
   def handle_message(%{type: "NameVideo"} = command) do
     context = %{video_id: command.data["video_id"], command: command}
 
-    with context = load_video(context),
-          {:ok, context} <- ensure_command_has_not_been_processed(context),
-          {:ok, context} <- ensure_name_is_valid(context),
-          _context = write_video_named_event(context) do
-            :ok
+    with context <- load_video(context),
+         {:ok, context} <- ensure_command_has_not_been_processed(context),
+         {:ok, context} <- ensure_name_is_valid(context),
+         _context <- write_video_named_event(context) do
+      :ok
     else
-      {:error, {:command_already_processed, _context}} -> :ok
-      {:error, {:validation_error, changeset, context}} -> write_video_name_rejected(context, changeset.errors)
+      {:error, {:command_already_processed, _context}} ->
+        :ok
+
+      {:error, {:validation_error, changeset, context}} ->
+        write_video_name_rejected(context, changeset.errors)
     end
   end
 
@@ -56,19 +59,20 @@ defmodule VideoPublishing.NameVideo do
 
     stream_name = "videoPublishing-#{command.data["video_id"]}"
 
-    video_named_event = NewMessage.new(
-      stream_name: stream_name,
-      type: "VideoNamed",
-      metadata: %{
-        trace_id: Map.fetch!(command.metadata, "trace_id"),
-        user_id: Map.fetch!(command.metadata, "user_id"),
-      },
-      data: %{
-        name: Map.fetch!(command.data, "name")
-      },
-      # TODO
-      expected_version: nil
-    )
+    video_named_event =
+      NewMessage.new(
+        stream_name: stream_name,
+        type: "VideoNamed",
+        metadata: %{
+          trace_id: Map.fetch!(command.metadata, "trace_id"),
+          user_id: Map.fetch!(command.metadata, "user_id")
+        },
+        data: %{
+          name: Map.fetch!(command.data, "name")
+        },
+        # TODO
+        expected_version: nil
+      )
 
     MessageStore.write_message(video_named_event)
 
@@ -83,22 +87,23 @@ defmodule VideoPublishing.NameVideo do
     reason =
       errors
       |> Enum.map(fn {field, {msg, _metadata}} -> {field, msg} end)
-      |> Map.new
+      |> Map.new()
 
-    video_name_rejected_event = NewMessage.new(
-      stream_name: stream_name,
-      type: "VideoNameRejected",
-      metadata: %{
-        trace_id: Map.fetch!(command.metadata, "trace_id"),
-        user_id: Map.fetch!(command.metadata, "user_id"),
-      },
-      data: %{
-        name: Map.fetch!(command.data, "name"),
-        reason: reason
-      },
-      # TODO
-      expected_version: nil
-    )
+    video_name_rejected_event =
+      NewMessage.new(
+        stream_name: stream_name,
+        type: "VideoNameRejected",
+        metadata: %{
+          trace_id: Map.fetch!(command.metadata, "trace_id"),
+          user_id: Map.fetch!(command.metadata, "user_id")
+        },
+        data: %{
+          name: Map.fetch!(command.data, "name"),
+          reason: reason
+        },
+        # TODO
+        expected_version: nil
+      )
 
     MessageStore.write_message(video_name_rejected_event)
 

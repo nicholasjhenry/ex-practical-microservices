@@ -30,19 +30,20 @@ defmodule CreatorsPortal do
   def name_video(context, video, attrs) do
     stream_name = "videoPublishing:command-#{video.id}"
 
-    command = MessageStore.NewMessage.new(
-      stream_name: stream_name,
-      type: "NameVideo",
-      metadata: %{
-        trace_id: context.trace_id,
-        user_id: context.user_id
-      },
-      data: %{
-        name: attrs["name"],
-        video_id: video.id,
-      },
-      expected_version: nil
-    )
+    command =
+      MessageStore.NewMessage.new(
+        stream_name: stream_name,
+        type: "NameVideo",
+        metadata: %{
+          trace_id: context.trace_id,
+          user_id: context.user_id
+        },
+        data: %{
+          name: attrs["name"],
+          video_id: video.id
+        },
+        expected_version: nil
+      )
 
     MessageStore.write_message(command)
 

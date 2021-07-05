@@ -13,7 +13,12 @@ defmodule VideoTutorialsServices.VideoOperations do
     trace_id = Map.fetch!(event.metadata, "trace_id")
     reason = Map.fetch!(event.data, "reason")
 
-    Repo.insert!(%VideoOperation{video_id: video_id, trace_id: trace_id, succeeded: false, failure_reason: reason})
+    Repo.insert!(%VideoOperation{
+      video_id: video_id,
+      trace_id: trace_id,
+      succeeded: false,
+      failure_reason: reason
+    })
   end
 
   def handle_message(_) do
@@ -22,6 +27,6 @@ defmodule VideoTutorialsServices.VideoOperations do
   defp stream_to_entity_id(stream_name) do
     stream_name
     |> String.split("-", parts: 2)
-    |> List.last
+    |> List.last()
   end
 end
