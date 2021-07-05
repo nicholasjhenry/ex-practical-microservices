@@ -5,10 +5,10 @@ defmodule VideoPublishing.NameVideo do
   def handle_message(%{type: "NameVideo"} = command) do
     context = %{video_id: command.data["video_id"], command: command}
 
-    with context = load_video(context),
+    with context <- load_video(context),
          {:ok, context} <- ensure_command_has_not_been_processed(context),
          {:ok, context} <- ensure_name_is_valid(context),
-         _context = write_video_named_event(context) do
+         _context <- write_video_named_event(context) do
       :ok
     else
       {:error, {:command_already_processed, _context}} ->

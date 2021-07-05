@@ -1,7 +1,7 @@
 defmodule VideoTutorials.Token do
   @salt "1Z73WxH/cDS96wsHXXI8QVAFOy5tg/APqIufGTO8nO2cTn/Mtp7zCnrx+0fSVY1/"
   # one day
-  @expiry 86400
+  @expiry 86_400
 
   def sign(conn, data) do
     Phoenix.Token.sign(conn, @salt, data)

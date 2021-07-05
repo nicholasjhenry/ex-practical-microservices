@@ -5,10 +5,10 @@ defmodule VideoPublishing.PublishVideo do
   def handle_message(%{type: "PublishVideo"} = command) do
     context = %{video_id: command.data["video_id"], command: command, transcoded_uri: nil}
 
-    with context = load_video(context),
+    with context <- load_video(context),
          {:ok, context} <- ensure_publishing_not_attempted(context),
          {:ok, context} <- transcode_video(context),
-         _context = write_video_published_event(context) do
+         _context <- write_video_published_event(context) do
       :ok
     else
       {:error, {:already_published_error, _context}} -> :ok

@@ -54,7 +54,8 @@ defmodule VideoTutorials.Umbrella.MixProject do
     [
       # run `mix setup` in all child apps
       setup: ["cmd mix setup"],
-      docs: ["docs --formatter html", "cmd mix docs --formatter html"]
+      docs: ["docs --formatter html", "cmd mix docs --formatter html"],
+      check: ["compile --force", "credo"]
     ]
   end
 
