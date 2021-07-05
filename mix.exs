@@ -6,6 +6,10 @@ defmodule VideoTutorials.Umbrella.MixProject do
       name: "Video Tutorials Platform",
       source_url: "https://github.com/nicholasjhenry/practical-microservices-ex",
       homepage_url: "https://pragprog.com/titles/egmicro/practical-microservices/",
+      dialyzer: [
+        ignore_warnings: "dialyzer.ignore-warnings",
+        plt_add_apps: [:mix]
+      ],
       apps: [
         :creators_portal_web,
         :video_tutorials_back_office,
@@ -55,7 +59,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
       # run `mix setup` in all child apps
       setup: ["cmd mix setup"],
       docs: ["docs --formatter html", "cmd mix docs --formatter html"],
-      check: ["compile --force", "credo"]
+      check: ["compile --force", "dialyzer", "credo"]
     ]
   end
 

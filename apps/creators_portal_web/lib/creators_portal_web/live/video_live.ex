@@ -24,15 +24,11 @@ defmodule CreatorsPortalWeb.VideoLive do
   end
 
   def name_video(socket, context, video_params) do
-    case CreatorsPortal.name_video(context, socket.assigns.video, video_params) do
-      {:ok, _video} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Video named pending")
-         |> push_redirect(to: Routes.video_operation_path(socket, :show, context.trace_id))}
+    CreatorsPortal.name_video(context, socket.assigns.video, video_params)
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
-    end
+    {:noreply,
+     socket
+     |> put_flash(:info, "Video named pending")
+     |> push_redirect(to: Routes.video_operation_path(socket, :show, context.trace_id))}
   end
 end

@@ -18,7 +18,7 @@ defmodule VideoTutorialsWeb.SessionController do
   def create(conn, _params) do
     conn
     |> put_flash(:error, "error")
-    |> redirect(to: Routes.authenticate_path(conn, :index))
+    |> redirect(to: Routes.authenticate_path(conn, :new))
   end
 
   def delete(conn, _params) do

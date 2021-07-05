@@ -31,7 +31,7 @@
 
 <h2>Viewing Activity</h2>
 
-<%= if length(@viewing_activity) do %>
+<%= if length(@viewing_activity) == 0 do %>
   <p>No viewing activity</p>
 <% end  %>
 
@@ -41,7 +41,7 @@
 
 <h2>Login Activity</h2>
 
-<%= if length(@login_activity) do %>
+<%= if length(@login_activity) == 0 do %>
   <p>No login activity</p>
 <% end  %>
 

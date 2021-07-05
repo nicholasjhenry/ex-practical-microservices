@@ -1,0 +1,4 @@
+# The pattern 'test' can never match the type 'dev'
+lib/video_tutorials_data/application.ex:31
+lib/video_tutorials_services/application.ex:24
+lib/video_tutorials_web/application.ex:36

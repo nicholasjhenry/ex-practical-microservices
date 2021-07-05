@@ -64,6 +64,9 @@ defmodule VideoPublishing.PublishVideo do
     context
   end
 
+  # This cannot be called at the moment.
+  @dialyzer {:nowarn_function, write_video_publishing_failed_event: 2}
+
   defp write_video_publishing_failed_event(error, context) do
     command = context.command
 

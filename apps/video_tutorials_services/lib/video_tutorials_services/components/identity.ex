@@ -155,7 +155,7 @@ defmodule VideoTutorialsServices.Identity do
          _context <- write_registration_email_sent_event(context) do
       {:ok, :registration_email_sent}
     else
-      {:error, {:already_sent_registration_email_error}} -> {:ok, :noop}
+      {:error, {:already_sent_registration_email, _context}} -> {:ok, :noop}
     end
   end
 
