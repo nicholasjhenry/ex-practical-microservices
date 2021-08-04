@@ -85,7 +85,8 @@ defmodule VideoTutorials.Umbrella.MixProject do
   defp extras do
     [
       "guides/overview.md": [title: "Overview"],
-      "guides/heroku.md": [title: "Deploy to Heroku"]
+      "guides/heroku.md": [title: "Deploy to Heroku"],
+      "guides/resources.md": [title: "Resources"]
     ]
   end
 
