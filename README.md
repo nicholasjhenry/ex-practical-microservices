@@ -32,6 +32,7 @@ To learn about this implentation, read the documentation:
 
     make start
     make app.setup
+
 ## Running
 
     make start # if not previously started
