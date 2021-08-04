@@ -25,20 +25,19 @@ that this example application was ported from, originally written in JavaScript.
 
 To learn about this implentation, read the documentation:
 
-```
-  mix docs
-  open doc/index.html
-```
+    mix docs
+    open doc/index.html
 
 ## Setup
 
-    mix cmd --app video_tutorials mix ecto.create
-    mix cmd --app video_tutorials mix message_store.init
-    mix cmd --app video_tutorials mix ecto.setup
+    make start
+    make app.setup
 ## Running
 
-    make start
-    iex -S mix phx.server
+    make start # if not previously started
+    make app.start
+
+## Endpoints
 
 * Main site: http://localhost:4000/
 * Creator's Portal: http://localhost:4000/creators_portal
