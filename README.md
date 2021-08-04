@@ -30,12 +30,12 @@ To learn about this implentation, read the documentation:
 
 ## Setup
 
-    make start
+    make dev.start
     make app.setup
 
 ## Running
 
-    make start # if not previously started
+    make dev.start # if not previously started
     make app.start
 
 ## Endpoints

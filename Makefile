@@ -1,7 +1,7 @@
-start:
+dev.start:
 	docker-compose up -d
 
-stop:
+dev.stop:
 	docker-compose stop
 
 app.setup: db.setup npm.setup
