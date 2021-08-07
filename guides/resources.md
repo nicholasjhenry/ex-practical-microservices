@@ -1,5 +1,10 @@
 # Resources
 
+## Videos - Autonomous Services/Service Boundaries
+
+* [Finding your service boundaries - A Practical Guide - Adam Ralph](https://www.youtube.com/watch?v=jdliXz70NtM)
+* [Defining Service Boundaries by Splitting Entities - Derek Comartin](https://www.youtube.com/watch?v=lGvYHmvXiyk)
+
 ## Videos - Ethan Garofolo
 
 * [2019 - Building UI's for Microservices -  wroc_love.rb](https://www.youtube.com/watch?v=ArTS_AJ-smQ)
@@ -15,7 +20,7 @@
 * [Choreography vs Orchestration in long running asynchronous processes](https://www.youtube.com/watch?v=ofJd3AZIfto)
 * [2017 Node.js Microservices - Utah JS SLC - 16 May](https://www.youtube.com/watch?v=h8ihxzfqH0A)
 * [2017 Event Sourcing - Utah Node.js Meetup 13 June](https://www.youtube.com/watch?v=JWTT5KV4Lr0)
-## Video - Eventide
+## Videos - Eventide
 
 * [Event Sourcing Anti Patterns and Failures - Nathan Ladd - wroc_love.rb 2018](https://www.youtube.com/watch?v=vh1QTk34350)
 * [GORUCO 2018: Evented Autonomous Services in Ruby by Scott Bellware](https://www.youtube.com/watch?v=qgKlu5gFsJM)
@@ -23,3 +28,25 @@
 * [Distributed Fizz Buzz... by Nathan Ladd & Scott Bellware - Keep Ruby Weird 2018](https://www.youtube.com/watch?v=B9HlY1SsBA0)
 * [Event Sourcing Tutorial in Ruby - Joseph Choe](https://www.youtube.com/watch?v=dfAzp9pxp9c)
 * [Event Sourcing - Snapshots - Joesph Choe](https://www.youtube.com/watch?v=dfAzp9pxp9c)
+
+## Projects - Autonmous Services
+
+* [Eventide](https://eventide-project.org) - Event-Sourced Autonomous Services
+* [Gearshaft](https://github.com/mpareja/gearshaft) - An Event Sourcing toolkit for Node.js based on the Eventide project for Ruby.
+* [Rill](https://github.com/rill-project/rill) - Translation of Eventide Framework in Elixir
+* [Commanded](https://github.com/commanded/commanded) - Use Commanded to build your own Elixir applications following the CQRS/ES pattern
+## Projects - Message Stores
+
+* [MessageDB](https://github.com/message-db/message-db) - Microservice Native Event Store and Message Store for Postgres
+* [MessageStore Postgres](https://github.com/eventide-project/message-store-postgres) - Event Sourcing and Microservices Stack for Ruby (defacto reference implementation)
+* [MessageDB Viewer](https://github.com/aaronjensen/message-db-viewer) - [Docker Image](https://hub.docker.com/r/whoward/message-db-viewer)
+* [ExMessageDB](https://github.com/josemrb/ex_message_db) - An Elixir client for Message DB
+* [Elixir EventStore](https://github.com/commanded/eventstore) - Event store using PostgreSQL for persistence
+## Articles
+
+* [Build Your Own Message DB Client](https://blog.eventide-project.org/articles/build-your-own-message-db-client/)
+
+## Books
+
+* [SOA Patterns](https://www.manning.com/books/soa-patterns)
+* [Microservices Patterns](https://www.manning.com/books/microservices-patterns)
