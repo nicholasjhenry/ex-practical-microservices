@@ -86,7 +86,7 @@ defmodule VideoPublishing.NameVideo do
   defp write_video_name_rejected(context, errors) do
     command = context.command
 
-    stream_name = "videoNamed-#{command.data["video_id"]}"
+    stream_name = "videoPublishing-#{command.data["video_id"]}"
 
     reason =
       errors
