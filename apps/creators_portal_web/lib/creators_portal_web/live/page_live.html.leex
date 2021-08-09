@@ -43,13 +43,30 @@
 
   <div class="col-lg-4">
     <h2>Upload a video</h2>
-    <form id"#video-form" action="/videos" method="POST">
-      <input id="video-id" type='hidden' value=newVideoId name="videoId" />
-      <div id="form-group">
-        <label for="video-file">Choose video file</label>
-        <input class="form-control-file" id="video-file" type="file" />
-      </div>
-      <button class="btn btn-success" type="submit">Upload!</button>
+
+    <%= for {_ref, msg} <- @uploads.file.errors do %>
+      <p class="alert alert-danger"><%= Phoenix.Naming.humanize(msg) %></p>
+    <% end %>
+
+    <%= f = form_for @changeset, "#",
+        as: :video,
+        id: "video-form",
+        phx_change: "validate",
+        phx_submit: "publish_video"%>
+        <div class="form-group">
+          <%= hidden_input f, :id, id: "video-id" %>
+          <%= live_file_input @uploads.file %>
+        </div>
+        <div class="form-group">
+          <%= error_tag f, :file %>
+        </div>
+        <%= submit "Upload!", class: "btn btn-success", phx_disable_with: "Uploading..." %>
+
+        <%= for entry <- @uploads.file.entries do %>
+           <div class="row">
+             <div><progress max="100" value="<%= entry.progress %>"></div>
+           </div>
+        <% end %>
     </form>
     <img id="loader" src="/img/ajax-loader.gif" style="display: none" />
   </div>

@@ -12,7 +12,7 @@ defmodule VideoPublishing.TranscodeVideo do
     video = context.video
     context = %{context | transcoded_uri: @fake_transcoding_destination}
 
-    Logger.info("Transacode #{video.source_uri} to #{context.transacode_uri}")
+    Logger.info("Transacode #{video.source_uri} to #{context.transcoded_uri}")
 
     {:ok, context}
   end

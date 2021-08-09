@@ -24,7 +24,42 @@ defmodule CreatorsPortal do
   def get_video!(id), do: Repo.get!(Video, id)
 
   def change_video(%Video{} = video, _attrs \\ %{}) do
-    Ecto.Changeset.change(video)
+    Ecto.Changeset.change(video, %{id: UUID.uuid4()})
+  end
+
+  def publish_video(context, attrs) do
+    data = %{}
+    types = %{file: :string, id: :string, owner_id: :string}
+
+    result =
+      {data, types}
+      |> Ecto.Changeset.cast(attrs, Map.keys(types))
+      |> Ecto.Changeset.validate_required(Map.keys(types))
+      |> Ecto.Changeset.apply_action(:validated)
+
+    with {:ok, data} <- result do
+      stream_name = "videoPublishing:command-#{data.id}"
+
+      command =
+        MessageStore.NewMessage.new(
+          stream_name: stream_name,
+          type: "PublishVideo",
+          metadata: %{
+            trace_id: context.trace_id,
+            user_id: context.user_id
+          },
+          data: %{
+            "owner_id" => data.owner_id,
+            "source_uri" => data.file,
+            "video_id" => data.id
+          },
+          expected_version: nil
+        )
+
+      MessageStore.write_message(command)
+
+      {:ok, data}
+    end
   end
 
   def name_video(context, video, attrs) do

@@ -9,6 +9,8 @@ defmodule CreatorsPortalWeb.Application do
     children = [
       # Start the Telemetry supervisor
       CreatorsPortalWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: CreatorsPortal.PubSub},
       # Start the Endpoint (http/https)
       CreatorsPortalWeb.Endpoint
       # Start a worker by calling: CreatorsPortalWeb.Worker.start_link(arg)

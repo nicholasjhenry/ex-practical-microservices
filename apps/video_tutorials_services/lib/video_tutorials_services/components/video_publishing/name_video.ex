@@ -19,6 +19,10 @@ defmodule VideoPublishing.NameVideo do
     end
   end
 
+  def handle_message(_command) do
+    :ok
+  end
+
   defp load_video(context) do
     video_stream_name = "videoPublishing-#{context.video_id}"
 
