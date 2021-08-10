@@ -19,12 +19,12 @@
       <td><%= link @message.metadata["user_id"], to: "#" %></td>
     </tr>
     <tr>
-      <th scope="col">stream name</th>
+      <th scope="col">stream name 🚧</th>
       <td><%= link @message.stream_name, to: "#" %></td>
     </tr>
     <tr>
       <th scope="col">type</th>
-      <td><%= link @message.type, to: "#" %></td>
+      <td><%= live_redirect @message.type, to: Routes.message_index_path(@socket, :index, %{type: @message.type}) %></td>
     </tr>
     <tr>
       <th scope="col">time</th>

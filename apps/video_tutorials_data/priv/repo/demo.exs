@@ -6,7 +6,7 @@ stream_name = "videoPublishing-#{video_id}"
 video_published_event =
   MessageStore.NewMessage.new(
     stream_name: stream_name,
-    type: "videoPublished",
+    type: "VideoPublished",
     metadata: %{
       trace_id: Ecto.UUID.generate(),
       user_id: Ecto.UUID.generate()
