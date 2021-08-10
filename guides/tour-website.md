@@ -4,7 +4,7 @@
 
 A simple demonstration of recording video views as events and aggregating the page view data.
 
-### Chapters (Part I - Fundaments)
+### Chapters (Part I - Fundamentals)
 
 1. You Have a New Project
 2. Writing Messages
@@ -170,6 +170,8 @@ Publish (upload) and transcode a video.
 1. Visit http://localhost:4000/creators_portal
 2. Upload a video (MOV format)
 
+![Upload a video](assets/040_upload_video.png)
+
 ### Messages
 
 Summary:
@@ -221,11 +223,15 @@ Naming a video with an aysnc-aware UI using an operations table.
 
 11. Building Async-Aware User Interfaces
 
-### Steps (Happy Path)
+### Steps (Success Path)
 
 1. Visit http://localhost:4000/creators_portal
 2. Select the video
 3. Name the video (describe video is not implemented)
+
+![Rename Video](assets/050_rename_video.png)
+![Operation Pending](assets/060_operation_pending.png)
+
 ### Messages
 
 Summary:
@@ -276,11 +282,13 @@ video_tutorials_dev# select * from creators_portal_video_operations;
  45e926c0-30e2-4f7f-b273-e88453cfe5c1 │ \x36386438623562612d656531632d346431322d396331302d343965346533646232323836 │ \x36333733396532332d313834642d346533382d626132382d666139356139346661346139 │ t         │ ¤
 ```
 
-### Steps
+### Steps (Error Path)
 
 1. Visit http://localhost:4000/creators_portal
 2. Select the video
 3. Name the video with a blank string.
+
+![Operation Failed](assets/070_operation_failed.png)
 
 ### Messages
 
