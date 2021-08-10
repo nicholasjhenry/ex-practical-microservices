@@ -9,7 +9,8 @@ defmodule CreatorsPortalWeb.ErrorHelpers do
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
       content_tag(:span, translate_error(error),
-        class: "invalid-feedback",
+        # Rename from "invalid-feedback", a simple solution for now to resolve styling issues
+        class: "invalid",
         phx_feedback_for: input_id(form, field)
       )
     end)
