@@ -10,7 +10,7 @@
         <th scope="col">global position</th>
         <th scope="col">trace id</th>
         <th scope="col">user id</th>
-        <th scope="col">stream name</th>
+        <th scope="col">stream name 🚧</th>
         <th scope="col">type</th>
         <th scope="col">time</th>
       </tr>
@@ -21,7 +21,11 @@
           <td data-message="id"><%= live_redirect message.id, to: Routes.message_show_path(@socket, :show, message) %></td>
           <td><%= message.global_position %></td>
           <td><%= live_redirect message.metadata["trace_id"], to: Routes.message_index_path(@socket, :index, %{trace_id: message.metadata["trace_id"]}) %></td>
-          <td><%= link message.metadata["user_id"], to: "#" %></td>
+          <td>
+            <%= if message.metadata["user_id"] do %>
+              <%= link message.metadata["user_id"], to: Routes.user_show_path(@socket, :show, message.metadata["user_id"]) %>
+            <% end %>
+          </td>
           <td><%= link message.stream_name, to: "#" %></td>
           <td><%= live_redirect message.type, to: Routes.message_index_path(@socket, :index, %{type: message.type}) %></td>
           <td><%= message.time %></td>
