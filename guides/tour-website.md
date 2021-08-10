@@ -17,7 +17,7 @@ A simple demonstration of recording video views as events and aggregating the pa
 1. Visit the home page: http://localhost:4000
 2. Click the "Record viewing video" button twice.
 
-![Record viewing video](./assets/010_home_page.png)
+![Record viewing video](./assets/images/tour-website/010_home_page.png)
 
 ### Messages
 
@@ -63,8 +63,8 @@ data is aggregated based on the registered event.
 1. Visit the registration page: http://localhost:4000/register
 2. Complete the registration form (e.g. email:jane@example.com, password:adminadmin)
 
-![Registration Page](./assets/020_registration_page.png)
-![Registration Success Page](./assets/030_registration_success_page.png)
+![Registration Page](./assets/images/tour-website/020_registration_page.png)
+![Registration Success Page](./assets/images/tour-website/030_registration_success_page.png)
 
 ### Messages
 
@@ -170,7 +170,7 @@ Publish (upload) and transcode a video.
 1. Visit http://localhost:4000/creators_portal
 2. Upload a video (MOV format)
 
-![Upload a video](assets/040_upload_video.png)
+![Upload a video](./assets/images/tour-website/040_upload_video.png)
 
 ### Messages
 
@@ -229,8 +229,8 @@ Naming a video with an aysnc-aware UI using an operations table.
 2. Select the video
 3. Name the video (describe video is not implemented)
 
-![Rename Video](assets/050_rename_video.png)
-![Operation Pending](assets/060_operation_pending.png)
+![Rename Video](./assets/images/tour-website/050_rename_video.png)
+![Operation Pending](./assets/images/tour-website/060_operation_pending.png)
 
 ### Messages
 
@@ -288,7 +288,7 @@ video_tutorials_dev# select * from creators_portal_video_operations;
 2. Select the video
 3. Name the video with a blank string.
 
-![Operation Failed](assets/070_operation_failed.png)
+![Operation Failed](./assets/images/tour-website/070_operation_failed.png)
 
 ### Messages
 
