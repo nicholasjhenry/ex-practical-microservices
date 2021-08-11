@@ -62,8 +62,6 @@ defmodule MessageStore.Repo do
     Postgrex.query!(conn, query, [])
   end
 
-  @dirname "message-db-patch"
-
   defp do_init do
     config = config()
     %{database: database, password: password, username: username, hostname: hostname} = Map.new(config)
@@ -83,15 +81,9 @@ defmodule MessageStore.Repo do
       {"CREATE_DATABASE", "off"},
     ]
 
-    path = Path.join([Application.app_dir(:message_store), "priv", @dirname])
+    path = Path.join([Application.app_dir(:message_store), "priv", "message-db"])
 
-    opts = [
-      cd: path,
-      env: env,
-      stderr_to_stdout: true,
-      into: IO.stream(:stdio, :line)
-    ]
-    System.cmd("bash", ["database/install.sh"], opts)
+    MessageDb.run(:install, env, path: path)
   end
 
   def init() do
