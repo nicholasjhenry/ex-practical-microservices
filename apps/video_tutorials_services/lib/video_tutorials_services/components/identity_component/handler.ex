@@ -1,4 +1,4 @@
-defmodule VideoTutorialsServices.IdentityComponent.IdentityHandler do
+defmodule VideoTutorialsServices.IdentityComponent.Handler do
   alias MessageStore.NewMessage
   alias VideoTutorialsServices.IdentityComponent.Projection
 
