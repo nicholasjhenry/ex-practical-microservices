@@ -87,13 +87,21 @@ defmodule MessageStore.Repo do
   end
 
   def init() do
-    result = query!("SELECT EXISTS (
+    config = config() |> Keyword.drop([:pool])
+
+    {:ok, conn} = Postgrex.start_link(config)
+
+    query = """
+    SELECT EXISTS (
       SELECT FROM pg_catalog.pg_class c
       JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
       WHERE  n.nspname = 'message_store'
       AND    c.relname = 'messages'
       AND    c.relkind = 'r'
-      );")
+    );
+    """
+
+    result = Postgrex.query!(conn, query, [])
 
     if match?(%{rows: [[false]]}, result) do
       do_init()

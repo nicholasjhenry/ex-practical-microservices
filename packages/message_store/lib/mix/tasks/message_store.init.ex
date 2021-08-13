@@ -5,7 +5,6 @@ defmodule Mix.Tasks.MessageStore.Init do
 
   def run(_args) do
     {:ok, _} = Application.ensure_all_started(:message_store)
-    MessageStore.Repo.start_link([])
     MessageStore.Repo.init()
   end
 end
