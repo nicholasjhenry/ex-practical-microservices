@@ -1,4 +1,4 @@
-defmodule VideoTutorialsServices.IdentityHandler do
+defmodule VideoTutorialsServices.IdentityComponent.IdentityHandler do
   defstruct [:id, :email, :registered?, :registration_email_sent?]
 
   alias MessageStore.NewMessage
