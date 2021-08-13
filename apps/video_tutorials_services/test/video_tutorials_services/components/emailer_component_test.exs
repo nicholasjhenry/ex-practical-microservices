@@ -1,4 +1,4 @@
-defmodule VideoTutorialsServices.SendEmailTest do
+defmodule VideoTutorialsServices.EmailerComponentTest do
   use VideoTutorialsServices.DataCase
 
   alias MessageStore.{Message, NewMessage}
