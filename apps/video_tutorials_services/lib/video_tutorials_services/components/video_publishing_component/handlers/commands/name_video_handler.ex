@@ -1,8 +1,7 @@
-defmodule VideoPublishing.NameVideo do
+defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler do
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write
 
-  alias MessageStore.NewMessage
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNamed
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNameRejected
   alias VideoTutorialsServices.VideoPublishingComponent.Store

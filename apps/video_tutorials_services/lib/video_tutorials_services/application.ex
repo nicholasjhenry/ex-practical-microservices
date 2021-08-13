@@ -112,7 +112,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:name-video",
             subscribed_to: "videoPublishing:command",
-            handler: VideoPublishing.NameVideo
+            handler: VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
           }
         ]
       },
@@ -122,7 +122,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:publishing-video",
             subscribed_to: "videoPublishing:command",
-            handler: VideoPublishing.PublishVideo
+            handler: VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
           }
         ]
       },
