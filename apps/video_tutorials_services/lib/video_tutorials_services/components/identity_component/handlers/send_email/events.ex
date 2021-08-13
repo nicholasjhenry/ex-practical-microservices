@@ -5,7 +5,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events do
   alias VideoTutorialsServices.IdentityComponent.Store
   alias VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationEmailSent
 
-  @category "identity"
+  @category :identity
 
   defmodule Context do
     defstruct [:identity_id, :event]

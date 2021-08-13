@@ -5,7 +5,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   alias VideoTutorialsServices.IdentityComponent.Messages.Events.Registered
   alias VideoTutorialsServices.IdentityComponent.Store
 
-  @category "identity"
+  @category :identity
 
   defmodule AlreadyRegisteredError do
     defexception [:message]

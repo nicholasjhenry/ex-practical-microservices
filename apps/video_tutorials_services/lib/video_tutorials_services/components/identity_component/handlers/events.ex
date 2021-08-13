@@ -64,7 +64,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     send_email_command =
       Send.new(
         %{
-          origin_stream_name: stream_name("identity", identity.id),
+          origin_stream_name: stream_name(:identity, identity.id),
           trace_id: Map.fetch!(event.metadata, "trace_id"),
           user_id: Map.fetch!(event.metadata, "user_id")
         },
