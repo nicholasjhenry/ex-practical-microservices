@@ -1,16 +1,8 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Projection do
-  defstruct [
-    :id,
-    :publishing_attempted?,
-    :source_uri,
-    :transcoded_uri,
-    :owner_id,
-    :sequence,
-    :name
-  ]
+  alias VideoTutorialsServices.VideoPublishingComponent.VideoPublishing
 
   def init() do
-    %__MODULE__{publishing_attempted?: false, sequence: 0, name: ""}
+    %VideoPublishing{publishing_attempted?: false, sequence: 0, name: ""}
   end
 
   def apply(video, %{type: "videoPublished", data: data, global_position: global_position}) do
