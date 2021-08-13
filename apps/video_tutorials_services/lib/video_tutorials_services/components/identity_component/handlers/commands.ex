@@ -1,6 +1,6 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   alias MessageStore.NewMessage
-  alias VideoTutorialsServices.IdentityComponent.Projection
+  alias VideoTutorialsServices.IdentityComponent.Store
 
   defmodule AlreadyRegisteredError do
     defexception [:message]
@@ -20,9 +20,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   end
 
   defp load_identity(context) do
-    identity_stream_name = "identity-#{context.identity_id}"
-
-    maybe_identity = MessageStore.fetch(identity_stream_name, Projection)
+    maybe_identity = Store.fetch(context.identity_id)
 
     Map.put(context, :identity, maybe_identity)
   end
