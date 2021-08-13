@@ -1,5 +1,6 @@
 defmodule VideoPublishing.PublishVideo do
-  alias VideoPublishing.{TranscodeVideo, VideoPublishingProjection}
+  alias VideoPublishing.TranscodeVideo
+  alias VideoTutorialsServices.VideoPublishingComponent.Projection
   alias MessageStore.NewMessage
 
   def handle_message(%{type: "PublishVideo"} = command) do
@@ -23,7 +24,7 @@ defmodule VideoPublishing.PublishVideo do
   defp load_video(context) do
     video_stream_name = "videoPublishing-#{context.video_id}"
 
-    maybe_video = MessageStore.fetch(video_stream_name, VideoPublishingProjection)
+    maybe_video = MessageStore.fetch(video_stream_name, Projection)
 
     Map.put(context, :video, maybe_video)
   end
