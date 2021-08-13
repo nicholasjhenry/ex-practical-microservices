@@ -2,6 +2,8 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   alias MessageStore.NewMessage
   alias VideoTutorialsServices.IdentityComponent.Store
 
+  @category "identity"
+
   defmodule AlreadyRegisteredError do
     defexception [:message]
   end
@@ -36,9 +38,11 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   defp write_registered_event(context) do
     command = context.command
 
+    stream_name = stream_name(command.data["user_id"])
+
     registered_event =
       NewMessage.new(
-        stream_name: "identity-#{command.data["user_id"]}",
+        stream_name: stream_name,
         type: "Registered",
         metadata: %{
           trace_id: Map.fetch!(command.metadata, "trace_id"),
@@ -52,5 +56,9 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
       )
 
     MessageStore.write_message(registered_event)
+  end
+
+  defp stream_name(id) do
+    "#{@category}-#{id}"
   end
 end
