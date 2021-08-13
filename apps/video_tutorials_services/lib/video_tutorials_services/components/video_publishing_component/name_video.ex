@@ -1,9 +1,24 @@
 defmodule VideoPublishing.NameVideo do
-  alias MessageStore.NewMessage
-  alias VideoTutorialsServices.VideoPublishingComponent.Projection
+  import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
 
-  def handle_message(%{type: "NameVideo"} = command) do
-    context = %{video_id: command.data["video_id"], command: command}
+  alias MessageStore.NewMessage
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNamed
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNameRejected
+  alias VideoTutorialsServices.VideoPublishingComponent.Store
+  alias VideoTutorialsServices.VideoPublishingComponent.VideoPublishing
+
+  @category :videoPublishing
+
+  defmodule Context do
+    defstruct [:video_id, :command]
+  end
+
+  def handle_message(%{type: "NameVideo"} = command), do: name_video(command)
+  def handle_message(_command), do: :ok
+
+  def name_video(command) do
+    context = %Context{video_id: command.data["video_id"], command: command}
 
     with context <- load_video(context),
          {:ok, context} <- ensure_command_has_not_been_processed(context),
@@ -19,16 +34,8 @@ defmodule VideoPublishing.NameVideo do
     end
   end
 
-  def handle_message(_command) do
-    :ok
-  end
-
   defp load_video(context) do
-    video_stream_name = "videoPublishing-#{context.video_id}"
-
-    maybe_video = MessageStore.fetch(video_stream_name, Projection)
-
-    Map.put(context, :video, maybe_video)
+    Map.put(context, :video, Store.fetch(context.video_id))
   end
 
   defp ensure_command_has_not_been_processed(context) do
@@ -43,73 +50,35 @@ defmodule VideoPublishing.NameVideo do
   end
 
   defp ensure_name_is_valid(context) do
-    import Ecto.Changeset
-
-    command = context.command
-    types = %{name: :string}
-
-    {context.video, types}
-    |> cast(%{name: command.data["name"]}, Map.keys(types))
-    |> validate_required(~w/name/a)
-    |> apply_action(:insert)
-    |> case do
+    case VideoPublishing.changeset(context.video, context.command.data) do
       {:ok, _valid_input} -> {:ok, context}
       {:error, changeset} -> {:error, {:validation_error, changeset, context}}
     end
   end
 
   defp write_video_named_event(context) do
-    command = context.command
+    name_video = context.command
+    stream_name = stream_name(@category, name_video.data["video_id"])
 
-    stream_name = "videoPublishing-#{command.data["video_id"]}"
-
-    video_named_event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "VideoNamed",
-        metadata: %{
-          trace_id: Map.fetch!(command.metadata, "trace_id"),
-          user_id: Map.fetch!(command.metadata, "user_id")
-        },
-        data: %{
-          name: Map.fetch!(command.data, "name")
-        },
-        # TODO
-        expected_version: nil
-      )
-
-    MessageStore.write_message(video_named_event)
+    name_video
+    |> VideoNamed.follow()
+    |> write(stream_name)
 
     context
   end
 
   defp write_video_name_rejected(context, errors) do
-    command = context.command
-
-    stream_name = "videoPublishing-#{command.data["video_id"]}"
+    name_video = context.command
+    stream_name = stream_name(@category, name_video.data["video_id"])
 
     reason =
       errors
       |> Enum.map(fn {field, {msg, _metadata}} -> {field, msg} end)
       |> Map.new()
 
-    video_name_rejected_event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "VideoNameRejected",
-        metadata: %{
-          trace_id: Map.fetch!(command.metadata, "trace_id"),
-          user_id: Map.fetch!(command.metadata, "user_id")
-        },
-        data: %{
-          name: Map.fetch!(command.data, "name"),
-          reason: reason
-        },
-        # TODO
-        expected_version: nil
-      )
-
-    MessageStore.write_message(video_name_rejected_event)
+    name_video
+    |> VideoNameRejected.follow(reason)
+    |> write(stream_name)
 
     context
   end

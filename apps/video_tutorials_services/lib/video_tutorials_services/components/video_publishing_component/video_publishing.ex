@@ -8,4 +8,15 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.VideoPublishing do
     :sequence,
     :name
   ]
+
+  def changeset(video, data) do
+    import Ecto.Changeset
+
+    types = %{name: :string}
+
+    {video, types}
+    |> cast(%{name: data["name"]}, Map.keys(types))
+    |> validate_required(~w/name/a)
+    |> apply_action(:insert)
+  end
 end
