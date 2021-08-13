@@ -2,7 +2,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
   use VideoTutorialsServices.DataCase
 
   alias MessageStore.{Message, NewMessage}
-  alias VideoTutorialsServices.SendEmail
+  alias VideoTutorialsServices.EmailerComponent.Handlers.Commands
 
   describe "sending an email" do
     test "given no messsage handle send command" do
@@ -30,7 +30,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
           time: NaiveDateTime.local_now()
         )
 
-      {:ok, :email_sent} = SendEmail.handle_message(command)
+      {:ok, :email_sent} = Commands.handle_message(command)
     end
 
     test "given a message handles the send command" do
@@ -60,7 +60,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
           time: NaiveDateTime.local_now()
         )
 
-      assert {:ok, :noop} == SendEmail.handle_message(command)
+      assert {:ok, :noop} == Commands.handle_message(command)
     end
   end
 end

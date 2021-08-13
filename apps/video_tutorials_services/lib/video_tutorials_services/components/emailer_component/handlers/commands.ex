@@ -1,36 +1,25 @@
-defmodule VideoTutorialsServices.SendEmail do
+defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   alias MessageStore.NewMessage
   alias VideoTutorialsServices.Mailer
+  alias VideoTutorialsServices.EmailerComponent.Projection
 
   import Bamboo.Email
 
-  defstruct email: nil,
-            send_command: nil,
-            system_sender_email_address: "foo@example.com",
-            just_send_it: nil
-
-  defmodule EmailProjection do
-    defstruct sent?: false
-
-    def init() do
-      %__MODULE__{}
-    end
-
-    def apply(email, %{type: "Sent"}) do
-      Map.put(email, :sent?, true)
-    end
+  defmodule Context do
+    defstruct email: nil,
+              send_command: nil,
+              system_sender_email_address: "foo@example.com",
+              just_send_it: nil
   end
 
-  def send(email) do
-    Mailer.deliver_now(email)
-  end
+  def handle_message(%{type: "Send"} = command), do: send_email(command)
 
-  def handle_message(%{type: "Send"} = command) do
-    context = %__MODULE__{send_command: command, just_send_it: &send/1}
+  defp send_email(command) do
+    context = %Context{send_command: command, just_send_it: &send/1}
 
     with context <- load_email(context),
          {:ok, context} <- ensure_email_has_not_been_sent(context),
-         {:ok, context} <- send_email(context),
+         {:ok, context} <- send_it(context),
          _context <- write_sent_event(context) do
       {:ok, :email_sent}
     else
@@ -39,14 +28,14 @@ defmodule VideoTutorialsServices.SendEmail do
     end
   end
 
-  def load_email(context) do
+  defp load_email(context) do
     send_command = context.send_command
 
-    email = MessageStore.fetch("sendEmail-#{send_command.data["email_id"]}", EmailProjection)
+    email = MessageStore.fetch("sendEmail-#{send_command.data["email_id"]}", Projection)
     Map.put(context, :email, email)
   end
 
-  def ensure_email_has_not_been_sent(context) do
+  defp ensure_email_has_not_been_sent(context) do
     if context.email.sent? do
       {:error, {:already_sent_error, context}}
     else
@@ -54,7 +43,7 @@ defmodule VideoTutorialsServices.SendEmail do
     end
   end
 
-  def send_email(context) do
+  defp send_it(context) do
     send_command = context.send_command
     just_send_it = context.just_send_it
 
@@ -72,7 +61,11 @@ defmodule VideoTutorialsServices.SendEmail do
     {:ok, context}
   end
 
-  def write_sent_event(context) do
+  defp send(email) do
+    Mailer.deliver_now(email)
+  end
+
+  defp write_sent_event(context) do
     send_command = context.send_command
     stream_name = "sendEmail-#{send_command.data["email_id"]}"
 
@@ -91,7 +84,7 @@ defmodule VideoTutorialsServices.SendEmail do
     MessageStore.write_message(event)
   end
 
-  def write_failed_event(context, error) do
+  defp write_failed_event(context, error) do
     send_command = context.send_command
     stream_name = "sendEmail-#{send_command.data["email_id"]}"
 

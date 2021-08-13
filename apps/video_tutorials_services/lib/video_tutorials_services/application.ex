@@ -82,7 +82,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:send-email:command",
             subscribed_to: "sendEmail:command",
-            handler: VideoTutorialsServices.SendEmail
+            handler: VideoTutorialsServices.EmailerComponent.Handlers.Commands
           }
         ]
       },
