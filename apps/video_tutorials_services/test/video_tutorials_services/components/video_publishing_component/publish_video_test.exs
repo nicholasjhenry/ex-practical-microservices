@@ -1,7 +1,8 @@
-defmodule VideoPublishing.PublishVideoTest do
+defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandlerTest do
   use VideoTutorialsServices.DataCase
 
-  alias VideoPublishing.{VideoPublishingProjection, PublishVideo}
+  alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Projection
   alias MessageStore.Message
 
   test "publishing a video" do
@@ -21,9 +22,9 @@ defmodule VideoPublishing.PublishVideoTest do
         time: NaiveDateTime.local_now()
       )
 
-    PublishVideo.handle_message(command)
+    PublishVideoHandler.handle_message(command)
 
-    video_publishing = MessageStore.fetch("videoPublishing-1", VideoPublishingProjection)
+    video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"
     assert video_publishing.transcoded_uri == "https://www.youtube.com/watch?v=GI_P3UtZXAA"
   end

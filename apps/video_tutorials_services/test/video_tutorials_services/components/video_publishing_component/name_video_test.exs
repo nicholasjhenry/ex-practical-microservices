@@ -1,7 +1,10 @@
-defmodule VideoPublishing.NameVideoTest do
+defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandlerTest do
   use VideoTutorialsServices.DataCase
 
-  alias VideoPublishing.{PublishVideo, NameVideo, VideoPublishingProjection}
+  alias VideoTutorialsServices.VideoPublishingComponent.Projection
+  alias VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+
   alias MessageStore.Message
 
   test "name a video with valid data" do
@@ -22,9 +25,9 @@ defmodule VideoPublishing.NameVideoTest do
         time: NaiveDateTime.local_now()
       )
 
-    NameVideo.handle_message(command)
+    NameVideoHandler.handle_message(command)
 
-    video_publishing = MessageStore.fetch("videoPublishing-1", VideoPublishingProjection)
+    video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"
     assert video_publishing.name == "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS"
   end
@@ -47,9 +50,9 @@ defmodule VideoPublishing.NameVideoTest do
         time: NaiveDateTime.local_now()
       )
 
-    NameVideo.handle_message(command)
+    NameVideoHandler.handle_message(command)
 
-    video_publishing = MessageStore.fetch("videoPublishing-1", VideoPublishingProjection)
+    video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"
     assert video_publishing.name == ""
   end
@@ -72,6 +75,6 @@ defmodule VideoPublishing.NameVideoTest do
       )
 
     context = %{command: command, transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"}
-    PublishVideo.write_video_published_event(context)
+    PublishVideoHandler.write_video_published_event(context)
   end
 end
