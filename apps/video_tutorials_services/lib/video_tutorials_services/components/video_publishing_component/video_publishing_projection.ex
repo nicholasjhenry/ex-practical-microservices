@@ -1,4 +1,4 @@
-defmodule VideoPublishing.VideoPublishingProjection do
+defmodule VideoTutorialsServices.VideoPublishingComponent.Projection do
   defstruct [
     :id,
     :publishing_attempted?,

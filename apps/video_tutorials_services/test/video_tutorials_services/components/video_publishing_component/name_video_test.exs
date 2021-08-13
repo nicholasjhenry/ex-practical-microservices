@@ -1,7 +1,9 @@
 defmodule VideoPublishing.NameVideoTest do
   use VideoTutorialsServices.DataCase
 
-  alias VideoPublishing.{PublishVideo, NameVideo, VideoPublishingProjection}
+  alias VideoPublishing.{PublishVideo, NameVideo}
+  alias VideoTutorialsServices.VideoPublishingComponent.Projection
+
   alias MessageStore.Message
 
   test "name a video with valid data" do
@@ -24,7 +26,7 @@ defmodule VideoPublishing.NameVideoTest do
 
     NameVideo.handle_message(command)
 
-    video_publishing = MessageStore.fetch("videoPublishing-1", VideoPublishingProjection)
+    video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"
     assert video_publishing.name == "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS"
   end
@@ -49,7 +51,7 @@ defmodule VideoPublishing.NameVideoTest do
 
     NameVideo.handle_message(command)
 
-    video_publishing = MessageStore.fetch("videoPublishing-1", VideoPublishingProjection)
+    video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"
     assert video_publishing.name == ""
   end

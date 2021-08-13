@@ -1,6 +1,6 @@
 defmodule VideoPublishing.NameVideo do
   alias MessageStore.NewMessage
-  alias VideoPublishing.VideoPublishingProjection
+  alias VideoTutorialsServices.VideoPublishingComponent.Projection
 
   def handle_message(%{type: "NameVideo"} = command) do
     context = %{video_id: command.data["video_id"], command: command}
@@ -26,7 +26,7 @@ defmodule VideoPublishing.NameVideo do
   defp load_video(context) do
     video_stream_name = "videoPublishing-#{context.video_id}"
 
-    maybe_video = MessageStore.fetch(video_stream_name, VideoPublishingProjection)
+    maybe_video = MessageStore.fetch(video_stream_name, Projection)
 
     Map.put(context, :video, maybe_video)
   end
