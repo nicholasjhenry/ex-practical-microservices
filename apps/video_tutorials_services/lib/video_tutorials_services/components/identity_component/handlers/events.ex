@@ -1,6 +1,6 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
   alias MessageStore.NewMessage
-  alias VideoTutorialsServices.IdentityComponent.Projection
+  alias VideoTutorialsServices.IdentityComponent.Store
 
   def handle_message(%{type: "Registered"} = event) do
     send_email(event)
@@ -15,9 +15,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
   end
 
   defp load_identity(context) do
-    identity_stream_name = "identity-#{context.identity_id}"
-
-    maybe_identity = MessageStore.fetch(identity_stream_name, Projection)
+    maybe_identity = Store.fetch(context.identity_id)
 
     Map.put(context, :identity, maybe_identity)
   end
