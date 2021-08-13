@@ -2,6 +2,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
   use VideoTutorialsServices.DataCase
 
   alias VideoTutorialsServices.IdentityComponent.IdentityHandler
+  alias VideoTutorialsServices.IdentityComponent.Projection
   alias MessageStore.{Message, NewMessage}
 
   test "registering a user" do
@@ -19,7 +20,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
     IdentityHandler.handle_message(command)
 
-    identity = MessageStore.fetch("identity-1", IdentityHandler)
+    identity = MessageStore.fetch("identity-1", Projection)
 
     assert identity.id == "1"
     assert identity.email == "jane@example.com"

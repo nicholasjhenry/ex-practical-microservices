@@ -1,21 +1,9 @@
 defmodule VideoTutorialsServices.IdentityComponent.IdentityHandler do
   alias MessageStore.NewMessage
-  alias VideoTutorialsServices.IdentityComponent.Identity
+  alias VideoTutorialsServices.IdentityComponent.Projection
 
   defmodule AlreadyRegisteredError do
     defexception [:message]
-  end
-
-  def init do
-    %Identity{registered?: false, registration_email_sent?: false}
-  end
-
-  def apply(identity, %{type: "Registered", data: data}) do
-    %{identity | id: data["user_id"], email: data["email"], registered?: true}
-  end
-
-  def apply(identity, %{type: "RegistrationEmailSent"}) do
-    %{identity | registration_email_sent?: true}
   end
 
   # Command Handler
@@ -49,7 +37,7 @@ defmodule VideoTutorialsServices.IdentityComponent.IdentityHandler do
   defp load_identity(context) do
     identity_stream_name = "identity-#{context.identity_id}"
 
-    maybe_identity = MessageStore.fetch(identity_stream_name, __MODULE__)
+    maybe_identity = MessageStore.fetch(identity_stream_name, Projection)
 
     Map.put(context, :identity, maybe_identity)
   end
