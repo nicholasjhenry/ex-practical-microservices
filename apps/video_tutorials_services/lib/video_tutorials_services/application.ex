@@ -31,7 +31,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:identity:command",
             subscribed_to: "identity:command",
-            handler: VideoTutorialsServices.Identity
+            handler: VideoTutorialsServices.IdentityComponent.Handlers.Commands
           }
         ]
       },
@@ -41,7 +41,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:identity",
             subscribed_to: "identity",
-            handler: VideoTutorialsServices.Identity
+            handler: VideoTutorialsServices.IdentityComponent.Handlers.Events
           }
         ]
       },
@@ -51,7 +51,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:identity:sendEmailEvents",
             subscribed_to: "sendEmail",
-            handler: VideoTutorialsServices.Identity,
+            handler: VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events,
             opts: [origin_stream_name: "identity"]
           }
         ]

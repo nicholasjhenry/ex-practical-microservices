@@ -18,10 +18,11 @@ defmodule MessageStoreTest do
 
   describe "writing a message to a stream" do
     test "can get the messages written to the stream" do
-      message = build_new_message(
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
-        stream_name: "video-1"
-      )
+      message =
+        build_new_message(
+          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          stream_name: "video-1"
+        )
 
       MessageStore.write_message(message)
 
@@ -32,9 +33,11 @@ defmodule MessageStoreTest do
     test "handles version conflicts" do
       message = build_new_message(stream_name: "video-1", expected_version: 0)
 
-      assert_raise VersionConflictError, "Wrong expected version: 0 (Stream: video-1, Stream Version: -1)", fn ->
-        MessageStore.write_message(message)
-      end
+      assert_raise VersionConflictError,
+                   "Wrong expected version: 0 (Stream: video-1, Stream Version: -1)",
+                   fn ->
+                     MessageStore.write_message(message)
+                   end
     end
 
     test "ignores unspecified expected version" do
@@ -46,10 +49,11 @@ defmodule MessageStoreTest do
 
   describe "reading the last message of a stream" do
     test "given a message exists for the stream returns the last message" do
-      message = build_new_message(
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
-        stream_name: "video-1"
-      )
+      message =
+        build_new_message(
+          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          stream_name: "video-1"
+        )
 
       MessageStore.write_message(message)
 
@@ -65,10 +69,11 @@ defmodule MessageStoreTest do
 
   describe "getting messages from a category" do
     test "given a message exists for the stream returns the last message" do
-      message = build_new_message(
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
-        stream_name: "video-1"
-      )
+      message =
+        build_new_message(
+          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          stream_name: "video-1"
+        )
 
       MessageStore.write_message(message)
 
@@ -84,10 +89,11 @@ defmodule MessageStoreTest do
 
   describe "getting all messages" do
     test "given a message exists the last message" do
-      message = build_new_message(
-        id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
-        stream_name: "video-1"
-      )
+      message =
+        build_new_message(
+          id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
+          stream_name: "video-1"
+        )
 
       MessageStore.write_message(message)
 
@@ -114,20 +120,22 @@ defmodule MessageStoreTest do
 
   describe "fetching the stream" do
     test "projects the stream using the projection" do
-      message = build_new_message(
-        stream_name: "video-1",
-        type: "VideoCreated",
-        data: %{name: "YouTube Video"}
-      )
+      message =
+        build_new_message(
+          stream_name: "video-1",
+          type: "VideoCreated",
+          data: %{name: "YouTube Video"}
+        )
 
       MessageStore.write_message(message)
 
-      message = build_new_message(
-        stream_name: "video-1",
-        type: "VideoTitleUpcased",
-        data: %{},
-        expected_version: 0
-      )
+      message =
+        build_new_message(
+          stream_name: "video-1",
+          type: "VideoTitleUpcased",
+          data: %{},
+          expected_version: 0
+        )
 
       MessageStore.write_message(message)
 

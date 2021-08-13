@@ -1,7 +1,9 @@
-defmodule VideoTutorialsServices.IdentityTest do
+defmodule VideoTutorialsServices.IdentityComponentTest do
   use VideoTutorialsServices.DataCase
 
-  alias VideoTutorialsServices.Identity
+  alias VideoTutorialsServices.IdentityComponent.Handlers
+  alias VideoTutorialsServices.IdentityComponent.Projection
+
   alias MessageStore.{Message, NewMessage}
 
   test "registering a user" do
@@ -17,9 +19,9 @@ defmodule VideoTutorialsServices.IdentityTest do
         time: NaiveDateTime.local_now()
       )
 
-    Identity.handle_message(command)
+    Handlers.Commands.handle_message(command)
 
-    identity = MessageStore.fetch("identity-1", Identity)
+    identity = MessageStore.fetch("identity-1", Projection)
 
     assert identity.id == "1"
     assert identity.email == "jane@example.com"
@@ -56,7 +58,7 @@ defmodule VideoTutorialsServices.IdentityTest do
         time: NaiveDateTime.local_now()
       )
 
-    Identity.handle_message(event)
+    Handlers.Events.handle_message(event)
   end
 
   test "handle email sent events" do
@@ -92,6 +94,6 @@ defmodule VideoTutorialsServices.IdentityTest do
         time: NaiveDateTime.local_now()
       )
 
-    assert {:ok, :registration_email_sent} = Identity.handle_message(event)
+    assert {:ok, :registration_email_sent} = Handlers.SendEmail.Events.handle_message(event)
   end
 end

@@ -45,11 +45,12 @@ defmodule MessageStore.SubscriberTest do
 
   describe "handling a message" do
     test "invokes the handler and records the new position" do
-      message = build_message(
-        stream_name: "video-1",
-        type: "VideoCreated",
-        data: %{name: "YouTube Video"}
-      )
+      message =
+        build_message(
+          stream_name: "video-1",
+          type: "VideoCreated",
+          data: %{name: "YouTube Video"}
+        )
 
       subscriber = Subscriber.start("subscriber-foo", "video", nil)
       {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
@@ -59,11 +60,12 @@ defmodule MessageStore.SubscriberTest do
     end
 
     test "given a message from another stream returns an error " do
-      message = build_message(
-        stream_name: "video-1",
-        type: "VideoCreated",
-        data: %{name: "YouTube Video"}
-      )
+      message =
+        build_message(
+          stream_name: "video-1",
+          type: "VideoCreated",
+          data: %{name: "YouTube Video"}
+        )
 
       subscriber = Subscriber.start("subscriber-foo", "comment", nil)
       subject = Subscriber.handle_message(subscriber, message, MessageHandler)
@@ -72,12 +74,13 @@ defmodule MessageStore.SubscriberTest do
     end
 
     test "given a matched origin invokes the handler and records the new position" do
-      message = build_message(
-        stream_name: "video-1",
-        type: "VideoCreated",
-        metadata: %{"origin_stream_name" => "user-1"},
-        data: %{name: "YouTube Video"}
-      )
+      message =
+        build_message(
+          stream_name: "video-1",
+          type: "VideoCreated",
+          metadata: %{"origin_stream_name" => "user-1"},
+          data: %{name: "YouTube Video"}
+        )
 
       subscriber = Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: "user")
       {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
@@ -87,14 +90,17 @@ defmodule MessageStore.SubscriberTest do
     end
 
     test "given a mis-matched origin returns the original subscriber" do
-      message = build_message(
-        stream_name: "video-1",
-        type: "VideoCreated",
-        metadata: %{"origin_stream_name" => "user-1"},
-        data: %{name: "YouTube Video"}
-      )
+      message =
+        build_message(
+          stream_name: "video-1",
+          type: "VideoCreated",
+          metadata: %{"origin_stream_name" => "user-1"},
+          data: %{name: "YouTube Video"}
+        )
 
-      subscriber = Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: ":mismatch:")
+      subscriber =
+        Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: ":mismatch:")
+
       {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
@@ -120,7 +126,9 @@ defmodule MessageStore.SubscriberTest do
       ]
 
       subscriber = Subscriber.start("subscriber-foo", "video", nil)
-      {:ok, [subject| _subject]} = Subscriber.handle_messages(subscriber, messages, MessageHandler)
+
+      {:ok, [subject | _subject]} =
+        Subscriber.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1
       assert subject.handled_message_result == "vimeo video"
