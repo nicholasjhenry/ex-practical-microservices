@@ -58,7 +58,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         time: NaiveDateTime.local_now()
       )
 
-      Handlers.Events.handle_message(event)
+    Handlers.Events.handle_message(event)
   end
 
   test "handle email sent events" do

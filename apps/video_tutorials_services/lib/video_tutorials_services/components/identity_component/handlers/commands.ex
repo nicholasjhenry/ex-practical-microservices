@@ -1,5 +1,8 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
-  alias MessageStore.NewMessage
+  import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
+
+  alias VideoTutorialsServices.IdentityComponent.Messages.Events.Registered
   alias VideoTutorialsServices.IdentityComponent.Store
 
   @category "identity"
@@ -8,57 +11,16 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
     defexception [:message]
   end
 
-  def handle_message(%{type: "Register"} = command) do
-    register_user(command)
-  end
+  def handle_message(%{type: "Register"} = register) do
+    identity_id = register.data["user_id"]
+    identity = Store.fetch(identity_id)
 
-  def register_user(command) do
-    context = %{command: command, identity_id: command.data["user_id"], identity: nil}
-
-    context
-    |> load_identity
-    |> ensure_not_registered
-    |> write_registered_event
-  end
-
-  defp load_identity(context) do
-    maybe_identity = Store.fetch(context.identity_id)
-
-    Map.put(context, :identity, maybe_identity)
-  end
-
-  defp ensure_not_registered(context) do
-    if context.identity.registered? do
+    if identity.registered? do
       raise AlreadyRegisteredError
     end
 
-    context
-  end
-
-  defp write_registered_event(context) do
-    command = context.command
-
-    stream_name = stream_name(command.data["user_id"])
-
-    registered_event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "Registered",
-        metadata: %{
-          trace_id: Map.fetch!(command.metadata, "trace_id"),
-          user_id: Map.fetch!(command.metadata, "user_id")
-        },
-        data: %{
-          user_id: Map.fetch!(command.data, "user_id"),
-          email: Map.fetch!(command.data, "email"),
-          password_hash: Map.fetch!(command.data, "password_hash")
-        }
-      )
-
-    MessageStore.write_message(registered_event)
-  end
-
-  defp stream_name(id) do
-    "#{@category}-#{id}"
+    stream_name = stream_name(@category, register.data["user_id"])
+    registered = Registered.follow(register)
+    write(registered, stream_name)
   end
 end
