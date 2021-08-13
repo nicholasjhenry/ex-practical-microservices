@@ -1,14 +1,13 @@
 defmodule VideoTutorialsServices.IdentityComponent.IdentityHandler do
-  defstruct [:id, :email, :registered?, :registration_email_sent?]
-
   alias MessageStore.NewMessage
+  alias VideoTutorialsServices.IdentityComponent.Identity
 
   defmodule AlreadyRegisteredError do
     defexception [:message]
   end
 
   def init do
-    %__MODULE__{registered?: false, registration_email_sent?: false}
+    %Identity{registered?: false, registration_email_sent?: false}
   end
 
   def apply(identity, %{type: "Registered", data: data}) do
