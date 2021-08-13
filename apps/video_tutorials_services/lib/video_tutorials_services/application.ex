@@ -31,7 +31,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:identity:command",
             subscribed_to: "identity:command",
-            handler: VideoTutorialsServices.IdentityComponent.Handler
+            handler: VideoTutorialsServices.IdentityComponent.Handlers.Commands
           }
         ]
       },

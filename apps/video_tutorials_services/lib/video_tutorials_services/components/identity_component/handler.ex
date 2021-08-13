@@ -6,11 +6,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Handler do
     defexception [:message]
   end
 
-  # Command Handler
-  def handle_message(%{type: "Register"} = command) do
-    register_user(command)
-  end
-
   # Event Handler
   def handle_message(%{type: "Registered"} = event) do
     send_email(event)
@@ -25,15 +20,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Handler do
     nil
   end
 
-  def register_user(command) do
-    context = %{command: command, identity_id: command.data["user_id"], identity: nil}
-
-    context
-    |> load_identity
-    |> ensure_not_registered
-    |> write_registered_event
-  end
-
   defp load_identity(context) do
     identity_stream_name = "identity-#{context.identity_id}"
 
@@ -42,36 +28,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handler do
     Map.put(context, :identity, maybe_identity)
   end
 
-  defp ensure_not_registered(context) do
-    if context.identity.registered? do
-      raise AlreadyRegisteredError
-    end
-
-    context
-  end
-
-  defp write_registered_event(context) do
-    command = context.command
-
-    registered_event =
-      NewMessage.new(
-        stream_name: "identity-#{command.data["user_id"]}",
-        type: "Registered",
-        metadata: %{
-          trace_id: Map.fetch!(command.metadata, "trace_id"),
-          user_id: Map.fetch!(command.metadata, "user_id")
-        },
-        data: %{
-          user_id: Map.fetch!(command.data, "user_id"),
-          email: Map.fetch!(command.data, "email"),
-          password_hash: Map.fetch!(command.data, "password_hash")
-        }
-      )
-
-    MessageStore.write_message(registered_event)
-  end
-
-  def send_email(event) do
+  defp send_email(event) do
     email = %{
       subject: "You're Registered!",
       text: "Foo",
@@ -98,11 +55,11 @@ defmodule VideoTutorialsServices.IdentityComponent.Handler do
     end
   end
 
-  def render_registered_email(context) do
+  defp render_registered_email(context) do
     context
   end
 
-  def write_send_command(context) do
+  defp write_send_command(context) do
     event = context.event
     identity = context.identity
     email = context.email
@@ -133,7 +90,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handler do
     MessageStore.write_message(send_email_command)
   end
 
-  def record_registration_email(event) do
+  defp record_registration_email(event) do
     identity_id = stream_name_to_id(event.metadata["origin_stream_name"])
     context = %{identity_id: identity_id, event: event}
 
@@ -146,7 +103,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handler do
     end
   end
 
-  def write_registration_email_sent_event(context) do
+  defp write_registration_email_sent_event(context) do
     event = context.event
 
     registered_event =

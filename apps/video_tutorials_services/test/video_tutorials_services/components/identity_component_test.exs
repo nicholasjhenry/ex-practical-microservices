@@ -2,7 +2,9 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
   use VideoTutorialsServices.DataCase
 
   alias VideoTutorialsServices.IdentityComponent.Handler
+  alias VideoTutorialsServices.IdentityComponent.Handlers
   alias VideoTutorialsServices.IdentityComponent.Projection
+
   alias MessageStore.{Message, NewMessage}
 
   test "registering a user" do
@@ -18,7 +20,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         time: NaiveDateTime.local_now()
       )
 
-    Handler.handle_message(command)
+    Handlers.Commands.handle_message(command)
 
     identity = MessageStore.fetch("identity-1", Projection)
 
