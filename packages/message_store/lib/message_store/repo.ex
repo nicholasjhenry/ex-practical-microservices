@@ -1,5 +1,4 @@
 defmodule MessageStore.Repo do
-
   @schema_name "message_store"
 
   def start_link([]) do
@@ -32,9 +31,10 @@ defmodule MessageStore.Repo do
     config = config()
     database_name = Keyword.fetch!(config, :database)
 
-    config = config
-    |> Keyword.drop([:database])
-    |> Keyword.put(:database, "postgres")
+    config =
+      config
+      |> Keyword.drop([:database])
+      |> Keyword.put(:database, "postgres")
 
     {:ok, conn} = Postgrex.start_link(config)
 
@@ -49,9 +49,10 @@ defmodule MessageStore.Repo do
     config = config()
     database_name = Keyword.fetch!(config, :database)
 
-    config = config
-    |> Keyword.drop([:database])
-    |> Keyword.put(:database, "postgres")
+    config =
+      config
+      |> Keyword.drop([:database])
+      |> Keyword.put(:database, "postgres")
 
     {:ok, conn} = Postgrex.start_link(config)
 
@@ -64,9 +65,12 @@ defmodule MessageStore.Repo do
 
   defp do_init do
     config = config()
-    %{database: database, password: password, username: username, hostname: hostname} = Map.new(config)
 
-    ssl = if config[:ssl] == true do
+    %{database: database, password: password, username: username, hostname: hostname} =
+      Map.new(config)
+
+    ssl =
+      if config[:ssl] == true do
         "require"
       else
         "allow"
@@ -78,7 +82,7 @@ defmodule MessageStore.Repo do
       {"PGUSER", username},
       {"PGHOST", hostname},
       {"PGSSLMODE", ssl},
-      {"CREATE_DATABASE", "off"},
+      {"CREATE_DATABASE", "off"}
     ]
 
     path = Path.join([Application.app_dir(:message_store), "priv", "message-db"])

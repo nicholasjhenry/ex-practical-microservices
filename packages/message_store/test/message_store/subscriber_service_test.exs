@@ -1,4 +1,3 @@
-
 defmodule MessageStore.SubscriberServiceTest do
   use ExUnit.Case
 
@@ -18,11 +17,12 @@ defmodule MessageStore.SubscriberServiceTest do
     end
 
     test "given existing state" do
-      message = NewMessage.new(
-        stream_name: "subscriber-foo",
-        type: "Read",
-        data: %{position: 1}
-      )
+      message =
+        NewMessage.new(
+          stream_name: "subscriber-foo",
+          type: "Read",
+          data: %{position: 1}
+        )
 
       MessageStore.write_message(message)
 
@@ -41,11 +41,12 @@ defmodule MessageStore.SubscriberServiceTest do
     test "processes messages for a stream" do
       {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
 
-      message = NewMessage.new(
-        stream_name: "video-1",
-        type: "VideoCreated",
-        data: %{name: "YouTube Video"}
-      )
+      message =
+        NewMessage.new(
+          stream_name: "video-1",
+          type: "VideoCreated",
+          data: %{name: "YouTube Video"}
+        )
 
       MessageStore.write_message(message)
 
@@ -53,7 +54,7 @@ defmodule MessageStore.SubscriberServiceTest do
       message = MessageStore.read_last_message("subscriber-foo")
       assert subscriber.current_position == 1
       assert subscriber.handled_message_result == "YOUTUBE VIDEO"
-      assert message.data ==  %{"position" => 1}
+      assert message.data == %{"position" => 1}
     end
   end
 end

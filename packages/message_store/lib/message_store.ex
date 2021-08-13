@@ -12,10 +12,12 @@ defmodule MessageStore do
     def reraise(error) do
       match = Regex.match?(@regex, error.postgres.message)
 
-      case  match do
+      case match do
         true ->
           raise VersionConflictError, error.postgres.message
-        _ -> raise error
+
+        _ ->
+          raise error
       end
     end
   end
@@ -81,7 +83,7 @@ defmodule MessageStore do
     function_call
     |> execute_function([stream_name])
     |> handle_result_rows
-    |> List.first
+    |> List.first()
   end
 
   def fetch(stream_name, projection) do
@@ -91,6 +93,7 @@ defmodule MessageStore do
   end
 
   defp handle_result_rows(%Postgrex.Result{rows: []}), do: []
+
   defp handle_result_rows(%Postgrex.Result{rows: rows}) do
     Enum.map(rows, &to_message(&1))
   end
@@ -108,7 +111,7 @@ defmodule MessageStore do
     )
   end
 
-  defp to_message(row), do: row |> List.to_tuple |> List.wrap |> to_message()
+  defp to_message(row), do: row |> List.to_tuple() |> List.wrap() |> to_message()
 
   defp execute_function(sql, params) do
     try do
