@@ -51,7 +51,7 @@ defmodule VideoTutorialsServices.Application do
           config: %{
             stream_name: "components:identity:sendEmailEvents",
             subscribed_to: "sendEmail",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.Events,
+            handler: VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events,
             opts: [origin_stream_name: "identity"]
           }
         ]

@@ -94,6 +94,6 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         time: NaiveDateTime.local_now()
       )
 
-    assert {:ok, :registration_email_sent} = Handlers.Events.handle_message(event)
+    assert {:ok, :registration_email_sent} = Handlers.SendEmail.Events.handle_message(event)
   end
 end
