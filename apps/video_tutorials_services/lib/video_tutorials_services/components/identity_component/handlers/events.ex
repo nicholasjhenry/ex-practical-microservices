@@ -1,17 +1,11 @@
-defmodule VideoTutorialsServices.IdentityComponent.Handler do
+defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
   alias MessageStore.NewMessage
   alias VideoTutorialsServices.IdentityComponent.Projection
 
-  defmodule AlreadyRegisteredError do
-    defexception [:message]
-  end
-
-  # Event Handler
   def handle_message(%{type: "Registered"} = event) do
     send_email(event)
   end
 
-  # Event Handler
   def handle_message(%{type: "Sent"} = event) do
     record_registration_email(event)
   end
