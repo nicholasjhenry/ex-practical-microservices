@@ -1,29 +1,23 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
-  alias MessageStore.NewMessage
+  import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
+
   alias VideoTutorialsServices.IdentityComponent.Store
+  alias VideoTutorialsServices.EmailerComponent.Messages.Commands.Send
 
-  def handle_message(%{type: "Registered"} = event) do
-    send_email(event)
+  defmodule Context do
+    defstruct [:identity_id, :event, :email]
   end
 
-  def handle_message(_) do
-    nil
-  end
-
-  defp load_identity(context) do
-    maybe_identity = Store.fetch(context.identity_id)
-
-    Map.put(context, :identity, maybe_identity)
-  end
+  def handle_message(%{type: "Registered"} = event), do: send_email(event)
+  def handle_message(_), do: nil
 
   defp send_email(event) do
-    email = %{
-      subject: "You're Registered!",
-      text: "Foo",
-      html: "<p>Foo</p>"
+    context = %Context{
+      identity_id: Map.fetch!(event.data, "user_id"),
+      event: event,
+      email: email()
     }
-
-    context = %{identity_id: Map.fetch!(event.data, "user_id"), event: event, email: email}
 
     with context <- load_identity(context),
          {:ok, context} <- ensure_registration_email_not_sent(context),
@@ -35,6 +29,18 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     end
   end
 
+  defp email do
+    %{
+      subject: "You're Registered!",
+      text: "Foo",
+      html: "<p>Foo</p>"
+    }
+  end
+
+  defp load_identity(context) do
+    Map.put(context, :identity, Store.fetch(context.identity_id))
+  end
+
   defp ensure_registration_email_not_sent(context) do
     if context.identity.registration_email_sent? do
       {:error, {:already_sent_registration_email, context}}
@@ -43,9 +49,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     end
   end
 
-  defp render_registered_email(context) do
-    context
-  end
+  defp render_registered_email(context), do: context
 
   defp write_send_command(context) do
     event = context.event
@@ -55,26 +59,24 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
 
     email_id = UUID.uuid5(uuid_v5_namespace, identity.email)
 
+    stream_name = "sendEmail:command-#{email_id}"
+
     send_email_command =
-      NewMessage.new(
-        stream_name: "sendEmail:command-#{email_id}",
-        type: "Send",
-        metadata: %{
-          origin_stream_name: "identity-#{identity.id}",
+      Send.new(
+        %{
+          origin_stream_name: stream_name("identity", identity.id),
           trace_id: Map.fetch!(event.metadata, "trace_id"),
           user_id: Map.fetch!(event.metadata, "user_id")
         },
-        data: %{
+        %{
           email_id: email_id,
           to: identity.email,
           subject: email.subject,
           text: email.text,
           html: email.html
-        },
-        # TODO: review expected version
-        expected_version: nil
+        }
       )
 
-    MessageStore.write_message(send_email_command)
+    write(send_email_command, stream_name)
   end
 end
