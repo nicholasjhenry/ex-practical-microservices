@@ -1,9 +1,18 @@
 defmodule VideoPublishing.PublishVideo do
-  alias VideoPublishing.TranscodeVideo
-  alias VideoTutorialsServices.VideoPublishingComponent.Projection
-  alias MessageStore.NewMessage
+  import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
+  import VideoPublishing.TranscodeVideo
 
-  def handle_message(%{type: "PublishVideo"} = command) do
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublished
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublishingFailed
+  alias VideoTutorialsServices.VideoPublishingComponent.Store
+
+  @category :videoPublishing
+
+  def handle_message(%{type: "PublishVideo"} = command), do: publish_video(command)
+  def handle_message(_command), do: :ok
+
+  defp publish_video(command) do
     context = %{video_id: command.data["video_id"], command: command, transcoded_uri: nil}
 
     with context <- load_video(context),
@@ -17,16 +26,8 @@ defmodule VideoPublishing.PublishVideo do
     end
   end
 
-  def handle_message(_command) do
-    :ok
-  end
-
   defp load_video(context) do
-    video_stream_name = "videoPublishing-#{context.video_id}"
-
-    maybe_video = MessageStore.fetch(video_stream_name, Projection)
-
-    Map.put(context, :video, maybe_video)
+    Map.put(context, :video, Store.fetch(context.video_id))
   end
 
   defp ensure_publishing_not_attempted(context) do
@@ -37,34 +38,26 @@ defmodule VideoPublishing.PublishVideo do
     end
   end
 
-  defp transcode_video(context) do
-    TranscodeVideo.transcode_video(context)
-  end
-
   def write_video_published_event(context) do
     command = context.command
 
-    stream_name = "videoPublishing-#{command.data["video_id"]}"
+    stream_name = stream_name(@category, command.data["video_id"])
 
-    video_published_event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "videoPublished",
-        metadata: %{
+    video_published =
+      VideoPublished.new(
+        %{
           trace_id: Map.fetch!(command.metadata, "trace_id"),
           user_id: Map.fetch!(command.metadata, "user_id")
         },
-        data: %{
+        %{
           owner_id: Map.fetch!(command.data, "owner_id"),
           source_uri: Map.fetch!(command.data, "source_uri"),
           transcoded_uri: context.transcoded_uri,
           video_id: Map.fetch!(command.data, "video_id")
-        },
-        # TODO
-        expected_version: nil
+        }
       )
 
-    MessageStore.write_message(video_published_event)
+    write(video_published, stream_name)
 
     context
   end
@@ -75,27 +68,23 @@ defmodule VideoPublishing.PublishVideo do
   defp write_video_publishing_failed_event(error, context) do
     command = context.command
 
-    stream_name = "videoPublishing-#{command.data["video_id"]}"
+    stream_name = stream_name(@category, command.data["video_id"])
 
-    video_published_event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "videoPublishingFailed",
-        metadata: %{
+    video_publishing_failed =
+      VideoPublishingFailed.new(
+        %{
           trace_id: Map.fetch!(command.metadata, "trace_id"),
           user_id: Map.fetch!(command.metadata, "user_id")
         },
-        data: %{
+        %{
           owner_id: Map.fetch!(command.data, "owner_id"),
           source_uri: Map.fetch!(command.data, "source_uri"),
           video_id: Map.fetch!(command.data, "video_id"),
           reason: error.message
-        },
-        # TODO
-        expected_version: nil
+        }
       )
 
-    MessageStore.write_message(video_published_event)
+    write(video_publishing_failed, stream_name)
 
     context
   end

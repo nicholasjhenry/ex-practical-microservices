@@ -17,7 +17,7 @@ defmodule VideoPublishing.NameVideo do
   def handle_message(%{type: "NameVideo"} = command), do: name_video(command)
   def handle_message(_command), do: :ok
 
-  def name_video(command) do
+  defp name_video(command) do
     context = %Context{video_id: command.data["video_id"], command: command}
 
     with context <- load_video(context),
