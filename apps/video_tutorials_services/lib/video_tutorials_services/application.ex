@@ -24,6 +24,10 @@ defmodule VideoTutorialsServices.Application do
   defp consumers(:test), do: []
 
   defp consumers(_env) do
+    components() ++ aggregators()
+  end
+
+  defp components do
     [
       {
         MessageStore.SubscriberWorker,
@@ -60,49 +64,9 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.SubscriberWorker,
         [
           config: %{
-            stream_name: "aggregators:user-credentials",
-            subscribed_to: "identity",
-            handler: VideoTutorialsServices.UserCredentials
-          }
-        ]
-      },
-      {
-        MessageStore.SubscriberWorker,
-        [
-          config: %{
-            stream_name: "aggregators:admin-users",
-            subscribed_to: "identity",
-            handler: VideoTutorialsServices.AdminUsers
-          }
-        ]
-      },
-      {
-        MessageStore.SubscriberWorker,
-        [
-          config: %{
             stream_name: "components:send-email:command",
             subscribed_to: "sendEmail:command",
             handler: VideoTutorialsServices.EmailerComponent.Handlers.Commands
-          }
-        ]
-      },
-      {
-        MessageStore.SubscriberWorker,
-        [
-          config: %{
-            stream_name: "aggregators:video-operations",
-            subscribed_to: "videoPublishing",
-            handler: VideoTutorialsServices.VideoOperations
-          }
-        ]
-      },
-      {
-        MessageStore.SubscriberWorker,
-        [
-          config: %{
-            stream_name: "aggregators:creators-videos",
-            subscribed_to: "videoPublishing",
-            handler: VideoTutorialsServices.CreatorsVideos
           }
         ]
       },
@@ -123,6 +87,51 @@ defmodule VideoTutorialsServices.Application do
             stream_name: "components:publishing-video",
             subscribed_to: "videoPublishing:command",
             handler: VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+          }
+        ]
+      }
+    ]
+  end
+
+  defp aggregators do
+    [
+      {
+        MessageStore.SubscriberWorker,
+        [
+          config: %{
+            stream_name: "aggregators:user-credentials",
+            subscribed_to: "identity",
+            handler: VideoTutorialsServices.UserCredentials
+          }
+        ]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [
+          config: %{
+            stream_name: "aggregators:admin-users",
+            subscribed_to: "identity",
+            handler: VideoTutorialsServices.AdminUsers
+          }
+        ]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [
+          config: %{
+            stream_name: "aggregators:video-operations",
+            subscribed_to: "videoPublishing",
+            handler: VideoTutorialsServices.VideoOperations
+          }
+        ]
+      },
+      {
+        MessageStore.SubscriberWorker,
+        [
+          config: %{
+            stream_name: "aggregators:creators-videos",
+            subscribed_to: "videoPublishing",
+            handler: VideoTutorialsServices.CreatorsVideos
           }
         ]
       },
