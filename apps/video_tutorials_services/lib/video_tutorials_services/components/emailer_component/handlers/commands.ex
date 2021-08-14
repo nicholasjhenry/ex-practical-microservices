@@ -1,7 +1,9 @@
 defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
+  import Verity.Messaging.StreamName
+
   alias MessageStore.NewMessage
   alias VideoTutorialsServices.Mailer
-  alias VideoTutorialsServices.EmailerComponent.Projection
+  alias VideoTutorialsServices.EmailerComponent.Store
 
   import Bamboo.Email
 
@@ -31,8 +33,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   defp load_email(context) do
     send_command = context.send_command
 
-    email = MessageStore.fetch("sendEmail-#{send_command.data["email_id"]}", Projection)
-    Map.put(context, :email, email)
+    Map.put(context, :email, Store.fetch(send_command.data["email_id"]))
   end
 
   defp ensure_email_has_not_been_sent(context) do
