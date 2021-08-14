@@ -1,8 +1,10 @@
 defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
 
-  alias MessageStore.NewMessage
   alias VideoTutorialsServices.Mailer
+  alias VideoTutorialsServices.EmailerComponent.Messages.Events.Failed
+  alias VideoTutorialsServices.EmailerComponent.Messages.Events.Sent
   alias VideoTutorialsServices.EmailerComponent.Store
 
   import Bamboo.Email
@@ -68,39 +70,35 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
   defp write_sent_event(context) do
     send_command = context.send_command
-    stream_name = "sendEmail-#{send_command.data["email_id"]}"
+    stream_name = stream_name(:sendEmail, send_command.data["email_id"])
 
     event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "Sent",
-        metadata: %{
+      Sent.new(
+        %{
           origin_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
           trace_id: Map.fetch!(send_command.metadata, "trace_id"),
           user_id: Map.fetch!(send_command.metadata, "user_id")
         },
-        data: send_command.data
+        send_command.data
       )
 
-    MessageStore.write_message(event)
+    write(event, stream_name)
   end
 
   defp write_failed_event(context, error) do
     send_command = context.send_command
-    stream_name = "sendEmail-#{send_command.data["email_id"]}"
+    stream_name = stream_name(:sendEmail, send_command.data["email_id"])
 
     event =
-      NewMessage.new(
-        stream_name: stream_name,
-        type: "Failed",
-        metadata: %{
+      Failed.new(
+        %{
           original_stream_name: Map.fetch!(send_command.metadata, "original_stream_name"),
           trace_id: Map.fetch!(send_command.metadata, "trace_id"),
           user_id: Map.fetch!(send_command.metadata, "user_id")
         },
-        data: Map.put(send_command.data, :reason, error.message)
+        Map.put(send_command.data, :reason, error.message)
       )
 
-    MessageStore.write_message(event)
+    write(event, stream_name)
   end
 end
