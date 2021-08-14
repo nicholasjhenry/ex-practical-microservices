@@ -32,9 +32,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     end
   end
 
-  defp load_email(context) do
-    send_command = context.send_command
-
+  defp load_email(%{send_command: send_command} = context) do
     Map.put(context, :email, Store.fetch(send_command.data["email_id"]))
   end
 
@@ -68,8 +66,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     Mailer.deliver_now(email)
   end
 
-  defp write_sent_event(context) do
-    send_command = context.send_command
+  defp write_sent_event(%{send_command: send_command}) do
     stream_name = stream_name(:sendEmail, send_command.data["email_id"])
 
     event =
@@ -85,8 +82,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     write(event, stream_name)
   end
 
-  defp write_failed_event(context, error) do
-    send_command = context.send_command
+  defp write_failed_event(%{send_command: send_command}, error) do
     stream_name = stream_name(:sendEmail, send_command.data["email_id"])
 
     event =
