@@ -1,7 +1,8 @@
 defmodule VideoTutorialsServices.AdminStreamsTest do
   use VideoTutorialsServices.DataCase
 
-  alias MessageStore.Message
+  alias MessageStore.MessageData
+
   alias VideoTutorialsData.AdminStream
   alias VideoTutorialsServices.AdminStreams
 
@@ -9,7 +10,7 @@ defmodule VideoTutorialsServices.AdminStreamsTest do
     user_id = UUID.uuid4()
 
     message =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
@@ -29,7 +30,7 @@ defmodule VideoTutorialsServices.AdminStreamsTest do
     assert stream.last_message_global_position == 11
 
     next_message =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "RegistrationCanceled",

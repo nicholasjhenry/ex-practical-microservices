@@ -1,7 +1,7 @@
 defmodule VideoTutorials.HomePageTest do
   use VideoTutorials.DataCase
 
-  alias MessageStore.Message
+  alias MessageStore.MessageData
   alias VideoTutorials.HomePage
   alias VideoTutorialsData.Page
 
@@ -15,7 +15,7 @@ defmodule VideoTutorials.HomePageTest do
   describe "handling watched events" do
     test "given the page exists the counter" do
       event =
-        Message.new(
+        MessageData.Read.new(
           id: UUID.uuid4(),
           stream_name: "video-1",
           type: "videoWatched",
@@ -36,7 +36,7 @@ defmodule VideoTutorials.HomePageTest do
 
     test "given the event had been previously processed the counter is not incremented" do
       event =
-        Message.new(
+        MessageData.Read.new(
           id: UUID.uuid4(),
           stream_name: "video-1",
           type: "videoWatched",

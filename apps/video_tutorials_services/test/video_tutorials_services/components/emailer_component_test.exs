@@ -1,7 +1,7 @@
 defmodule VideoTutorialsServices.EmailerComponentTest do
   use VideoTutorialsServices.DataCase
 
-  alias MessageStore.{Message, MessageData}
+  alias MessageStore.MessageData
   alias VideoTutorialsServices.EmailerComponent.Handlers.Commands
 
   describe "sending an email" do
@@ -15,7 +15,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
       }
 
       command =
-        Message.new(
+        MessageData.Read.new(
           id: UUID.uuid4(),
           stream_name: "email:command-1",
           type: "Send",
@@ -49,7 +49,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
       MessageStore.write_message(event)
 
       command =
-        Message.new(
+        MessageData.Read.new(
           id: UUID.uuid4(),
           stream_name: "email:command-1",
           type: "Send",

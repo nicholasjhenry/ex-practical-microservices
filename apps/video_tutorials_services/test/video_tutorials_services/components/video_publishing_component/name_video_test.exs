@@ -1,17 +1,17 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandlerTest do
   use VideoTutorialsServices.DataCase
 
+  alias MessageStore.MessageData
+
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
   alias VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
   alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
-
-  alias MessageStore.Message
 
   test "name a video with valid data" do
     publish_video()
 
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing:command-2",
         type: "NameVideo",
@@ -36,7 +36,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     publish_video()
 
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing:command-2",
         type: "NameVideo",
@@ -59,7 +59,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
 
   def publish_video do
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing:command-1",
         type: "PublishVideo",

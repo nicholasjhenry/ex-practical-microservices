@@ -1,13 +1,14 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandlerTest do
   use VideoTutorialsServices.DataCase
 
+  alias MessageStore.MessageData
+
   alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
-  alias MessageStore.Message
 
   test "publishing a video" do
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing:command-1",
         type: "PublishVideo",

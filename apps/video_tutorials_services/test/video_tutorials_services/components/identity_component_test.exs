@@ -1,14 +1,14 @@
 defmodule VideoTutorialsServices.IdentityComponentTest do
   use VideoTutorialsServices.DataCase
 
+  alias MessageStore.MessageData
+
   alias VideoTutorialsServices.IdentityComponent.Handlers
   alias VideoTutorialsServices.IdentityComponent.Projection
 
-  alias MessageStore.{Message, MessageData}
-
   test "registering a user" do
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity:command-1",
         type: "Register",
@@ -47,7 +47,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     MessageStore.write_message(registered_event)
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
@@ -80,7 +80,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     MessageStore.write_message(registered_event)
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "sendEmail-1",
         type: "Sent",

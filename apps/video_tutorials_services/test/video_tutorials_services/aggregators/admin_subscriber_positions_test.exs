@@ -1,13 +1,13 @@
 defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
   use VideoTutorialsServices.DataCase
 
-  alias MessageStore.Message
+  alias MessageStore.MessageData
   alias VideoTutorialsData.AdminSubscriberPosition
   alias VideoTutorialsServices.AdminSubscriberPositions
 
   test "handling component Read events" do
     message =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
         type: "Read",
@@ -25,7 +25,7 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
     assert position.last_message_global_position == 11
 
     message =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
         type: "Read",
@@ -52,7 +52,7 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
 
   test "ignores other messages" do
     message =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
         type: "Any",

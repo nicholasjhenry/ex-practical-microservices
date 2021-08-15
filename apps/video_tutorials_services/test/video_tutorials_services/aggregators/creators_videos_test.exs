@@ -1,11 +1,10 @@
 defmodule VideoTutorialsServices.CreatorsVideosTest do
   use VideoTutorialsServices.DataCase
 
-  alias VideoTutorialsServices.CreatorsVideos
+  alias MessageStore.MessageData
   alias VideoTutorialsData.Video
-  alias MessageStore.Message
+  alias VideoTutorialsServices.CreatorsVideos
 
-  @tag :wip
   test "handling a video named event" do
     video =
       Repo.insert!(%Video{
@@ -21,7 +20,7 @@ defmodule VideoTutorialsServices.CreatorsVideosTest do
     video_id = video.id
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing-#{video_id}",
         type: "VideoNamed",
