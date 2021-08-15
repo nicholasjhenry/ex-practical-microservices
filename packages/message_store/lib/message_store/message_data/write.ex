@@ -1,4 +1,4 @@
-defmodule MessageStore.NewMessage do
+defmodule MessageStore.MessageData.Write do
   @enforce_keys [:id, :stream_name, :type, :data, :metadata, :expected_version]
   defstruct [:id, :stream_name, :type, :data, :metadata, :expected_version]
 

@@ -1,8 +1,8 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNamed do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   def follow(message) do
-    NewMessage.new(
+    MessageData.Write.new(
       stream_name: nil,
       type: "VideoNamed",
       metadata: %{

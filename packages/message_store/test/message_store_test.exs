@@ -1,7 +1,7 @@
 defmodule MessageStoreTest do
   use ExUnit.Case
 
-  alias MessageStore.{NewMessage, Repo, VersionConflictError}
+  alias MessageStore.{MessageData, Repo, VersionConflictError}
 
   setup do
     start_supervised!(MessageStore.Repo)
@@ -13,7 +13,7 @@ defmodule MessageStoreTest do
   def build_new_message(attrs) do
     defaults = [type: "VideoCreated", data: %{name: "YouTube Video"}]
     attrs = Keyword.merge(defaults, attrs)
-    NewMessage.new(attrs)
+    MessageData.Write.new(attrs)
   end
 
   describe "writing a message to a stream" do

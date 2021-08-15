@@ -14,8 +14,12 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     defstruct [:video_id, :command]
   end
 
-  def handle_message(%{type: "NameVideo"} = command), do: name_video(command)
-  def handle_message(_command), do: :ok
+  def handle_message(%{type: "NameVideo"} = command) do
+    name_video(command)
+    command
+  end
+
+  def handle_message(command), do: command
 
   defp name_video(command) do
     context = %Context{video_id: command.data["video_id"], command: command}

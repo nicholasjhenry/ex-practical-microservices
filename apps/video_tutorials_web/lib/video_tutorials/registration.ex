@@ -84,7 +84,7 @@ defmodule VideoTutorials.Registration do
         stream_name = "identity:command-#{registration.id}"
 
         command =
-          MessageStore.NewMessage.new(
+          MessageStore.MessageData.Write.new(
             stream_name: stream_name,
             type: "Register",
             metadata: %{

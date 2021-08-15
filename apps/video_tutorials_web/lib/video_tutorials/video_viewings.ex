@@ -1,11 +1,11 @@
 defmodule VideoTutorials.VideoViewings do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   def record_viewing(trace_id, video_id, user_id) do
     stream_name = "viewing-#{video_id}"
 
     viewed_event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: stream_name,
         type: "VideoViewed",
         metadata: %{

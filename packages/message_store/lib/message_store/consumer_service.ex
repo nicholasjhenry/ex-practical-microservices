@@ -1,5 +1,5 @@
 defmodule MessageStore.ConsumerService do
-  alias MessageStore.{NewMessage, Consumer}
+  alias MessageStore.{MessageData, Consumer}
 
   def start(stream_name, subscribed_to, opts \\ []) do
     message = MessageStore.read_last_message(stream_name)
@@ -31,7 +31,7 @@ defmodule MessageStore.ConsumerService do
           subscriber
         else
           message =
-            NewMessage.new(
+            MessageData.Write.new(
               stream_name: updated_subscriber.stream_name,
               type: "Read",
               data: %{position: updated_subscriber.current_position},

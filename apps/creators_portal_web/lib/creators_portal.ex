@@ -41,7 +41,7 @@ defmodule CreatorsPortal do
       stream_name = "videoPublishing:command-#{data.id}"
 
       command =
-        MessageStore.NewMessage.new(
+        MessageStore.MessageData.Write.new(
           stream_name: stream_name,
           type: "PublishVideo",
           metadata: %{
@@ -66,7 +66,7 @@ defmodule CreatorsPortal do
     stream_name = "videoPublishing:command-#{video.id}"
 
     command =
-      MessageStore.NewMessage.new(
+      MessageStore.MessageData.Write.new(
         stream_name: stream_name,
         type: "NameVideo",
         metadata: %{

@@ -4,7 +4,7 @@ video_id = Ecto.UUID.generate()
 stream_name = "videoPublishing-#{video_id}"
 
 video_published_event =
-  MessageStore.NewMessage.new(
+  MessageStore.MessageData.Write.new(
     stream_name: stream_name,
     type: "VideoPublished",
     metadata: %{

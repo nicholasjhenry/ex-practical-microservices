@@ -1,7 +1,7 @@
 defmodule VideoTutorialsServices.EmailerComponentTest do
   use VideoTutorialsServices.DataCase
 
-  alias MessageStore.{Message, NewMessage}
+  alias MessageStore.{Message, MessageData}
   alias VideoTutorialsServices.EmailerComponent.Handlers.Commands
 
   describe "sending an email" do
@@ -35,7 +35,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
 
     test "given a message handles the send command" do
       event =
-        NewMessage.new(
+        MessageData.Write.new(
           stream_name: "sendEmail-1",
           type: "Sent",
           metadata: %{

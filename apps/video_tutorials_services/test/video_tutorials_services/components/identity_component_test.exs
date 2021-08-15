@@ -4,7 +4,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
   alias VideoTutorialsServices.IdentityComponent.Handlers
   alias VideoTutorialsServices.IdentityComponent.Projection
 
-  alias MessageStore.{Message, NewMessage}
+  alias MessageStore.{Message, MessageData}
 
   test "registering a user" do
     command =
@@ -30,7 +30,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
   test "sending registration email" do
     registered_event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "identity-1",
         type: "Registered",
         metadata: %{
@@ -63,7 +63,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
   test "handle email sent events" do
     registered_event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "identity-1",
         type: "Registered",
         metadata: %{

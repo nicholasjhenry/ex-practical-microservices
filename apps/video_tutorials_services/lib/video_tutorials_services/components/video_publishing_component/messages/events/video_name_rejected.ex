@@ -1,8 +1,8 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNameRejected do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   def follow(message, reason) do
-    NewMessage.new(
+    MessageData.Write.new(
       stream_name: nil,
       type: "VideoNameRejected",
       metadata: %{

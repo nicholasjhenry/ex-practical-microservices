@@ -1,8 +1,8 @@
 defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationEmailSent do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   def follow(message) do
-    NewMessage.new(
+    MessageData.Write.new(
       stream_name: nil,
       type: "RegistrationEmailSent",
       metadata: %{

@@ -1,7 +1,7 @@
 defmodule MessageStore.ConsumerWorkerTest do
   use ExUnit.Case
 
-  alias MessageStore.{NewMessage, Repo, ConsumerWorker}
+  alias MessageStore.{MessageData, Repo, ConsumerWorker}
 
   setup do
     start_supervised!(Repo)
@@ -20,7 +20,7 @@ defmodule MessageStore.ConsumerWorkerTest do
 
   test "works", %{worker: _worker} do
     message =
-      NewMessage.new(
+      MessageData.Write.new(
         id: "5e731bdc-07aa-430a-8aae-543b45dd7235",
         stream_name: "video-1",
         type: "VideoCreated",
