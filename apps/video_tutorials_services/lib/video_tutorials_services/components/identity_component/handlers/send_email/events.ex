@@ -1,4 +1,5 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events do
+  import Verity.Messaging.Handle
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write
 

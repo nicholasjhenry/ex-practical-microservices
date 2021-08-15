@@ -1,6 +1,8 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler do
+  import Verity.Messaging.Handle
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write
+
   import VideoPublishing.TranscodeVideo
 
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublished

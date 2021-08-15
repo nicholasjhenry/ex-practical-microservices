@@ -1,4 +1,8 @@
 defmodule Verity.Messaging.StreamName do
+  @moduledoc """
+  http://docs.eventide-project.org/user-guide/stream-names/messaging-stream-name.html
+  """
+
   def stream_name(category, id) do
     "#{category}-#{id}"
   end
