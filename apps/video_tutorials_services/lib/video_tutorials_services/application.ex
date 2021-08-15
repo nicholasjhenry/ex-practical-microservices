@@ -28,69 +28,9 @@ defmodule VideoTutorialsServices.Application do
   end
 
   defp components do
-    [
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:identity:command",
-            subscribed_to: "identity:command",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.Commands
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:identity",
-            subscribed_to: "identity",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.Events
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:identity:sendEmailEvents",
-            subscribed_to: "sendEmail",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events,
-            opts: [origin_stream_name: "identity"]
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:send-email:command",
-            subscribed_to: "sendEmail:command",
-            handler: VideoTutorialsServices.EmailerComponent.Handlers.Commands
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:name-video",
-            subscribed_to: "videoPublishing:command",
-            handler: VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:publishing-video",
-            subscribed_to: "videoPublishing:command",
-            handler: VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
-          }
-        ]
-      }
-    ]
+    VideoTutorialsServices.EmailerComponent.child_specs() ++
+      VideoTutorialsServices.IdentityComponent.child_specs() ++
+      VideoTutorialsServices.VideoPublishingComponent.child_specs()
   end
 
   defp aggregators do
