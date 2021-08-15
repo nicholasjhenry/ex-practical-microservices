@@ -1,7 +1,7 @@
-defmodule MessageStore.SubscriberServiceTest do
+defmodule MessageStore.ConsumerServiceTest do
   use ExUnit.Case
 
-  alias MessageStore.{NewMessage, Repo, SubscriberService}
+  alias MessageStore.{NewMessage, Repo, ConsumerService}
 
   setup do
     start_supervised!(MessageStore.Repo)
@@ -12,7 +12,7 @@ defmodule MessageStore.SubscriberServiceTest do
 
   describe "starting" do
     test "given no existing state" do
-      {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
+      {:ok, subscriber} = ConsumerService.start("subscriber-foo", "video")
       assert subscriber.current_position == 0
     end
 
@@ -26,7 +26,7 @@ defmodule MessageStore.SubscriberServiceTest do
 
       MessageStore.write_message(message)
 
-      {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
+      {:ok, subscriber} = ConsumerService.start("subscriber-foo", "video")
       assert subscriber.current_position == 1
     end
   end
@@ -39,7 +39,7 @@ defmodule MessageStore.SubscriberServiceTest do
 
   describe "running" do
     test "processes messages for a stream" do
-      {:ok, subscriber} = SubscriberService.start("subscriber-foo", "video")
+      {:ok, subscriber} = ConsumerService.start("subscriber-foo", "video")
 
       message =
         NewMessage.new(
@@ -50,7 +50,7 @@ defmodule MessageStore.SubscriberServiceTest do
 
       MessageStore.write_message(message)
 
-      subscriber = SubscriberService.run(subscriber, MessageHandler)
+      subscriber = ConsumerService.run(subscriber, MessageHandler)
       message = MessageStore.read_last_message("subscriber-foo")
       assert subscriber.current_position == 1
       assert subscriber.handled_message_result == "YOUTUBE VIDEO"

@@ -1,7 +1,7 @@
-defmodule MessageStore.SubscriberWorkerTest do
+defmodule MessageStore.ConsumerWorkerTest do
   use ExUnit.Case
 
-  alias MessageStore.{NewMessage, Repo, SubscriberWorker}
+  alias MessageStore.{NewMessage, Repo, ConsumerWorker}
 
   setup do
     start_supervised!(Repo)
@@ -13,7 +13,7 @@ defmodule MessageStore.SubscriberWorkerTest do
     end
 
     args = [config: %{stream_name: "subscriber-foo", subscribed_to: "video", handler: handler}]
-    worker = start_supervised!({SubscriberWorker, args})
+    worker = start_supervised!({ConsumerWorker, args})
 
     [worker: worker]
   end

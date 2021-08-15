@@ -38,7 +38,7 @@ defmodule VideoTutorialsWeb.Application do
   defp consumers(_env) do
     [
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:home-page",

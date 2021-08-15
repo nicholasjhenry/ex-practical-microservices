@@ -1,4 +1,4 @@
-defmodule MessageStore.Subscriber do
+defmodule MessageStore.Consumer do
   defstruct stream_name: nil,
             version: -1,
             subscribed_to: nil,

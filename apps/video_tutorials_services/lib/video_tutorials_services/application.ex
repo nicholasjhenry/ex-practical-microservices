@@ -30,7 +30,7 @@ defmodule VideoTutorialsServices.Application do
   defp components do
     [
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "components:identity:command",
@@ -40,7 +40,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "components:identity",
@@ -50,7 +50,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "components:identity:sendEmailEvents",
@@ -61,7 +61,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "components:send-email:command",
@@ -71,7 +71,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "components:name-video",
@@ -81,7 +81,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "components:publishing-video",
@@ -96,7 +96,7 @@ defmodule VideoTutorialsServices.Application do
   defp aggregators do
     [
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:user-credentials",
@@ -106,7 +106,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:admin-users",
@@ -116,7 +116,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:video-operations",
@@ -126,7 +126,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:creators-videos",
@@ -136,7 +136,7 @@ defmodule VideoTutorialsServices.Application do
         ]
       },
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:admin-streams",
@@ -147,7 +147,7 @@ defmodule VideoTutorialsServices.Application do
       },
       # TODO subscribe_to: "components:*"
       {
-        MessageStore.SubscriberWorker,
+        MessageStore.ConsumerWorker,
         [
           config: %{
             stream_name: "aggregators:admin-subscriber-positions",
