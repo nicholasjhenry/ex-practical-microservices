@@ -23,7 +23,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
       raise AlreadyRegisteredError
     end
 
-    stream_name = stream_name(@category, register.data["user_id"])
+    stream_name = stream_name(register.data["user_id"], @category)
     registered = Registered.follow(register)
     write(registered, stream_name)
   end

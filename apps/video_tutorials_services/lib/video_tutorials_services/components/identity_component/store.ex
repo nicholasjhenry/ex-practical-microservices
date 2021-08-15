@@ -6,7 +6,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Store do
   @category :identity
 
   def fetch(id) do
-    stream_name = stream_name(@category, id)
+    stream_name = stream_name(id, @category)
     MessageStore.fetch(stream_name, Projection)
   end
 end

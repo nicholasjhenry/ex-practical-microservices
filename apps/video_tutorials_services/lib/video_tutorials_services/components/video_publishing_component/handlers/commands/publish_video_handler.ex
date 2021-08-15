@@ -43,7 +43,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
   def write_video_published_event(context) do
     command = context.command
 
-    stream_name = stream_name(@category, command.data["video_id"])
+    stream_name = stream_name(command.data["video_id"], @category)
 
     video_published =
       VideoPublished.new(
@@ -70,7 +70,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
   defp write_video_publishing_failed_event(error, context) do
     command = context.command
 
-    stream_name = stream_name(@category, command.data["video_id"])
+    stream_name = stream_name(command.data["video_id"], @category)
 
     video_publishing_failed =
       VideoPublishingFailed.new(

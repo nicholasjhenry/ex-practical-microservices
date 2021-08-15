@@ -62,7 +62,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
 
   defp write_video_named_event(context) do
     name_video = context.command
-    stream_name = stream_name(@category, name_video.data["video_id"])
+    stream_name = stream_name(name_video.data["video_id"], @category)
 
     name_video
     |> VideoNamed.follow()
@@ -73,7 +73,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
 
   defp write_video_name_rejected(context, errors) do
     name_video = context.command
-    stream_name = stream_name(@category, name_video.data["video_id"])
+    stream_name = stream_name(name_video.data["video_id"], @category)
 
     reason =
       errors
