@@ -1,7 +1,7 @@
-defmodule MessageStore.SubscriberWorker do
+defmodule MessageStore.ConsumerWorker do
   use GenServer
 
-  alias MessageStore.SubscriberService
+  alias MessageStore.ConsumerService
 
   # Public API
 
@@ -25,7 +25,7 @@ defmodule MessageStore.SubscriberWorker do
   @impl true
   def init(config) do
     {:ok, subscriber} =
-      SubscriberService.start(config.stream_name, config.subscribed_to, config[:opts] || [])
+      ConsumerService.start(config.stream_name, config.subscribed_to, config[:opts] || [])
 
     Process.send_after(self(), :tick, 10)
 
@@ -34,7 +34,7 @@ defmodule MessageStore.SubscriberWorker do
 
   @impl true
   def handle_info(:tick, state) do
-    subscriber = SubscriberService.run(state.subscriber, state.handler)
+    subscriber = ConsumerService.run(state.subscriber, state.handler)
     Process.send_after(self(), :tick, 10)
 
     {:noreply, %{state | subscriber: subscriber}}

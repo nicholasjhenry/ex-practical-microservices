@@ -1,9 +1,9 @@
-defmodule MessageStore.SubscriberService do
-  alias MessageStore.{NewMessage, Subscriber}
+defmodule MessageStore.ConsumerService do
+  alias MessageStore.{NewMessage, Consumer}
 
   def start(stream_name, subscribed_to, opts \\ []) do
     message = MessageStore.read_last_message(stream_name)
-    subscriber = Subscriber.start(stream_name, subscribed_to, message, opts)
+    subscriber = Consumer.start(stream_name, subscribed_to, message, opts)
     {:ok, subscriber}
   end
 
@@ -24,8 +24,7 @@ defmodule MessageStore.SubscriberService do
         subscriber
 
       _ ->
-        {:ok, [updated_subscriber | _]} =
-          Subscriber.handle_messages(subscriber, messages, handler)
+        {:ok, [updated_subscriber | _]} = Consumer.handle_messages(subscriber, messages, handler)
 
         # TODO: improve testing
         if updated_subscriber.current_position == subscriber.current_position do

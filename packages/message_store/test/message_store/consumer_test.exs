@@ -1,7 +1,7 @@
-defmodule MessageStore.SubscriberTest do
+defmodule MessageStore.ConsumerTest do
   use ExUnit.Case
 
-  alias MessageStore.{Message, Subscriber}
+  alias MessageStore.{Message, Consumer}
 
   def build_message(attrs) do
     defaults = [
@@ -21,14 +21,14 @@ defmodule MessageStore.SubscriberTest do
   describe "starting a subscriber" do
     test "given no subscription message starts at the position 0" do
       subscription_message = nil
-      subject = Subscriber.start("subscriber-foo", "new_stream", subscription_message)
+      subject = Consumer.start("subscriber-foo", "new_stream", subscription_message)
       assert subject.stream_name == "subscriber-foo"
       assert subject.current_position == -0
     end
 
     test "give a subscription message starts at the recorded position" do
       subscription_message = %{position: 0, data: %{"position" => 10}}
-      subject = Subscriber.start("subscriber-foo", "new_stream", subscription_message)
+      subject = Consumer.start("subscriber-foo", "new_stream", subscription_message)
       assert subject.current_position == 10
     end
   end
@@ -52,8 +52,8 @@ defmodule MessageStore.SubscriberTest do
           data: %{name: "YouTube Video"}
         )
 
-      subscriber = Subscriber.start("subscriber-foo", "video", nil)
-      {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
+      subscriber = Consumer.start("subscriber-foo", "video", nil)
+      {:ok, subject} = Consumer.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
       assert subject.handled_message_result == "YOUTUBE VIDEO"
@@ -67,8 +67,8 @@ defmodule MessageStore.SubscriberTest do
           data: %{name: "YouTube Video"}
         )
 
-      subscriber = Subscriber.start("subscriber-foo", "comment", nil)
-      subject = Subscriber.handle_message(subscriber, message, MessageHandler)
+      subscriber = Consumer.start("subscriber-foo", "comment", nil)
+      subject = Consumer.handle_message(subscriber, message, MessageHandler)
 
       assert {:error, :message_from_another_stream} = subject
     end
@@ -82,8 +82,8 @@ defmodule MessageStore.SubscriberTest do
           data: %{name: "YouTube Video"}
         )
 
-      subscriber = Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: "user")
-      {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
+      subscriber = Consumer.start("subscriber-foo", "video", nil, origin_stream_name: "user")
+      {:ok, subject} = Consumer.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
       assert subject.handled_message_result == "YOUTUBE VIDEO"
@@ -99,9 +99,9 @@ defmodule MessageStore.SubscriberTest do
         )
 
       subscriber =
-        Subscriber.start("subscriber-foo", "video", nil, origin_stream_name: ":mismatch:")
+        Consumer.start("subscriber-foo", "video", nil, origin_stream_name: ":mismatch:")
 
-      {:ok, subject} = Subscriber.handle_message(subscriber, message, MessageHandler)
+      {:ok, subject} = Consumer.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
       assert subject.handled_message_result == nil
@@ -125,10 +125,9 @@ defmodule MessageStore.SubscriberTest do
         )
       ]
 
-      subscriber = Subscriber.start("subscriber-foo", "video", nil)
+      subscriber = Consumer.start("subscriber-foo", "video", nil)
 
-      {:ok, [subject | _subject]} =
-        Subscriber.handle_messages(subscriber, messages, MessageHandler)
+      {:ok, [subject | _subject]} = Consumer.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1
       assert subject.handled_message_result == "vimeo video"
