@@ -20,7 +20,7 @@ defmodule MessageStore.ConsumerServiceTest do
       message =
         MessageData.Write.new(
           stream_name: "subscriber-foo",
-          type: "Read",
+          type: "Recorded",
           data: %{position: 1}
         )
 

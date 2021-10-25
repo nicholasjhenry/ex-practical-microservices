@@ -5,12 +5,12 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
   alias VideoTutorialsData.AdminSubscriberPosition
   alias VideoTutorialsServices.AdminSubscriberPositions
 
-  test "handling component Read events" do
+  test "handling component Recorded messages" do
     message =
       MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
-        type: "Read",
+        type: "Recorded",
         data: %{"postition" => 0},
         metadata: %{},
         position: 0,
@@ -28,7 +28,7 @@ defmodule VideoTutorialsServices.AdminSubscriberPositionsTest do
       MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "components:subscriber-1",
-        type: "Read",
+        type: "Recorded",
         data: %{"postition" => 1},
         metadata: %{},
         position: 1,
