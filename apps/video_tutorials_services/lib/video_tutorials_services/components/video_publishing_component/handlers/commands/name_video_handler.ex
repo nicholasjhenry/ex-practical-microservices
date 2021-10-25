@@ -1,4 +1,5 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler do
+  import Verity.Messaging.Handle
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write
 
@@ -13,8 +14,12 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     defstruct [:video_id, :command]
   end
 
-  def handle_message(%{type: "NameVideo"} = command), do: name_video(command)
-  def handle_message(_command), do: :ok
+  def handle_message(%{type: "NameVideo"} = command) do
+    name_video(command)
+    command
+  end
+
+  def handle_message(command), do: command
 
   defp name_video(command) do
     context = %Context{video_id: command.data["video_id"], command: command}
@@ -57,7 +62,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
 
   defp write_video_named_event(context) do
     name_video = context.command
-    stream_name = stream_name(@category, name_video.data["video_id"])
+    stream_name = stream_name(name_video.data["video_id"], @category)
 
     name_video
     |> VideoNamed.follow()
@@ -68,7 +73,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
 
   defp write_video_name_rejected(context, errors) do
     name_video = context.command
-    stream_name = stream_name(@category, name_video.data["video_id"])
+    stream_name = stream_name(name_video.data["video_id"], @category)
 
     reason =
       errors

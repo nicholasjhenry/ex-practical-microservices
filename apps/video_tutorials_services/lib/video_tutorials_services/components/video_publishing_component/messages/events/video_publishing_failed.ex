@@ -1,8 +1,8 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublishingFailed do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   def new(metadata, data) do
-    NewMessage.new(
+    MessageData.Write.new(
       stream_name: nil,
       type: "videoPublishingFailed",
       metadata: metadata,

@@ -1,4 +1,5 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events do
+  import Verity.Messaging.Handle
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write
 
@@ -40,7 +41,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events do
   end
 
   defp write_registration_email_sent_event(%{event: email_sent, identity_id: identity_id}) do
-    stream_name = stream_name(@category, identity_id)
+    stream_name = stream_name(identity_id, @category)
 
     registration_email_sent =
       email_sent

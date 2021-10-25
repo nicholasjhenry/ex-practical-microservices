@@ -1,13 +1,13 @@
 defmodule VideoTutorialsBackOfficeTest do
   use VideoTutorialsBackOffice.DataCase
 
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   test "list events by category name and user_id" do
     user_id = UUID.uuid4()
 
     event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "identity-#{user_id}",
         type: "RegistrationEmailSent",
         metadata: %{
@@ -34,7 +34,7 @@ defmodule VideoTutorialsBackOfficeTest do
     user_id = UUID.uuid4()
 
     event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "identity-#{user_id}",
         type: "RegistrationEmailSent",
         metadata: %{

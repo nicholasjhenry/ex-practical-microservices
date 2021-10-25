@@ -1,16 +1,16 @@
 defmodule VideoTutorialsServices.IdentityComponentTest do
   use VideoTutorialsServices.DataCase
 
+  alias MessageStore.MessageData
+
   alias VideoTutorialsServices.IdentityComponent.Handlers
   alias VideoTutorialsServices.IdentityComponent.Projection
 
-  alias MessageStore.{Message, NewMessage}
-
   test "registering a user" do
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: "identity:command-1",
+        stream_name: command_stream_name(1, "identity"),
         type: "Register",
         data: %{"user_id" => "1", "email" => "jane@example.com", "password_hash" => "abc123#"},
         metadata: %{"user_id" => "1", "trace_id" => UUID.uuid4()},
@@ -30,7 +30,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
   test "sending registration email" do
     registered_event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "identity-1",
         type: "Registered",
         metadata: %{
@@ -47,7 +47,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     MessageStore.write_message(registered_event)
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
@@ -63,7 +63,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
   test "handle email sent events" do
     registered_event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "identity-1",
         type: "Registered",
         metadata: %{
@@ -80,7 +80,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     MessageStore.write_message(registered_event)
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "sendEmail-1",
         type: "Sent",

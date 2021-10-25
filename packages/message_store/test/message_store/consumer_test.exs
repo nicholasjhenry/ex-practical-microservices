@@ -1,7 +1,7 @@
 defmodule MessageStore.ConsumerTest do
   use ExUnit.Case
 
-  alias MessageStore.{Message, Consumer}
+  alias MessageStore.{Consumer, MessageData}
 
   def build_message(attrs) do
     defaults = [
@@ -15,7 +15,7 @@ defmodule MessageStore.ConsumerTest do
     ]
 
     attrs = Keyword.merge(defaults, attrs)
-    Message.new(attrs)
+    MessageData.Read.new(attrs)
   end
 
   describe "starting a subscriber" do

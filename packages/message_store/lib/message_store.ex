@@ -3,7 +3,7 @@ defmodule MessageStore do
   Documentation for `MessageStore`.
   """
 
-  alias MessageStore.{Message, Repo}
+  alias MessageStore.{MessageData, Repo}
 
   defmodule VersionConflictError do
     @regex ~r/Wrong expected version: \d+ \(Stream: \D+-\d+, Stream Version: ([0-9-])+\)/
@@ -99,7 +99,7 @@ defmodule MessageStore do
   end
 
   defp to_message([{id, stream_name, type, position, gobal_position, data, metadata, time}]) do
-    Message.new(
+    MessageData.Read.new(
       id: id,
       stream_name: stream_name,
       type: type,

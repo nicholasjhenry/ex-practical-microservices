@@ -1,7 +1,7 @@
 defmodule MessageStore.ConsumerServiceTest do
   use ExUnit.Case
 
-  alias MessageStore.{NewMessage, Repo, ConsumerService}
+  alias MessageStore.{MessageData, Repo, ConsumerService}
 
   setup do
     start_supervised!(MessageStore.Repo)
@@ -18,7 +18,7 @@ defmodule MessageStore.ConsumerServiceTest do
 
     test "given existing state" do
       message =
-        NewMessage.new(
+        MessageData.Write.new(
           stream_name: "subscriber-foo",
           type: "Read",
           data: %{position: 1}
@@ -42,7 +42,7 @@ defmodule MessageStore.ConsumerServiceTest do
       {:ok, subscriber} = ConsumerService.start("subscriber-foo", "video")
 
       message =
-        NewMessage.new(
+        MessageData.Write.new(
           stream_name: "video-1",
           type: "VideoCreated",
           data: %{name: "YouTube Video"}

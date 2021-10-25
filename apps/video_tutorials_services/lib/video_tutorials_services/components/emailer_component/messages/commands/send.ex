@@ -1,8 +1,10 @@
 defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
+
+  # http://docs.eventide-project.org/user-guide/messages-and-message-data/metadata.html#metadata-attributes
 
   def new(metadata, data) do
-    NewMessage.new(
+    MessageData.Write.new(
       stream_name: nil,
       type: "Send",
       metadata: metadata,

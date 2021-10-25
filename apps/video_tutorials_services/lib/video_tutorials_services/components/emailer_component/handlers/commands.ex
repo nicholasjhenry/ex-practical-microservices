@@ -1,4 +1,5 @@
 defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
+  import Verity.Messaging.Handle
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write
 
@@ -67,7 +68,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp write_sent_event(%{send_command: send_command}) do
-    stream_name = stream_name(:sendEmail, send_command.data["email_id"])
+    stream_name = stream_name(send_command.data["email_id"], :sendEmail)
 
     event =
       Sent.new(
@@ -83,7 +84,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp write_failed_event(%{send_command: send_command}, error) do
-    stream_name = stream_name(:sendEmail, send_command.data["email_id"])
+    stream_name = stream_name(send_command.data["email_id"], :sendEmail)
 
     event =
       Failed.new(

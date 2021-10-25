@@ -3,13 +3,13 @@ defmodule VideoTutorialsServices.UserCredentialsTest do
 
   alias VideoTutorialsData.UserCredential
   alias VideoTutorialsServices.UserCredentials
-  alias MessageStore.Message
+  alias MessageStore.MessageData
 
   test "handling a registration events" do
     user_id = UUID.uuid4()
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",

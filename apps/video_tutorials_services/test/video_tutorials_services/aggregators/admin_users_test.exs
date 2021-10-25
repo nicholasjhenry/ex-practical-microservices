@@ -1,7 +1,7 @@
 defmodule VideoTutorialsServices.AdminUsersTest do
   use VideoTutorialsServices.DataCase
 
-  alias MessageStore.Message
+  alias MessageStore.MessageData
   alias VideoTutorialsData.AdminUser
   alias VideoTutorialsServices.AdminUsers
 
@@ -9,7 +9,7 @@ defmodule VideoTutorialsServices.AdminUsersTest do
     user_id = UUID.uuid4()
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
@@ -32,7 +32,7 @@ defmodule VideoTutorialsServices.AdminUsersTest do
     user_id = UUID.uuid4()
 
     registered_event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "identity-#{user_id}",
         type: "RegistrationEmailSent",

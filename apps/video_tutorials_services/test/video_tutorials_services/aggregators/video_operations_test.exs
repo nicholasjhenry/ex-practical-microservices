@@ -1,9 +1,10 @@
 defmodule VideoTutorialsServices.VideoOperationsTest do
   use VideoTutorialsServices.DataCase
 
+  alias MessageStore.MessageData
+
   alias VideoTutorialsData.VideoOperation
   alias VideoTutorialsServices.VideoOperations
-  alias MessageStore.Message
 
   test "handling a video named event" do
     user_id = UUID.uuid4()
@@ -11,7 +12,7 @@ defmodule VideoTutorialsServices.VideoOperationsTest do
     video_id = UUID.uuid4()
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing-#{video_id}",
         type: "VideoNamed",
@@ -36,7 +37,7 @@ defmodule VideoTutorialsServices.VideoOperationsTest do
     video_id = UUID.uuid4()
 
     event =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
         stream_name: "videoPublishing-#{video_id}",
         type: "VideoNameRejected",

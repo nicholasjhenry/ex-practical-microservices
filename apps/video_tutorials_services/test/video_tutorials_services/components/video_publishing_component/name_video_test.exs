@@ -1,19 +1,19 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandlerTest do
   use VideoTutorialsServices.DataCase
 
+  alias MessageStore.MessageData
+
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
   alias VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
   alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
-
-  alias MessageStore.Message
 
   test "name a video with valid data" do
     publish_video()
 
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: "videoPublishing:command-2",
+        stream_name: command_stream_name(2, "videoPublishing"),
         type: "NameVideo",
         data: %{
           "name" => "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS",
@@ -36,9 +36,9 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     publish_video()
 
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: "videoPublishing:command-2",
+        stream_name: command_stream_name(2, "videoPublishing"),
         type: "NameVideo",
         data: %{
           "name" => "",
@@ -59,9 +59,9 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
 
   def publish_video do
     command =
-      Message.new(
+      MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: "videoPublishing:command-1",
+        stream_name: command_stream_name(1, "videoPublishing"),
         type: "PublishVideo",
         data: %{
           "owner_id" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",

@@ -1,8 +1,8 @@
 defmodule VideoTutorialsServices.EmailerComponent.Messages.Events.Sent do
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   def new(metadata, data) do
-    NewMessage.new(
+    MessageData.Write.new(
       stream_name: nil,
       type: "Sent",
       metadata: metadata,

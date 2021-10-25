@@ -1,7 +1,7 @@
 defmodule VideoTutorials.Authentication do
   alias VideoTutorialsData.{Repo, UserCredential}
   alias VideoTutorials.{Login, Password}
-  alias MessageStore.NewMessage
+  alias MessageStore.MessageData
 
   defstruct [:trace_id, :endpoint, :email, :password, :user_credential, :signature]
 
@@ -67,7 +67,7 @@ defmodule VideoTutorials.Authentication do
 
   defp write_logged_in_event(context) do
     event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "authentication-#{context.user_credential.id}",
         type: "UserLoggedIn",
         metadata: %{
@@ -90,7 +90,7 @@ defmodule VideoTutorials.Authentication do
 
   defp handle_credentials_mismatch(context) do
     event =
-      NewMessage.new(
+      MessageData.Write.new(
         stream_name: "authentication-#{context.user_credential.id}",
         type: "UserLoginFailed",
         metadata: %{
