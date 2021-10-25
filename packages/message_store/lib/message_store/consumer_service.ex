@@ -17,7 +17,7 @@ defmodule MessageStore.ConsumerService do
       )
       |> filter(subscriber.filter)
 
-    Logger.debug(inspect(subscriber) <> "\n" <> inspect(messages))
+    # Logger.debug(inspect(subscriber) <> "\n" <> inspect(messages))
 
     case messages do
       [] ->
