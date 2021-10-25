@@ -8,6 +8,7 @@ defmodule CreatorsPortal do
   """
 
   import Ecto.Query
+  import Verity.Messaging.StreamName
 
   alias VideoTutorialsData.{Repo, Video, VideoOperation}
 
@@ -38,7 +39,7 @@ defmodule CreatorsPortal do
       |> Ecto.Changeset.apply_action(:validated)
 
     with {:ok, data} <- result do
-      stream_name = "videoPublishing:command-#{data.id}"
+      stream_name = command_stream_name(data.id, "videoPublishing")
 
       command =
         MessageStore.MessageData.Write.new(
@@ -63,7 +64,7 @@ defmodule CreatorsPortal do
   end
 
   def name_video(context, video, attrs) do
-    stream_name = "videoPublishing:command-#{video.id}"
+    stream_name = command_stream_name(video.id, "videoPublishing")
 
     command =
       MessageStore.MessageData.Write.new(

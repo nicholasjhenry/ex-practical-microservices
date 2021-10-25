@@ -10,7 +10,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
     command =
       MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: "videoPublishing:command-1",
+        stream_name: command_stream_name(1, "videoPublishing"),
         type: "PublishVideo",
         data: %{
           "owner_id" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",

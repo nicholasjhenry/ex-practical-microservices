@@ -10,7 +10,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     command =
       MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: "identity:command-1",
+        stream_name: command_stream_name(1, "identity"),
         type: "Register",
         data: %{"user_id" => "1", "email" => "jane@example.com", "password_hash" => "abc123#"},
         metadata: %{"user_id" => "1", "trace_id" => UUID.uuid4()},

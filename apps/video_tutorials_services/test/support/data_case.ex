@@ -23,6 +23,7 @@ defmodule VideoTutorialsServices.DataCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      import Verity.Messaging.StreamName
       import VideoTutorialsServices.DataCase
     end
   end

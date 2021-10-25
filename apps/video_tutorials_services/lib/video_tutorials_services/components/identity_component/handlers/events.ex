@@ -60,7 +60,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
 
     email_id = UUID.uuid5(uuid_v5_namespace, identity.email)
 
-    stream_name = "sendEmail:command-#{email_id}"
+    stream_name = command_stream_name(email_id, "sendEmail")
 
     send_email_command =
       Send.new(

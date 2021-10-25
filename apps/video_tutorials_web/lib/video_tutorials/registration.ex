@@ -4,6 +4,7 @@ defmodule VideoTutorials.Registration do
 
   use Ecto.Schema
   import Ecto.Changeset
+  import Verity.Messaging.StreamName
 
   embedded_schema do
     field :email, :string
@@ -81,7 +82,7 @@ defmodule VideoTutorials.Registration do
   defp write_register_command(context) do
     case Ecto.Changeset.apply_action(context.changeset, :executed) do
       {:ok, registration} ->
-        stream_name = "identity:command-#{registration.id}"
+        stream_name = command_stream_name(registration.id, "identity")
 
         command =
           MessageStore.MessageData.Write.new(
