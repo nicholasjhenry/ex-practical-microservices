@@ -3,9 +3,9 @@ defmodule VideoTutorialsServices.IdentityComponent do
 
   def child_specs do
     [
-      Consumers.Commands.child_spec(),
-      Consumers.Events.child_spec(),
-      Consumers.Events.Emailer.child_spec()
+      Consumers.Commands,
+      Consumers.Events,
+      Consumers.Events.Emailer
     ]
   end
 end
