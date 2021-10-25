@@ -39,7 +39,7 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:user-credentials",
+            stream_name: "aggregators:userCredentials",
             subscribed_to: "identity",
             handler: VideoTutorialsServices.UserCredentials
           }
@@ -49,7 +49,7 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:admin-users",
+            stream_name: "aggregators:adminUsers",
             subscribed_to: "identity",
             handler: VideoTutorialsServices.AdminUsers
           }
@@ -59,7 +59,7 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:video-operations",
+            stream_name: "aggregators:videoOperations",
             subscribed_to: "videoPublishing",
             handler: VideoTutorialsServices.VideoOperations
           }
@@ -69,7 +69,7 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:creators-videos",
+            stream_name: "aggregators:creatorsVideos",
             subscribed_to: "videoPublishing",
             handler: VideoTutorialsServices.CreatorsVideos
           }
@@ -79,7 +79,7 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:admin-streams",
+            stream_name: "aggregators:adminStreams",
             subscribed_to: "$all",
             handler: VideoTutorialsServices.AdminStreams
           }
@@ -90,7 +90,7 @@ defmodule VideoTutorialsServices.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:admin-subscriber-positions",
+            stream_name: "aggregators:adminSubscriberPositions",
             subscribed_to: "$all",
             handler: VideoTutorialsServices.AdminSubscriberPositions,
             opts: [filter: "components"]

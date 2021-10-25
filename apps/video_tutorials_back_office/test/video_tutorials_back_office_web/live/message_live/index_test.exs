@@ -6,7 +6,7 @@ defmodule VideoTutorialsBackOfficeWeb.MessageLive.IndexTest do
   alias VideoTutorialsBackOffice.Message
 
   test "disconnected and connected render", %{conn: conn} do
-    message = Repo.insert!(%Message{stream_name: "test-stream", type: "test_type", position: 0})
+    message = Repo.insert!(%Message{stream_name: "testStream", type: "test_type", position: 0})
 
     {:ok, page_live, disconnected_html} = live(conn, "/admin/messages")
     assert disconnected_html =~ "Messages"
@@ -17,7 +17,7 @@ defmodule VideoTutorialsBackOfficeWeb.MessageLive.IndexTest do
   end
 
   test "render with message type", %{conn: conn} do
-    message = Repo.insert!(%Message{stream_name: "test-stream", type: "test_type", position: 0})
+    message = Repo.insert!(%Message{stream_name: "testStream", type: "test_type", position: 0})
 
     {:ok, page_live, disconnected_html} =
       conn
@@ -35,14 +35,14 @@ defmodule VideoTutorialsBackOfficeWeb.MessageLive.IndexTest do
 
     message =
       Repo.insert!(%Message{
-        stream_name: "test-stream",
+        stream_name: "testStream",
         type: "test_type",
         position: 0,
         metadata: %{trace_id: trace_id}
       })
 
     _not_correlated_message =
-      Repo.insert!(%Message{stream_name: "another-stream", type: "test_type", position: 0})
+      Repo.insert!(%Message{stream_name: "anotherStream", type: "test_type", position: 0})
 
     {:ok, page_live, disconnected_html} =
       conn
