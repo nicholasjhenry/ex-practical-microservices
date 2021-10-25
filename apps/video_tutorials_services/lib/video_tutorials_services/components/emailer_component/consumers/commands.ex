@@ -5,7 +5,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Consumers.Commands do
     [
       MessageStore.ConsumerWorker.child_spec(
         config: %{
-          stream_name: "components:send-email:command",
+          stream_name: "components:sendEmail:command",
           subscribed_to: "sendEmail:command",
           handler: Handlers.Commands
         }
