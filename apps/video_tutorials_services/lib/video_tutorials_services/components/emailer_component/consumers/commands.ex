@@ -1,5 +1,5 @@
 defmodule VideoTutorialsServices.EmailerComponent.Consumers.Commands do
-  import Verity.Consumer.Postgres
+  use Verity.Consumer.Postgres
 
   alias VideoTutorialsServices.EmailerComponent.Handlers
   handler Handlers.Commands

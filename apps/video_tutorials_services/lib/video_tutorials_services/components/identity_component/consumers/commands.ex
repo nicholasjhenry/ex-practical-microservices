@@ -1,5 +1,5 @@
 defmodule VideoTutorialsServices.IdentityComponent.Consumers.Commands do
-  import Verity.Consumer.Postgres
+  use Verity.Consumer.Postgres
 
   alias VideoTutorialsServices.IdentityComponent.Handlers
   handler Handlers.Commands
