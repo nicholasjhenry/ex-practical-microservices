@@ -4,8 +4,8 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
   alias MessageStore.MessageData
 
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.NameVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler
 
   test "name a video with valid data" do
     publish_video()

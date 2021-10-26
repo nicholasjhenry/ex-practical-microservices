@@ -1,22 +1,15 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Consumers.Commands do
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers
 
-  def child_specs do
-    [
-      MessageStore.ConsumerWorker.child_spec(
-        config: %{
-          stream_name: "components:nameVideo",
-          subscribed_to: "videoPublishing:command",
-          handler: Commands.NameVideoHandler
-        }
-      ),
-      MessageStore.ConsumerWorker.child_spec(
-        config: %{
-          stream_name: "components:publishingVideo",
-          subscribed_to: "videoPublishing:command",
-          handler: Commands.PublishVideoHandler
-        }
-      )
-    ]
+  def child_spec(opts) do
+    stream_name = Keyword.fetch!(opts, :stream_name)
+
+    MessageStore.ConsumerWorker.child_spec(
+      config: %{
+        stream_name: stream_name <> "+position",
+        subscribed_to: stream_name,
+        handler: Handlers.Commands
+      }
+    )
   end
 end

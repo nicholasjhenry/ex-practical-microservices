@@ -3,7 +3,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
 
   alias MessageStore.MessageData
 
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
 
   test "publishing a video" do
