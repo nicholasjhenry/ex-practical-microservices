@@ -17,7 +17,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
       command =
         MessageData.Read.new(
           id: UUID.uuid4(),
-          stream_name: command_stream_name(data["email_id"], "email"),
+          stream_name: command_stream_name(data["email_id"], :email),
           type: "Send",
           data: data,
           metadata: %{
@@ -51,7 +51,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
       command =
         MessageData.Read.new(
           id: UUID.uuid4(),
-          stream_name: command_stream_name(event.data.email_id, "email"),
+          stream_name: command_stream_name(event.data.email_id, :email),
           type: "Send",
           data: %{"email_id" => 1},
           metadata: %{"trace_id" => UUID.uuid4()},

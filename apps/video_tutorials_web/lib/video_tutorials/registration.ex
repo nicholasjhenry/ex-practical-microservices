@@ -82,7 +82,7 @@ defmodule VideoTutorials.Registration do
   defp write_register_command(context) do
     case Ecto.Changeset.apply_action(context.changeset, :executed) do
       {:ok, registration} ->
-        stream_name = command_stream_name(registration.id, "identity")
+        stream_name = command_stream_name(registration.id, :identity)
 
         command =
           MessageStore.MessageData.Write.new(

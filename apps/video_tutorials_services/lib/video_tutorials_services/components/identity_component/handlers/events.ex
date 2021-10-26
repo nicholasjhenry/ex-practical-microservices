@@ -60,12 +60,12 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
 
     email_id = UUID.uuid5(uuid_v5_namespace, identity.email)
 
-    stream_name = command_stream_name(email_id, "sendEmail")
+    stream_name = command_stream_name(email_id, :sendEmail)
 
     send_email_command =
       Send.new(
         %{
-          origin_stream_name: stream_name(:identity, identity.id),
+          origin_stream_name: stream_name(identity.id, :identity),
           trace_id: Map.fetch!(event.metadata, "trace_id"),
           user_id: Map.fetch!(event.metadata, "user_id")
         },
