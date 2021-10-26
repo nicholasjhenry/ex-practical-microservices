@@ -5,7 +5,7 @@ defmodule VideoTutorialsServices.AdminSubscriberPositions do
 
   alias VideoTutorialsData.{Repo, AdminSubscriberPosition}
 
-  def handle_message(%{stream_name: "components:" <> _, type: "Read"} = message) do
+  def handle_message(%{stream_name: "components:" <> _, type: "Recorded"} = message) do
     %{stream_name: stream_name, global_position: message_global_position, position: position} =
       message
 

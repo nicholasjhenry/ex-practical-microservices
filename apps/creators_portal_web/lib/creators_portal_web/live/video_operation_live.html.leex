@@ -14,7 +14,7 @@
       <p class="alert alert-danger"><%= @video_operation.failure_reason["message"] %></p>
 
       <p>
-        <%= link Routes.video_path(@socket, :edit, @video_operation.video_id), to: "Back to video" %>
+        <%= live_patch "Back to video", to: Routes.video_path(@socket, :edit, @video_operation.video_id) %>
       </p>
     </div>
   </div>

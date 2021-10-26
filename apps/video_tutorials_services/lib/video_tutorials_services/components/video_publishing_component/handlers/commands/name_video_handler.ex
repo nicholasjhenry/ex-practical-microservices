@@ -1,4 +1,4 @@
-defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler do
+defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.NameVideoHandler do
   import Verity.Messaging.Handle
   import Verity.Messaging.StreamName
   import Verity.Messaging.Write

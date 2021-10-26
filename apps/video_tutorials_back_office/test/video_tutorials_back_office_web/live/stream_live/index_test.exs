@@ -6,7 +6,7 @@ defmodule VideoTutorialsBackOfficeWeb.StreamLive.IndexTest do
   alias VideoTutorialsData.AdminStream
 
   test "disconnected and connected render", %{conn: conn} do
-    stream = Repo.insert!(%AdminStream{stream_name: "test-stream", last_message_id: UUID.uuid4()})
+    stream = Repo.insert!(%AdminStream{stream_name: "testStream", last_message_id: UUID.uuid4()})
 
     {:ok, page_live, disconnected_html} = live(conn, "/admin/streams")
     assert disconnected_html =~ "Streams"

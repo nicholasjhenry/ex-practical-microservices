@@ -1,37 +1,11 @@
 defmodule VideoTutorialsServices.IdentityComponent do
+  alias VideoTutorialsServices.IdentityComponent.Consumers
+
   def child_specs do
     [
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:identity:command",
-            subscribed_to: "identity:command",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.Commands
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:identity",
-            subscribed_to: "identity",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.Events
-          }
-        ]
-      },
-      {
-        MessageStore.ConsumerWorker,
-        [
-          config: %{
-            stream_name: "components:identity:sendEmailEvents",
-            subscribed_to: "sendEmail",
-            handler: VideoTutorialsServices.IdentityComponent.Handlers.SendEmail.Events,
-            opts: [origin_stream_name: "identity"]
-          }
-        ]
-      }
+      Consumers.Commands.child_spec(stream_name: "identity:command"),
+      Consumers.Events.child_spec(stream_name: "identity"),
+      Consumers.Events.SendEmail.child_spec(stream_name: "sendEmail")
     ]
   end
 end

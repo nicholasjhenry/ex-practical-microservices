@@ -4,8 +4,8 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
   alias MessageStore.MessageData
 
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHandler
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.NameVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler
 
   test "name a video with valid data" do
     publish_video()
@@ -13,7 +13,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     command =
       MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: command_stream_name(2, "videoPublishing"),
+        stream_name: command_stream_name(2, :videoPublishing),
         type: "NameVideo",
         data: %{
           "name" => "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS",
@@ -38,7 +38,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     command =
       MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: command_stream_name(2, "videoPublishing"),
+        stream_name: command_stream_name(2, :videoPublishing),
         type: "NameVideo",
         data: %{
           "name" => "",
@@ -61,7 +61,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
     command =
       MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: command_stream_name(1, "videoPublishing"),
+        stream_name: command_stream_name(1, :videoPublishing),
         type: "PublishVideo",
         data: %{
           "owner_id" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",

@@ -41,7 +41,7 @@ defmodule VideoTutorialsWeb.Application do
         MessageStore.ConsumerWorker,
         [
           config: %{
-            stream_name: "aggregators:home-page",
+            stream_name: "aggregators:homePage",
             subscribed_to: "viewing",
             handler: VideoTutorials.HomePage
           }

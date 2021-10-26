@@ -17,7 +17,7 @@ defmodule MessageStore.ConsumerService do
       )
       |> filter(subscriber.filter)
 
-    Logger.debug(inspect(subscriber) <> "\n" <> inspect(messages))
+    # Logger.debug(inspect(subscriber) <> "\n" <> inspect(messages))
 
     case messages do
       [] ->
@@ -33,7 +33,7 @@ defmodule MessageStore.ConsumerService do
           message =
             MessageData.Write.new(
               stream_name: updated_subscriber.stream_name,
-              type: "Read",
+              type: "Recorded",
               data: %{position: updated_subscriber.current_position},
               expected_version: updated_subscriber.version
             )

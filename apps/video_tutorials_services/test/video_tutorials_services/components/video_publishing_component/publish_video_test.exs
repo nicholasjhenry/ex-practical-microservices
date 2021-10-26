@@ -3,14 +3,14 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
 
   alias MessageStore.MessageData
 
-  alias VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandler
+  alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
 
   test "publishing a video" do
     command =
       MessageData.Read.new(
         id: UUID.uuid4(),
-        stream_name: command_stream_name(1, "videoPublishing"),
+        stream_name: command_stream_name(1, :videoPublishing),
         type: "PublishVideo",
         data: %{
           "owner_id" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",
