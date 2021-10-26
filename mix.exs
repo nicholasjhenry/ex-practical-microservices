@@ -16,7 +16,9 @@ defmodule VideoTutorials.Umbrella.MixProject do
         :video_tutorials_data,
         :video_tutorials_proxy,
         :video_tutorials_services,
-        :video_tutorials_web
+        :video_tutorials_web,
+        :verity_consumer_postgres,
+        :verity_messaging
       ],
       apps_path: "apps",
       version: "0.1.0",
