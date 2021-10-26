@@ -22,3 +22,15 @@ npm.setup:
 	mix cmd --app creators_portal_web npm install --prefix assets
 	mix cmd --app video_tutorials_back_office npm install --prefix assets
 	mix cmd --app video_tutorials_web npm install --prefix assets
+
+npm.clean:
+	mix cmd --app creators_portal_web rm -rf assets/node_modules
+	mix cmd --app video_tutorials_back_office rm -rf assets/node_modules
+	mix cmd --app video_tutorials_web rm -rf assets/node_modules
+
+# Run if this message is displayed:
+#  Error: Node Sass does not yet support your current environment: OS X 64-bit with Unsupported runtime (93)
+npm.sass.rebuild:
+	mix cmd --app creators_portal_web npm rebuild node-sass --prefix assets
+	mix cmd --app video_tutorials_back_office npm rebuild node-sass --prefix assets
+	mix cmd --app video_tutorials_web npm rebuild node-sass --prefix assets
