@@ -12,7 +12,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Consumers.Events do
       config: %{
         stream_name: stream_name <> "+position",
         subscribed_to: stream_name,
-        handler: Handlers.Commands
+        handler: Handlers.Events
       }
     )
   end

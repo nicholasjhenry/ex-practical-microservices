@@ -1,4 +1,4 @@
-defmodule VideoTutorialsServices.IdentityComponent.Consumers.Events.Emailer do
+defmodule VideoTutorialsServices.IdentityComponent.Consumers.Events.SendEmail do
   # Eventide:
   # include Consumer::Postgres
   # handler Handlers::Commands
@@ -14,7 +14,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Consumers.Events.Emailer do
       config: %{
         stream_name: stream_name <> "+position" <> "-" <> @identifier,
         subscribed_to: stream_name,
-        handler: Handlers.Commands
+        handler: Handlers.Events.SendEmail
       }
     )
   end
