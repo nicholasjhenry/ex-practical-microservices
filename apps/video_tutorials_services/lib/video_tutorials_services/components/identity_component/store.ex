@@ -1,12 +1,9 @@
 defmodule VideoTutorialsServices.IdentityComponent.Store do
-  import Verity.Messaging.StreamName
-
   alias VideoTutorialsServices.IdentityComponent.Projection
+  # alias VideoTutorialsServices.VideoPublishingComponent.Identity
 
-  @category :identity
-
-  def fetch(id) do
-    stream_name = stream_name(id, @category)
-    MessageStore.fetch(stream_name, Projection)
-  end
+  use Verity.EntityStore,
+    category: :identity,
+    entity: Identity,
+    projection: Projection
 end
