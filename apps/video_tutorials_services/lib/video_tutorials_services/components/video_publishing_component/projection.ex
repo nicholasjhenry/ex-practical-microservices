@@ -1,10 +1,14 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Projection do
+  use Verity.EntityProjection
+
   alias VideoTutorialsServices.VideoPublishingComponent.VideoPublishing
 
+  @impl true
   def init() do
     %VideoPublishing{publishing_attempted?: false, sequence: 0, name: ""}
   end
 
+  @impl true
   def apply(video, %{type: "videoPublished", data: data, global_position: global_position}) do
     %{
       video
