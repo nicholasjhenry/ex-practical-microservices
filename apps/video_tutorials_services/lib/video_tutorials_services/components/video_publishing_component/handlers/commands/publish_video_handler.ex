@@ -1,7 +1,5 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler do
-  import Verity.Messaging.Handle
-  import Verity.Messaging.StreamName
-  import Verity.Messaging.Write
+  use Verity.Messaging.Handler
 
   import VideoPublishing.TranscodeVideo
 
@@ -11,6 +9,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
   @category :videoPublishing
 
+  @impl true
   def handle_message(%{type: "PublishVideo"} = command), do: publish_video(command)
   def handle_message(_command), do: :ok
 

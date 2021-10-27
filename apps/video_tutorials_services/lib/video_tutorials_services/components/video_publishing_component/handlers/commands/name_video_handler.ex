@@ -1,7 +1,5 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.NameVideoHandler do
-  import Verity.Messaging.Handle
-  import Verity.Messaging.StreamName
-  import Verity.Messaging.Write
+  use Verity.Messaging.Handler
 
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNamed
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNameRejected
@@ -14,6 +12,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
     defstruct [:video_id, :command]
   end
 
+  @impl true
   def handle_message(%{type: "NameVideo"} = command) do
     name_video(command)
     command
