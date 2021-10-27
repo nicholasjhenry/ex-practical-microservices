@@ -1,6 +1,5 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Consumers.Commands do
-  use Verity.Consumer.Postgres
-
   alias VideoTutorialsServices.VideoPublishingComponent.Handlers
-  handler(Handlers.Commands)
+
+  use Verity.Consumer, handler: Handlers.Commands
 end

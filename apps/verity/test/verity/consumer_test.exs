@@ -1,10 +1,8 @@
-defmodule Verity.Consumer.PostgresTest do
+defmodule Verity.ConsumerTest do
   use ExUnit.Case
 
   defmodule Dummy do
-    use Verity.Consumer.Postgres
-
-    handler(Foo)
+    use Verity.Consumer, handler: Foo
   end
 
   test "generates child spec with the specified handler and stream name" do
@@ -22,10 +20,7 @@ defmodule Verity.Consumer.PostgresTest do
   end
 
   defmodule DummyWithIdentifier do
-    use Verity.Consumer.Postgres
-
-    identifier(:qux)
-    handler(Foo)
+    use Verity.Consumer, identifier: :qux, handler: Foo
   end
 
   test "generates child spec with identifier" do
