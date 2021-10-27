@@ -10,16 +10,7 @@ defmodule VideoTutorials.Umbrella.MixProject do
         ignore_warnings: "dialyzer.ignore-warnings",
         plt_add_apps: [:mix]
       ],
-      apps: [
-        :creators_portal_web,
-        :video_tutorials_back_office,
-        :video_tutorials_data,
-        :video_tutorials_proxy,
-        :video_tutorials_services,
-        :video_tutorials_web,
-        :verity_consumer_postgres,
-        :verity_messaging
-      ],
+      apps: exclude_shared_assets(),
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
@@ -29,6 +20,11 @@ defmodule VideoTutorials.Umbrella.MixProject do
       releases: releases(),
       default_release: :video_tutorials_prod
     ]
+  end
+
+  defp exclude_shared_assets do
+    apps = "./apps" |> File.ls!() |> Enum.map(&String.to_atom/1)
+    apps -- [:shared_assets]
   end
 
   # Dependencies can be Hex packages:

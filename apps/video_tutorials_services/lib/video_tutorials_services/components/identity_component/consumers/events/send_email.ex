@@ -3,6 +3,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Consumers.Events.SendEmail do
 
   alias VideoTutorialsServices.IdentityComponent.Handlers
 
-  identifier "identity"
-  handler Handlers.Events.SendEmail
+  identifier("identity")
+  handler(Handlers.Events.SendEmail)
 end

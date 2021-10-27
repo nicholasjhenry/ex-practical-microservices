@@ -1,2 +1,0 @@
-defmodule VerityMessaging do
-end

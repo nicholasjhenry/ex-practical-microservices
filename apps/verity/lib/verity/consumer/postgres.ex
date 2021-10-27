@@ -16,11 +16,13 @@ defmodule Verity.Consumer.Postgres do
     quote location: :keep do
       def child_spec(opts) do
         subscribed_to = Keyword.fetch!(opts, :stream_name)
-        stream_name = if @identifier do
-          subscribed_to <> "+position-#{@identifier}"
-        else
-          subscribed_to <> "+position"
-        end
+
+        stream_name =
+          if @identifier do
+            subscribed_to <> "+position-#{@identifier}"
+          else
+            subscribed_to <> "+position"
+          end
 
         MessageStore.ConsumerWorker.child_spec(
           config: %{

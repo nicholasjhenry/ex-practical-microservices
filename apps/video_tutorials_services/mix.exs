@@ -41,8 +41,7 @@ defmodule VideoTutorialsServices.MixProject do
     [
       {:phoenix, "~> 1.5.7"},
       {:bamboo, "~> 1.6"},
-      {:verity_messaging, in_umbrella: true},
-      {:verity_consumer_postgres, in_umbrella: true},
+      {:verity, in_umbrella: true},
       {:video_tutorials_data, in_umbrella: true}
     ]
   end
