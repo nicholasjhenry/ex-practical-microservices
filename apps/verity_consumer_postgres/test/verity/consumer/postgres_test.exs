@@ -2,7 +2,7 @@ defmodule Verity.Consumer.PostgresTest do
   use ExUnit.Case
 
   defmodule Dummy do
-    use  Verity.Consumer.Postgres
+    use Verity.Consumer.Postgres
 
     handler Foo
   end
@@ -12,7 +12,9 @@ defmodule Verity.Consumer.PostgresTest do
       id: :"bar+position",
       restart: :permanent,
       shutdown: 500,
-      start: {MessageStore.ConsumerWorker, :start_link, [[config: %{handler: Foo, stream_name: "bar+position", subscribed_to: "bar"}]]},
+      start:
+        {MessageStore.ConsumerWorker, :start_link,
+         [[config: %{handler: Foo, stream_name: "bar+position", subscribed_to: "bar"}]]},
       type: :worker
     }
 
@@ -20,7 +22,7 @@ defmodule Verity.Consumer.PostgresTest do
   end
 
   defmodule DummyWithIdentifier do
-    use  Verity.Consumer.Postgres
+    use Verity.Consumer.Postgres
 
     identifier :qux
     handler Foo
@@ -31,7 +33,9 @@ defmodule Verity.Consumer.PostgresTest do
       id: :"bar+position-qux",
       restart: :permanent,
       shutdown: 500,
-      start: {MessageStore.ConsumerWorker, :start_link, [[config: %{handler: Foo, stream_name: "bar+position-qux", subscribed_to: "bar"}]]},
+      start:
+        {MessageStore.ConsumerWorker, :start_link,
+         [[config: %{handler: Foo, stream_name: "bar+position-qux", subscribed_to: "bar"}]]},
       type: :worker
     }
 
