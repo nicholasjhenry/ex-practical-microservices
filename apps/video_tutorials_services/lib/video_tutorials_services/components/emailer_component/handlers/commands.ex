@@ -1,7 +1,5 @@
 defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
-  import Verity.Messaging.Handle
-  import Verity.Messaging.StreamName
-  import Verity.Messaging.Write
+  use Verity.Messaging.Handler
 
   alias VideoTutorialsServices.Mailer
   alias VideoTutorialsServices.EmailerComponent.Messages.Events.Failed
@@ -17,6 +15,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
               just_send_it: nil
   end
 
+  @impl true
   def handle_message(%{type: "Send"} = command), do: send_email(command)
 
   defp send_email(command) do

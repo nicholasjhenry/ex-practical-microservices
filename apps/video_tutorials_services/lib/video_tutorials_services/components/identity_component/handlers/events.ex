@@ -1,7 +1,5 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
-  import Verity.Messaging.Handle
-  import Verity.Messaging.StreamName
-  import Verity.Messaging.Write
+  use Verity.Messaging.Handler
 
   alias VideoTutorialsServices.IdentityComponent.Store
   alias VideoTutorialsServices.EmailerComponent.Messages.Commands.Send
@@ -10,6 +8,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     defstruct [:identity_id, :event, :email]
   end
 
+  @impl true
   def handle_message(%{type: "Registered"} = event), do: send_email(event)
   def handle_message(_), do: nil
 

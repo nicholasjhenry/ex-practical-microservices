@@ -1,7 +1,5 @@
 defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
-  import Verity.Messaging.Handle
-  import Verity.Messaging.StreamName
-  import Verity.Messaging.Write
+  use Verity.Messaging.Handler
 
   alias VideoTutorialsServices.IdentityComponent.Messages.Events.Registered
   alias VideoTutorialsServices.IdentityComponent.Store
@@ -12,6 +10,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
     defexception [:message]
   end
 
+  @impl true
   def handle_message(%{type: "Register"} = register), do: register_user(register)
   def handle_message(_), do: nil
 
