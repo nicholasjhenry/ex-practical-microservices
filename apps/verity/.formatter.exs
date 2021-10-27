@@ -1,6 +1,6 @@
 # Used by "mix format"
 
-locals_without_parens [
+locals_without_parens = [
   handle: 1,
   identifier: 1
 ]
