@@ -1,4 +1,8 @@
 defmodule Verity.Consumer do
+  @moduledoc """
+  http://docs.eventide-project.org/user-guide/consumers.html
+  """
+
   defmacro __using__(opts) do
     handler = Keyword.fetch!(opts, :handler)
     identifier = Keyword.get(opts, :identifier)

@@ -1,4 +1,8 @@
 defmodule Verity.EntityStore do
+  @moduledoc """
+  http://docs.eventide-project.org/user-guide/entity-store
+  """
+
   defmacro __using__(opts) do
     category = Keyword.fetch!(opts, :category)
     _entity = Keyword.fetch!(opts, :entity)
