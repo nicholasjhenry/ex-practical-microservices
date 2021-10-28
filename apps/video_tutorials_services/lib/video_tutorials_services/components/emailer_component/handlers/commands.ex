@@ -77,13 +77,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
   defp write_failed_event(%{send_command: send_command}, error) do
     stream_name = stream_name(send_command.email_id, :sendEmail)
-
-    event =
-      Failed.new(
-        Send.to_message_data(send_command).metadata,
-        Map.put(Send.to_message_data(send_command).data, :reason, error.message)
-      )
-
+    event = Failed.follow(send_command, %{reason: error.message})
     write(event, stream_name)
   end
 end
