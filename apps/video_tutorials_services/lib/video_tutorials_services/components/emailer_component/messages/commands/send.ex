@@ -14,6 +14,10 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
     )
   end
 
+  def build(metadata_attrs, attrs) do
+    __MODULE__ |> struct!(attrs) |> Map.put(:metadata, struct!(Metadata, metadata_attrs))
+  end
+
   def parse(message_data) do
     %__MODULE__{
       metadata: Metadata.parse(message_data.metadata),
