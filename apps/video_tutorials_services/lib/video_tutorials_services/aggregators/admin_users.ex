@@ -6,13 +6,13 @@ defmodule VideoTutorialsServices.AdminUsers do
   alias VideoTutorialsData.{Repo, AdminUser}
 
   def handle_message(%{type: "Registered"} = event) do
-    ensure_user(event.data["user_id"])
-    set_email(event.data["user_id"], event.data["email"], event.global_position)
+    ensure_user(event.data["userId"])
+    set_email(event.data["userId"], event.data["email"], event.global_position)
   end
 
   def handle_message(%{type: "RegistrationEmailSent"} = event) do
-    ensure_user(event.data["user_id"])
-    mark_registation_email_sent(event.data["user_id"], event.global_position)
+    ensure_user(event.data["userId"])
+    mark_registation_email_sent(event.data["userId"], event.global_position)
   end
 
   defp ensure_user(id) do

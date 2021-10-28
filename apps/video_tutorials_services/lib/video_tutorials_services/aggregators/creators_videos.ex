@@ -3,12 +3,12 @@ defmodule VideoTutorialsServices.CreatorsVideos do
 
   import Ecto.Query
 
-  def handle_message(%{type: "videoPublished"} = event) do
+  def handle_message(%{type: "VideoPublished"} = event) do
     video_id = stream_to_entity_id(event.stream_name)
     position = event.position
-    owner_id = Map.fetch!(event.data, "owner_id")
-    source_uri = Map.fetch!(event.data, "source_uri")
-    transcoded_uri = Map.fetch!(event.data, "transcoded_uri")
+    owner_id = Map.fetch!(event.data, "ownerId")
+    source_uri = Map.fetch!(event.data, "sourceUri")
+    transcoded_uri = Map.fetch!(event.data, "transcodedUri")
 
     video = %Video{
       id: video_id,

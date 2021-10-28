@@ -14,8 +14,8 @@ defmodule VideoTutorialsServices.AdminStreamsTest do
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
-        data: %{"user_id" => user_id, "email" => "jane@example.com", "password_hash" => "abc123#"},
-        metadata: %{"user_id" => user_id, "trace_id" => UUID.uuid4()},
+        data: %{"userId" => user_id, "email" => "jane@example.com", "passwordHash" => "abc123#"},
+        metadata: %{"userId" => user_id, "traceId" => UUID.uuid4()},
         position: 1,
         global_position: 11,
         time: NaiveDateTime.local_now()
@@ -34,8 +34,8 @@ defmodule VideoTutorialsServices.AdminStreamsTest do
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "RegistrationCanceled",
-        data: %{"user_id" => user_id},
-        metadata: %{"user_id" => user_id, "trace_id" => UUID.uuid4()},
+        data: %{"userId" => user_id},
+        metadata: %{"userId" => user_id, "traceId" => UUID.uuid4()},
         position: 2,
         global_position: 12,
         time: NaiveDateTime.local_now()

@@ -11,12 +11,12 @@ defmodule VideoTutorialsBackOfficeTest do
         stream_name: "identity-#{user_id}",
         type: "RegistrationEmailSent",
         metadata: %{
-          trace_id: UUID.uuid4(),
-          user_id: user_id
+          "traceId" => UUID.uuid4(),
+          "userId" => user_id
         },
         data: %{
-          user_id: user_id,
-          email_id: UUID.uuid4()
+          "userId" => user_id,
+          "emailId" => UUID.uuid4()
         },
         # TODO
         expected_version: nil
@@ -27,7 +27,7 @@ defmodule VideoTutorialsBackOfficeTest do
     assert [%{data: data}] =
              VideoTutorialsBackOffice.list_messages(category: "identity", user_id: user_id)
 
-    assert data["user_id"] == user_id
+    assert data["userId"] == user_id
   end
 
   test "list messages by stream name and id" do
@@ -38,12 +38,12 @@ defmodule VideoTutorialsBackOfficeTest do
         stream_name: "identity-#{user_id}",
         type: "RegistrationEmailSent",
         metadata: %{
-          trace_id: UUID.uuid4(),
-          user_id: user_id
+          "traceId" => UUID.uuid4(),
+          "userId" => user_id
         },
         data: %{
-          user_id: user_id,
-          email_id: UUID.uuid4()
+          "userId" => user_id,
+          "emailId" => UUID.uuid4()
         },
         # TODO
         expected_version: nil
@@ -54,6 +54,6 @@ defmodule VideoTutorialsBackOfficeTest do
     assert [%{data: data}] =
              VideoTutorialsBackOffice.list_messages(stream_name: "identity-#{user_id}")
 
-    assert data["user_id"] == user_id
+    assert data["userId"] == user_id
   end
 end

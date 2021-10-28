@@ -17,9 +17,9 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
         type: "NameVideo",
         data: %{
           "name" => "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS",
-          "video_id" => "1"
+          "videoId" => "1"
         },
-        metadata: %{"trace_id" => UUID.uuid4(), "user_id" => UUID.uuid4()},
+        metadata: %{"traceId" => UUID.uuid4(), "userId" => UUID.uuid4()},
         position: 1,
         global_position: 12,
         time: NaiveDateTime.local_now()
@@ -42,9 +42,9 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
         type: "NameVideo",
         data: %{
           "name" => "",
-          "video_id" => "1"
+          "videoId" => "1"
         },
-        metadata: %{"trace_id" => UUID.uuid4(), "user_id" => UUID.uuid4()},
+        metadata: %{"traceId" => UUID.uuid4(), "userId" => UUID.uuid4()},
         position: 1,
         global_position: 12,
         time: NaiveDateTime.local_now()
@@ -64,11 +64,11 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
         stream_name: command_stream_name(1, :videoPublishing),
         type: "PublishVideo",
         data: %{
-          "owner_id" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",
-          "source_uri" => "https://sourceurl.com/",
-          "video_id" => "1"
+          "ownerId" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",
+          "sourceUri" => "https://sourceurl.com/",
+          "videoId" => "1"
         },
-        metadata: %{"trace_id" => UUID.uuid4(), "user_id" => UUID.uuid4()},
+        metadata: %{"traceId" => UUID.uuid4(), "userId" => UUID.uuid4()},
         position: 0,
         global_position: 11,
         time: NaiveDateTime.local_now()

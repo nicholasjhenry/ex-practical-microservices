@@ -54,7 +54,7 @@ defmodule MessageStore.Consumer do
   defp maybe_call_handler(
          %{origin_stream_name: category} = subscriber,
          handler,
-         %{metadata: %{"origin_stream_name" => origin_stream_name}} = message
+         %{metadata: %{"originStreamName" => origin_stream_name}} = message
        ) do
     if match?([^category | _], String.split(origin_stream_name, "-")) do
       result = call_handler(handler, message)

@@ -14,7 +14,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
   def handle_message(_command), do: :ok
 
   defp publish_video(command) do
-    context = %{video_id: command.data["video_id"], command: command, transcoded_uri: nil}
+    context = %{video_id: command.data["videoId"], command: command, transcoded_uri: nil}
 
     with context <- load_video(context),
          {:ok, context} <- ensure_publishing_not_attempted(context),
@@ -42,19 +42,19 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
   def write_video_published_event(context) do
     command = context.command
 
-    stream_name = stream_name(command.data["video_id"], @category)
+    stream_name = stream_name(command.data["videoId"], @category)
 
     video_published =
       VideoPublished.new(
         %{
-          trace_id: Map.fetch!(command.metadata, "trace_id"),
-          user_id: Map.fetch!(command.metadata, "user_id")
+          "traceId" => Map.fetch!(command.metadata, "traceId"),
+          "userId" => Map.fetch!(command.metadata, "userId")
         },
         %{
-          owner_id: Map.fetch!(command.data, "owner_id"),
-          source_uri: Map.fetch!(command.data, "source_uri"),
-          transcoded_uri: context.transcoded_uri,
-          video_id: Map.fetch!(command.data, "video_id")
+          "ownerId" => Map.fetch!(command.data, "ownerId"),
+          "sourceUri" => Map.fetch!(command.data, "sourceUri"),
+          "transcodedUri" => context.transcoded_uri,
+          "videoId" => Map.fetch!(command.data, "videoId")
         }
       )
 
@@ -69,19 +69,19 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
   defp write_video_publishing_failed_event(error, context) do
     command = context.command
 
-    stream_name = stream_name(command.data["video_id"], @category)
+    stream_name = stream_name(command.data["videoId"], @category)
 
     video_publishing_failed =
       VideoPublishingFailed.new(
         %{
-          trace_id: Map.fetch!(command.metadata, "trace_id"),
-          user_id: Map.fetch!(command.metadata, "user_id")
+          "traceId" => Map.fetch!(command.metadata, "traceId"),
+          "userId" => Map.fetch!(command.metadata, "userId")
         },
         %{
-          owner_id: Map.fetch!(command.data, "owner_id"),
-          source_uri: Map.fetch!(command.data, "source_uri"),
-          video_id: Map.fetch!(command.data, "video_id"),
-          reason: error.message
+          "ownerId" => Map.fetch!(command.data, "ownerId"),
+          "sourceUri" => Map.fetch!(command.data, "sourceUri"),
+          "videoId" => Map.fetch!(command.data, "videoId"),
+          "reason" => error.message
         }
       )
 

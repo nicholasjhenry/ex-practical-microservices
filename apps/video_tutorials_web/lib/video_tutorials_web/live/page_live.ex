@@ -24,7 +24,7 @@ defmodule VideoTutorialsWeb.PageLive do
   end
 
   defp record_viewing_video(socket, %{"id" => video_id}) do
-    :ok = VideoTutorials.VideoViewings.record_viewing(0, video_id, 0)
+    :ok = VideoTutorials.VideoViewings.record_viewing(video_id)
 
     {:noreply, put_flash(socket, :info, "Video viewing recorded (123)")}
   end

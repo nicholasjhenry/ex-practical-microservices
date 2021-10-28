@@ -9,26 +9,26 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Projection do
   end
 
   @impl true
-  def apply(video, %{type: "videoPublished", data: data, global_position: global_position}) do
+  def apply(video, %{type: "VideoPublished", data: data, global_position: global_position}) do
     %{
       video
-      | id: data["video_id"],
+      | id: data["videoId"],
         publishing_attempted?: true,
-        owner_id: data["owner_id"],
-        source_uri: data["source_uri"],
-        transcoded_uri: data["transcoded_uri"],
+        owner_id: data["ownerId"],
+        source_uri: data["sourceUri"],
+        transcoded_uri: data["transcodedUri"],
         sequence: global_position
     }
   end
 
-  def apply(video, %{type: "videoFailed", data: data, global_position: global_position}) do
+  def apply(video, %{type: "VideoFailed", data: data, global_position: global_position}) do
     %{
       video
       | id: data["video_id"],
         publishing_attempted?: true,
-        owner_id: data["owner_id"],
-        source_uri: data["source_uri"],
-        transcoded_uri: data["transcoded_uri"],
+        owner_id: data["ownerId"],
+        source_uri: data["sourceUri"],
+        transcoded_uri: data["transcodedUri"],
         sequence: global_position
     }
   end

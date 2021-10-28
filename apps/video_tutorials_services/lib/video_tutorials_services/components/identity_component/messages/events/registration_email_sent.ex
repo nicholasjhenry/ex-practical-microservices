@@ -6,12 +6,12 @@ defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationE
       stream_name: nil,
       type: "RegistrationEmailSent",
       metadata: %{
-        trace_id: Map.fetch!(message.metadata, "trace_id"),
-        user_id: nil
+        "traceId" => Map.fetch!(message.metadata, "traceId"),
+        "userId" => nil
       },
       data: %{
-        email_id: Map.fetch!(message.data, "email_id"),
-        user_id: nil
+        "emailId" => Map.fetch!(message.data, "emailId"),
+        "userId" => nil
       },
       # TODO
       expected_version: nil
@@ -21,8 +21,8 @@ defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationE
   def put_user_id(message, user_id) do
     %{
       message
-      | metadata: %{message.metadata | user_id: user_id},
-        data: %{message.data | user_id: user_id}
+      | metadata: %{message.metadata | "userId" => user_id},
+        data: %{message.data | "userId" => user_id}
     }
   end
 end

@@ -3,14 +3,14 @@ defmodule VideoTutorialsServices.VideoOperations do
 
   def handle_message(%{type: "VideoNamed"} = event) do
     video_id = stream_to_entity_id(event.stream_name)
-    trace_id = Map.fetch!(event.metadata, "trace_id")
+    trace_id = Map.fetch!(event.metadata, "traceId")
 
     Repo.insert!(%VideoOperation{video_id: video_id, trace_id: trace_id, succeeded: true})
   end
 
   def handle_message(%{type: "VideoNameRejected"} = event) do
     video_id = stream_to_entity_id(event.stream_name)
-    trace_id = Map.fetch!(event.metadata, "trace_id")
+    trace_id = Map.fetch!(event.metadata, "traceId")
     reason = Map.fetch!(event.data, "reason")
 
     Repo.insert!(%VideoOperation{

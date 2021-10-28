@@ -89,13 +89,13 @@ defmodule VideoTutorials.Registration do
             stream_name: stream_name,
             type: "Register",
             metadata: %{
-              trace_id: context.trace_id,
-              user_id: registration.id
+              "traceId" => context.trace_id,
+              "userId" => registration.id
             },
             data: %{
-              user_id: registration.id,
-              email: registration.email,
-              password_hash: context.password_hash
+              "userId" => registration.id,
+              "email" => registration.email,
+              "passwordHash" => context.password_hash
             }
           )
 

@@ -15,7 +15,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
   def handle_message(_), do: nil
 
   def record_registration_sent(event) do
-    identity_id = stream_name_to_id(event.metadata["origin_stream_name"])
+    identity_id = stream_name_to_id(event.metadata["originStreamName"])
     context = %Context{identity_id: identity_id, event: event}
 
     with context <- load_identity(context),

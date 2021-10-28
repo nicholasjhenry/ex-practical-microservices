@@ -25,7 +25,7 @@ defmodule VideoTutorialsServices.CreatorsVideosTest do
         stream_name: "videoPublishing-#{video_id}",
         type: "VideoNamed",
         data: %{"name" => "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS"},
-        metadata: %{"user_id" => user_id, "trace_id" => trace_id},
+        metadata: %{"userId" => user_id, "traceId" => trace_id},
         position: 1,
         global_position: 11,
         time: NaiveDateTime.local_now()

@@ -12,8 +12,8 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         id: UUID.uuid4(),
         stream_name: command_stream_name(1, :identity),
         type: "Register",
-        data: %{"user_id" => "1", "email" => "jane@example.com", "password_hash" => "abc123#"},
-        metadata: %{"user_id" => "1", "trace_id" => UUID.uuid4()},
+        data: %{"userId" => "1", "email" => "jane@example.com", "passwordHash" => "abc123#"},
+        metadata: %{"userId" => "1", "traceId" => UUID.uuid4()},
         position: 0,
         global_position: 11,
         time: NaiveDateTime.local_now()
@@ -34,13 +34,13 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         stream_name: "identity-1",
         type: "Registered",
         metadata: %{
-          trace_id: UUID.uuid4(),
-          user_id: 1
+          "traceId" => UUID.uuid4(),
+          "userId" => 1
         },
         data: %{
-          user_id: 1,
-          email: "jane@example.com",
-          password_hash: "abc123#"
+          "userId" => 1,
+          "email" => "jane@example.com",
+          "passwordHash" => "abc123#"
         }
       )
 
@@ -51,8 +51,8 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
-        data: %{"user_id" => "1", "email" => "jane@example.com", "password_hash" => "abc123#"},
-        metadata: %{"user_id" => "1", "trace_id" => registered_event.metadata["trace_id"]},
+        data: %{"userId" => "1", "email" => "jane@example.com", "passwordHash" => "abc123#"},
+        metadata: %{"userId" => "1", "traceId" => registered_event.metadata["traceId"]},
         position: 0,
         global_position: 1,
         time: NaiveDateTime.local_now()
@@ -67,13 +67,13 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         stream_name: "identity-1",
         type: "Registered",
         metadata: %{
-          trace_id: UUID.uuid4(),
-          user_id: 1
+          "traceId" => UUID.uuid4(),
+          "userId" => 1
         },
         data: %{
-          user_id: 1,
-          email: "jane@example.com",
-          password_hash: "abc123#"
+          "userId" => 1,
+          "email" => "jane@example.com",
+          "passwordHash" => "abc123#"
         }
       )
 
@@ -85,10 +85,10 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         stream_name: "sendEmail-1",
         type: "Sent",
         metadata: %{
-          "origin_stream_name" => "identity-1",
-          "trace_id" => UUID.uuid4()
+          "originStreamName" => "identity-1",
+          "traceId" => UUID.uuid4()
         },
-        data: %{"email_id" => "1", "user_id" => "1"},
+        data: %{"emailId" => "1", "userId" => "1"},
         position: 0,
         global_position: 1,
         time: NaiveDateTime.local_now()

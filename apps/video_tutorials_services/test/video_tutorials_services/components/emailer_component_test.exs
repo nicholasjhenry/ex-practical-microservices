@@ -7,7 +7,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
   describe "sending an email" do
     test "given no messsage handle send command" do
       data = %{
-        "email_id" => 1,
+        "emailId" => 1,
         "to" => "jane@example.com",
         "subject" => "foo",
         "text" => "Foo",
@@ -17,13 +17,13 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
       command =
         MessageData.Read.new(
           id: UUID.uuid4(),
-          stream_name: command_stream_name(data["email_id"], :email),
+          stream_name: command_stream_name(data["emailId"], :email),
           type: "Send",
           data: data,
           metadata: %{
-            "trace_id" => UUID.uuid4(),
-            "origin_stream_name" => "sendEmail-1",
-            "user_id" => UUID.uuid4()
+            "traceId" => UUID.uuid4(),
+            "originStreamName" => "sendEmail-1",
+            "userId" => UUID.uuid4()
           },
           position: 0,
           global_position: 11,
@@ -39,10 +39,10 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
           stream_name: "sendEmail-1",
           type: "Sent",
           metadata: %{
-            trace_id: UUID.uuid4()
+            "traceId" => UUID.uuid4()
           },
           data: %{
-            email_id: UUID.uuid4()
+            "emailId" => UUID.uuid4()
           }
         )
 
@@ -51,10 +51,10 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
       command =
         MessageData.Read.new(
           id: UUID.uuid4(),
-          stream_name: command_stream_name(event.data.email_id, :email),
+          stream_name: command_stream_name(event.data["emailId"], :email),
           type: "Send",
-          data: %{"email_id" => 1},
-          metadata: %{"trace_id" => UUID.uuid4()},
+          data: %{"emailId" => 1},
+          metadata: %{"traceId" => UUID.uuid4()},
           position: 0,
           global_position: 11,
           time: NaiveDateTime.local_now()

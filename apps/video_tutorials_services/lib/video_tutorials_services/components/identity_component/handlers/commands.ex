@@ -15,14 +15,14 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   def handle_message(_), do: nil
 
   defp register_user(register) do
-    identity_id = register.data["user_id"]
+    identity_id = register.data["userId"]
     identity = Store.fetch(identity_id)
 
     if identity.registered? do
       raise AlreadyRegisteredError
     end
 
-    stream_name = stream_name(register.data["user_id"], @category)
+    stream_name = stream_name(register.data["userId"], @category)
     registered = Registered.follow(register)
     write(registered, stream_name)
   end
