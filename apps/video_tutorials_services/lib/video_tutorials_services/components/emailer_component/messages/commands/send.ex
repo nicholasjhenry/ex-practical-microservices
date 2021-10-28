@@ -20,7 +20,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
 
   def parse(message_data) do
     %__MODULE__{
-      metadata: message_data.metadata,
+      metadata: Metadata.parse(message_data.metadata),
       to: Map.fetch!(message_data.data, "to"),
       email_id: Map.fetch!(message_data.data, "emailId"),
       subject: Map.fetch!(message_data.data, "subject"),
@@ -33,7 +33,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
     MessageData.Write.new(
       stream_name: nil,
       type: "Send",
-      metadata: command.metadata,
+      metadata: Metadata.to_raw(command.metadata),
       data: %{
         "to" => command.to,
         "subject" => command.subject,

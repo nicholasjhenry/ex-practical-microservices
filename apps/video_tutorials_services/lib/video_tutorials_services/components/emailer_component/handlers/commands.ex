@@ -74,11 +74,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
     event =
       Sent.new(
-        %{
-          "originStreamName" => Map.fetch!(send_command.metadata, "originStreamName"),
-          "traceId" => Map.fetch!(send_command.metadata, "traceId"),
-          "userId" => Map.fetch!(send_command.metadata, "userId")
-        },
+        Send.to_message_data(send_command).metadata,
         Send.to_message_data(send_command).data
       )
 
@@ -90,12 +86,8 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
     event =
       Failed.new(
-        %{
-          "originStreamName" => Map.fetch!(send_command.metadata, "originStreamName"),
-          "traceId" => Map.fetch!(send_command.metadata, "traceId"),
-          "userId" => Map.fetch!(send_command.metadata, "userId")
-        },
-        Map.put(send_command.data, :reason, error.message)
+        Send.to_message_data(send_command).metadata,
+        Map.put(Send.to_message_data(send_command).data, :reason, error.message)
       )
 
     write(event, stream_name)

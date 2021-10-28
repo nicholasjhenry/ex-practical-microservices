@@ -5,6 +5,8 @@ defmodule Verity.Messaging.Message do
 
   defmacro __using__(_opts) do
     quote do
+      alias Messaging.Message.Metadata
+
       import unquote(__MODULE__)
     end
   end
