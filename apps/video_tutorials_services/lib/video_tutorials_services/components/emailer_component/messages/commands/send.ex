@@ -1,4 +1,6 @@
 defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
+  use Verity.Messaging.Message
+
   alias MessageStore.MessageData
 
   # http://docs.eventide-project.org/user-guide/messages-and-message-data/metadata.html#metadata-attributes
