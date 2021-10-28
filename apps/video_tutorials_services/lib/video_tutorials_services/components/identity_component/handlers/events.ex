@@ -14,7 +14,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
 
   defp send_email(event) do
     context = %Context{
-      identity_id: Map.fetch!(event.data, "user_id"),
+      identity_id: Map.fetch!(event.data, "userId"),
       event: event,
       email: email()
     }
@@ -64,16 +64,16 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     send_email_command =
       Send.new(
         %{
-          origin_stream_name: stream_name(identity.id, :identity),
-          trace_id: Map.fetch!(event.metadata, "trace_id"),
-          user_id: Map.fetch!(event.metadata, "user_id")
+          "originStreamName" => stream_name(identity.id, :identity),
+          "traceId" => Map.fetch!(event.metadata, "traceId"),
+          "userId" => Map.fetch!(event.metadata, "userId")
         },
         %{
-          email_id: email_id,
-          to: identity.email,
-          subject: email.subject,
-          text: email.text,
-          html: email.html
+          "emailId" => email_id,
+          "to" => identity.email,
+          "subject" => email.subject,
+          "text" => email.text,
+          "html" => email.html
         }
       )
 

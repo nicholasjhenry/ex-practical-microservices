@@ -13,8 +13,8 @@ defmodule VideoTutorialsServices.AdminUsersTest do
         id: UUID.uuid4(),
         stream_name: "identity-1",
         type: "Registered",
-        data: %{"user_id" => user_id, "email" => "jane@example.com", "password_hash" => "abc123#"},
-        metadata: %{"user_id" => user_id, "trace_id" => UUID.uuid4()},
+        data: %{"userId" => user_id, "email" => "jane@example.com", "passwordHash" => "abc123#"},
+        metadata: %{"userId" => user_id, "traceId" => UUID.uuid4()},
         position: 0,
         global_position: 11,
         time: NaiveDateTime.local_now()
@@ -37,10 +37,10 @@ defmodule VideoTutorialsServices.AdminUsersTest do
         stream_name: "identity-#{user_id}",
         type: "RegistrationEmailSent",
         data: %{
-          "user_id" => user_id,
-          "email_id" => UUID.uuid4()
+          "userId" => user_id,
+          "emailId" => UUID.uuid4()
         },
-        metadata: %{"user_id" => user_id, "trace_id" => UUID.uuid4()},
+        metadata: %{"userId" => user_id, "traceId" => UUID.uuid4()},
         position: 0,
         global_position: 11,
         time: NaiveDateTime.local_now()

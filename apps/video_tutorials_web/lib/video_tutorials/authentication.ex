@@ -71,11 +71,11 @@ defmodule VideoTutorials.Authentication do
         stream_name: "authentication-#{context.user_credential.id}",
         type: "UserLoggedIn",
         metadata: %{
-          trace_id: context.trace_id,
-          user_id: context.user_credential.id
+          "traceId" => context.trace_id,
+          "userId" => context.user_credential.id
         },
         data: %{
-          user_id: context.user_credential.id
+          "userId" => context.user_credential.id
         }
       )
 
@@ -94,12 +94,12 @@ defmodule VideoTutorials.Authentication do
         stream_name: "authentication-#{context.user_credential.id}",
         type: "UserLoginFailed",
         metadata: %{
-          trace_id: context.trace_id,
-          user_id: nil
+          "traceId" => context.trace_id,
+          "userId" => nil
         },
         data: %{
-          user_id: context.user_credential.id,
-          reason: "Incorrect password"
+          "userId" => context.user_credential.id,
+          "reason" => "Incorrect password"
         }
       )
 

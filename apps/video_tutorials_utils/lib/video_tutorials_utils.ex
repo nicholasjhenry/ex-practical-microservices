@@ -1,0 +1,2 @@
+defmodule VideoTutorialsUtils do
+end

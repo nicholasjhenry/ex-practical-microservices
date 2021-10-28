@@ -4,7 +4,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoP
   def new(metadata, data) do
     MessageData.Write.new(
       stream_name: nil,
-      type: "videoPublishingFailed",
+      type: "VideoPublishingFailed",
       metadata: metadata,
       data: data,
       # TODO

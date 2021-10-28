@@ -27,7 +27,7 @@ defmodule VideoTutorialsBackOffice do
       from(messages in Message,
         where:
           fragment("message_store.category(?)", messages.stream_name) == type(^category, :string),
-        where: fragment("data->>'user_id'") == type(^user_id, :string),
+        where: fragment("data->>'userId'") == type(^user_id, :string),
         order_by: messages.global_position
       )
 
@@ -55,7 +55,7 @@ defmodule VideoTutorialsBackOffice do
     query =
       from(messages in Message,
         order_by: messages.global_position,
-        where: fragment("metadata->>'trace_id' = ?", ^trace_id)
+        where: fragment("metadata->>'traceId' = ?", ^trace_id)
       )
 
     Repo.all(query)

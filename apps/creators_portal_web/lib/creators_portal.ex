@@ -46,13 +46,13 @@ defmodule CreatorsPortal do
           stream_name: stream_name,
           type: "PublishVideo",
           metadata: %{
-            trace_id: context.trace_id,
-            user_id: context.user_id
+            "traceId" => context.trace_id,
+            "userId" => context.user_id
           },
           data: %{
-            "owner_id" => data.owner_id,
-            "source_uri" => data.file,
-            "video_id" => data.id
+            "ownerId" => data.owner_id,
+            "sourceUri" => data.file,
+            "videoId" => data.id
           },
           expected_version: nil
         )
@@ -71,12 +71,12 @@ defmodule CreatorsPortal do
         stream_name: stream_name,
         type: "NameVideo",
         metadata: %{
-          trace_id: context.trace_id,
-          user_id: context.user_id
+          "traceId" => context.trace_id,
+          "userId" => context.user_id
         },
         data: %{
-          name: attrs["name"],
-          video_id: video.id
+          "name" => attrs["name"],
+          "videoId" => video.id
         },
         expected_version: nil
       )

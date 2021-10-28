@@ -38,7 +38,7 @@ defmodule VideoTutorialsBackOfficeWeb.MessageLive.IndexTest do
         stream_name: "testStream",
         type: "test_type",
         position: 0,
-        metadata: %{trace_id: trace_id}
+        metadata: %{"traceId" => trace_id}
       })
 
     _not_correlated_message =

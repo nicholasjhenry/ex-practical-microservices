@@ -33,7 +33,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp load_email(%{send_command: send_command} = context) do
-    Map.put(context, :email, Store.fetch(send_command.data["email_id"]))
+    Map.put(context, :email, Store.fetch(send_command.data["emailId"]))
   end
 
   defp ensure_email_has_not_been_sent(context) do
@@ -67,14 +67,14 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp write_sent_event(%{send_command: send_command}) do
-    stream_name = stream_name(send_command.data["email_id"], :sendEmail)
+    stream_name = stream_name(send_command.data["emailId"], :sendEmail)
 
     event =
       Sent.new(
         %{
-          origin_stream_name: Map.fetch!(send_command.metadata, "origin_stream_name"),
-          trace_id: Map.fetch!(send_command.metadata, "trace_id"),
-          user_id: Map.fetch!(send_command.metadata, "user_id")
+          "originStreamName" => Map.fetch!(send_command.metadata, "originStreamName"),
+          "traceId" => Map.fetch!(send_command.metadata, "traceId"),
+          "userId" => Map.fetch!(send_command.metadata, "userId")
         },
         send_command.data
       )
@@ -83,14 +83,14 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp write_failed_event(%{send_command: send_command}, error) do
-    stream_name = stream_name(send_command.data["email_id"], :sendEmail)
+    stream_name = stream_name(send_command.data["emailId"], :sendEmail)
 
     event =
       Failed.new(
         %{
-          original_stream_name: Map.fetch!(send_command.metadata, "original_stream_name"),
-          trace_id: Map.fetch!(send_command.metadata, "trace_id"),
-          user_id: Map.fetch!(send_command.metadata, "user_id")
+          "originStreamName" => Map.fetch!(send_command.metadata, "originStreamName"),
+          "traceId" => Map.fetch!(send_command.metadata, "traceId"),
+          "userId" => Map.fetch!(send_command.metadata, "userId")
         },
         Map.put(send_command.data, :reason, error.message)
       )

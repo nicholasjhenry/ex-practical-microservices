@@ -78,7 +78,7 @@ defmodule MessageStore.ConsumerTest do
         build_message(
           stream_name: "video-1",
           type: "VideoCreated",
-          metadata: %{"origin_stream_name" => "user-1"},
+          metadata: %{"originStreamName" => "user-1"},
           data: %{name: "YouTube Video"}
         )
 
@@ -94,7 +94,7 @@ defmodule MessageStore.ConsumerTest do
         build_message(
           stream_name: "video-1",
           type: "VideoCreated",
-          metadata: %{"origin_stream_name" => "user-1"},
+          metadata: %{"originStreamName" => "user-1"},
           data: %{name: "YouTube Video"}
         )
 

@@ -31,10 +31,10 @@ Details:
 
 ```
 video_tutorials_dev# select * from message_store.messages where type = 'VideoViewed';
-                  id                  │ stream_name │    type     │ position │ global_position │               data                │           metadata            │            time
-══════════════════════════════════════╪═════════════╪═════════════╪══════════╪═════════════════╪═══════════════════════════════════╪═══════════════════════════════╪════════════════════════════
- 9e0e2394-ea05-45db-8cc4-639079c01e79 │ viewing-123 │ VideoViewed │        0 │               6 │ {"user_id": 0, "video_id": "123"} │ {"user_id": 0, "trace_id": 0} │ 2021-08-04 20:05:11.884972
- 7b0290e3-a4ad-403f-b9e3-4793c1f83a56 │ viewing-123 │ VideoViewed │        1 │              10 │ {"user_id": 0, "video_id": "123"} │ {"user_id": 0, "trace_id": 0} │ 2021-08-04 20:05:18.064807
+                  id                  │ stream_name │    type     │ position │ global_position │       data          │ metadata │        time
+══════════════════════════════════════╪═════════════╪═════════════╪══════════╪═════════════════╪═════════════════════╪══════════╪════════════════════════════
+ 9e0e2394-ea05-45db-8cc4-639079c01e79 │ viewing-123 │ VideoViewed │        0 │               6 │ {"video_id": "123"} │ {}       │ 2021-08-04 20:05:11.884972
+ 7b0290e3-a4ad-403f-b9e3-4793c1f83a56 │ viewing-123 │ VideoViewed │        1 │              10 │ {"video_id": "123"} │ {}       │ 2021-08-04 20:05:18.064807
 ```
 
 ### View Data
@@ -80,18 +80,18 @@ Details:
 ```
 video_tutorials_dev# select * from message_store.messages where type = 'Register';
 
-                  id                  │                      stream_name                      │   type   │ position │ global_position │                                                                               data                                                                                │                                                metadata
-══════════════════════════════════════╪═══════════════════════════════════════════════════════╪══════════╪══════════╪═════════════════╪═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════
- 24729a4d-dcc0-4600-a378-866200591bb4 │ identity:command-6106fbf0-8c92-4493-bdd4-309f62bcca29 │ Register │        0 │              14 │ {"email": "jane@example.com", "user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "password_hash": "$2a$12$BfrnrGg3vnE3GhynopOvxuoHXtOY2cSB7nkQp2lmrV01/dVFwe.Ia"} │ {"user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "trace_id":
+                  id                  │                      stream_name                      │   type   │ position │ global_position │                                                                               data                                                                              │                                                metadata
+══════════════════════════════════════╪═══════════════════════════════════════════════════════╪══════════╪══════════╪═════════════════╪═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════
+ 24729a4d-dcc0-4600-a378-866200591bb4 │ identity:command-6106fbf0-8c92-4493-bdd4-309f62bcca29 │ Register │        0 │              14 │ {"email": "jane@example.com", "userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "passwordHash": "$2a$12$BfrnrGg3vnE3GhynopOvxuoHXtOY2cSB7nkQp2lmrV01/dVFwe.Ia"} │ {"userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "traceId":
 ```
 `Registered` events are written in the message store to the `identity` stream:
 
 ```
 video_tutorials_dev# select * from message_store.messages where type = 'Registered';
 
-                  id                  │                  stream_name                  │    type    │ position │ global_position │                                                                               data                                                                                │                                                metadata
-══════════════════════════════════════╪═══════════════════════════════════════════════╪════════════╪══════════╪═════════════════╪═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═══════════════════════════════════════════════════════════════════════
- 471481e1-81e5-4f85-bbfb-5f543bbf9eab │ identity-6106fbf0-8c92-4493-bdd4-309f62bcca29 │ Registered │        0 │              15 │ {"email": "jane@example.com", "user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "password_hash": "$2a$12$BfrnrGg3vnE3GhynopOvxuoHXtOY2cSB7nkQp2lmrV01/dVFwe.Ia"} │ {"user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "trace_id": "85cd2
+                  id                  │                  stream_name                  │    type    │ position │ global_position │                                                                               data                                                                              │                                                metadata
+══════════════════════════════════════╪═══════════════════════════════════════════════╪════════════╪══════════╪═════════════════╪═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═══════════════════════════════════════════════════════════════════════
+ 471481e1-81e5-4f85-bbfb-5f543bbf9eab │ identity-6106fbf0-8c92-4493-bdd4-309f62bcca29 │ Registered │        0 │              15 │ {"email": "jane@example.com", "userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "passwordHash": "$2a$12$BfrnrGg3vnE3GhynopOvxuoHXtOY2cSB7nkQp2lmrV01/dVFwe.Ia"} │ {"userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "traceId": "85cd2
 ```
 
 ### View Data
@@ -134,9 +134,9 @@ Details:
 ```
 video_tutorials_dev# select * from message_store.messages where type = 'Send';
 
-                  id                  │                      stream_name                       │ type │ position │ global_position │                                                                         data                                                                         │
-══════════════════════════════════════╪════════════════════════════════════════════════════════╪══════╪══════════╪═════════════════╪══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════════════════════
- b5b42b58-c4c9-4632-be62-bba0d6992bc1 │ sendEmail:command-22d34e59-dab0-5525-ab97-4ecdf8d21c83 │ Send │        0 │              17 │ {"to": "jane@example.com", "html": "<p>Foo</p>", "text": "Foo", "subject": "You're Registered!", "email_id": "22d34e59-dab0-5525-ab97-4ecdf8d21c83"} │ {"user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "trace_id": "85cd2ea4-7e40-4
+                  id                  │                      stream_name                       │ type │ position │ global_position │                                                                         data                                                                        │
+══════════════════════════════════════╪════════════════════════════════════════════════════════╪══════╪══════════╪═════════════════╪═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════════════════════
+ b5b42b58-c4c9-4632-be62-bba0d6992bc1 │ sendEmail:command-22d34e59-dab0-5525-ab97-4ecdf8d21c83 │ Send │        0 │              17 │ {"to": "jane@example.com", "html": "<p>Foo</p>", "text": "Foo", "subject": "You're Registered!", "emailId": "22d34e59-dab0-5525-ab97-4ecdf8d21c83"} │ {"userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "traceId": "85cd2ea4-7e40-4
 ```
 
 `Sent` event is written in the message store to the `sendEmail` stream:
@@ -144,9 +144,9 @@ video_tutorials_dev# select * from message_store.messages where type = 'Send';
 ```
 video_tutorials_dev# select * from message_store.messages where type = 'Sent';
 
-                  id                  │                  stream_name                   │ type │ position │ global_position │                                                                         data                                                                         │                                                                                    metad
-══════════════════════════════════════╪════════════════════════════════════════════════╪══════╪══════════╪═════════════════╪══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════════════════════════════
- a333d973-5f64-4b95-a71a-694d6d7d1b59 │ sendEmail-22d34e59-dab0-5525-ab97-4ecdf8d21c83 │ Sent │        0 │              24 │ {"to": "jane@example.com", "html": "<p>Foo</p>", "text": "Foo", "subject": "You're Registered!", "email_id": "22d34e59-dab0-5525-ab97-4ecdf8d21c83"} │ {"user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "trace_id": "85cd2ea4-7e40-4a44-aee7
+                  id                  │                  stream_name                   │ type │ position │ global_position │                                                                         data                                                                        │                                                                                    metad
+══════════════════════════════════════╪════════════════════════════════════════════════╪══════╪══════════╪═════════════════╪═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════════════════════════════
+ a333d973-5f64-4b95-a71a-694d6d7d1b59 │ sendEmail-22d34e59-dab0-5525-ab97-4ecdf8d21c83 │ Sent │        0 │              24 │ {"to": "jane@example.com", "html": "<p>Foo</p>", "text": "Foo", "subject": "You're Registered!", "emailId": "22d34e59-dab0-5525-ab97-4ecdf8d21c83"} │ {"userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "traceId": "85cd2ea4-7e40-4a44-aee7
 ```
 
 `RegistrationEmailSent` event is written in the message store to the `identity` stream:
@@ -154,9 +154,9 @@ video_tutorials_dev# select * from message_store.messages where type = 'Sent';
 ```
 video_tutorials_dev# select * from message_store.messages where type = 'RegistrationEmailSent';
 
-                  id                  │                  stream_name                  │         type          │ position │ global_position │                                                  data                                                   │                                                metadata                                                 │
-══════════════════════════════════════╪═══════════════════════════════════════════════╪═══════════════════════╪══════════╪═════════════════╪═════════════════════════════════════════════════════════════════════════════════════════════════════════╪═════════════════════════════════════════════════════════════════════════════════════════════════════════╪════════════
- 3b48fb6d-2c91-469e-8a7e-a8f4883657dc │ identity-6106fbf0-8c92-4493-bdd4-309f62bcca29 │ RegistrationEmailSent │        1 │              28 │ {"user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "email_id": "22d34e59-dab0-5525-ab97-4ecdf8d21c83"} │ {"user_id": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "trace_id": "85cd2ea4-7e40-4a44-aee7-766e21aee549"} │ 2021-08-07
+                  id                  │                  stream_name                  │         type          │ position │ global_position │                                                  ata                                                   │                                                metadata                                               │
+══════════════════════════════════════╪═══════════════════════════════════════════════╪═══════════════════════╪══════════╪═════════════════╪════════════════════════════════════════════════════════════════════════════════════════════════════════╪═══════════════════════════════════════════════════════════════════════════════════════════════════════╪════════════
+ 3b48fb6d-2c91-469e-8a7e-a8f4883657dc │ identity-6106fbf0-8c92-4493-bdd4-309f62bcca29 │ RegistrationEmailSent │        1 │              28 │ {"userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "email_Id": "22d34e59-dab0-5525-ab97-4ecdf8d21c83"} │ {"userId": "6106fbf0-8c92-4493-bdd4-309f62bcca29", "traceId": "85cd2ea4-7e40-4a44-aee7-766e21aee549"} │ 2021-08-07
 ```
 
 ## Publishing Videos - Creators' Portal
@@ -187,8 +187,8 @@ stream_name     │ videoPublishing:command-33f691c8-2964-41db-a861-aea5d94a1525
 type            │ PublishVideo
 position        │ 0
 global_position │ 6
-data            │ {"owner_id": "1F2D2A6F-47DB-477F-9C48-7A706AF3A038", "video_id": "33f691c8-2964-41db-a861-aea5d94a1525", "source_uri": "sample.mov"}
-metadata        │ {"user_id": "92812371-ea22-4b40-a65d-aa6edf53fbc0", "trace_id": "41b0043e-2ad2-4d42-884c-45ff9e6e4546"}
+data            │ {"ownerId": "1F2D2A6F-47DB-477F-9C48-7A706AF3A038", "videoId": "33f691c8-2964-41db-a861-aea5d94a1525", "sourceUri": "sample.mov"}
+metadata        │ {"userId": "92812371-ea22-4b40-a65d-aa6edf53fbc0", "traceId": "41b0043e-2ad2-4d42-884c-45ff9e6e4546"}
 time            │ 2021-08-09 18:54:41.169819
 ```
 
@@ -197,11 +197,11 @@ Event:
 ```
 id              │ 212f656e-86f1-4728-adc2-f7911412e834
 stream_name     │ videoPublishing-33f691c8-2964-41db-a861-aea5d94a1525
-type            │ videoPublished
+type            │ VideoPublished
 position        │ 0
 global_position │ 7
-data            │ {"owner_id": "1F2D2A6F-47DB-477F-9C48-7A706AF3A038", "video_id": "33f691c8-2964-41db-a861-aea5d94a1525", "source_uri": "sample.mov", "transcoded_uri": "https://www.youtube.com/watch?v=GI_P3UtZXAA"}
-metadata        │ {"user_id": "92812371-ea22-4b40-a65d-aa6edf53fbc0", "trace_id": "41b0043e-2ad2-4d42-884c-45ff9e6e4546"}
+data            │ {"ownerId": "1F2D2A6F-47DB-477F-9C48-7A706AF3A038", "videoId": "33f691c8-2964-41db-a861-aea5d94a1525", "sourceUri": "sample.mov", "transcodedUri": "https://www.youtube.com/watch?v=GI_P3UtZXAA"}
+metadata        │ {"userId": "92812371-ea22-4b40-a65d-aa6edf53fbc0", "traceId": "41b0043e-2ad2-4d42-884c-45ff9e6e4546"}
 time            │ 2021-08-09 18:54:41.188293
 ```
 
@@ -247,8 +247,8 @@ stream_name     │ videoPublishing:command-63739e23-184d-4e38-ba28-fa95a94fa4a9
 type            │ NameVideo
 position        │ 0
 global_position │ 15
-data            │ {"name": "Testing", "video_id": "63739e23-184d-4e38-ba28-fa95a94fa4a9"}
-metadata        │ {"user_id": "ce03fab8-18f5-477d-a40b-fd9f9761d780", "trace_id": "68d8b5ba-ee1c-4d12-9c10-49e4e3db2286"}
+data            │ {"name": "Testing", "videoId": "63739e23-184d-4e38-ba28-fa95a94fa4a9"}
+metadata        │ {"userId": "ce03fab8-18f5-477d-a40b-fd9f9761d780", "traceId": "68d8b5ba-ee1c-4d12-9c10-49e4e3db2286"}
 time            │ 2021-08-09 19:12:00.841502
 ```
 
@@ -261,7 +261,7 @@ type            │ VideoNamed
 position        │ 1
 global_position │ 18
 data            │ {"name": "Testing"}
-metadata        │ {"user_id": "ce03fab8-18f5-477d-a40b-fd9f9761d780", "trace_id": "68d8b5ba-ee1c-4d12-9c10-49e4e3db2286"}
+metadata        │ {"userId": "ce03fab8-18f5-477d-a40b-fd9f9761d780", "traceId": "68d8b5ba-ee1c-4d12-9c10-49e4e3db2286"}
 time            │ 2021-08-09 19:12:00.892781
 ```
 
@@ -301,7 +301,7 @@ type            │ NameVideo
 position        │ 1
 global_position │ 26
 data            │ {"name": "", "video_id": "33f691c8-2964-41db-a861-aea5d94a1525"}
-metadata        │ {"user_id": "7697b7af-f68b-4a15-8eb7-25f870d95c47", "trace_id": "9aa603f7-be47-41f1-89e7-21bc67e57f7c"}
+metadata        │ {"userId": "7697b7af-f68b-4a15-8eb7-25f870d95c47", "traceId": "9aa603f7-be47-41f1-89e7-21bc67e57f7c"}
 time            │ 2021-08-09 19:16:17.570614
 ```
 
@@ -314,7 +314,7 @@ type            │ VideoNameRejected
 position        │ 0
 global_position │ 29
 data            │ {"name": "", "reason": {"name": "can't be blank"}}
-metadata        │ {"user_id": "7697b7af-f68b-4a15-8eb7-25f870d95c47", "trace_id": "9aa603f7-be47-41f1-89e7-21bc67e57f7c"}
+metadata        │ {"userId": "7697b7af-f68b-4a15-8eb7-25f870d95c47", "traceId": "9aa603f7-be47-41f1-89e7-21bc67e57f7c"}
 time            │ 2021-08-09 19:16:17.618811
 ```
 

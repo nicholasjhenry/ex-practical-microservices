@@ -8,14 +8,14 @@ video_published_event =
     stream_name: stream_name,
     type: "VideoPublished",
     metadata: %{
-      trace_id: Ecto.UUID.generate(),
-      user_id: Ecto.UUID.generate()
+      "traceId" => Ecto.UUID.generate(),
+      "userId" => Ecto.UUID.generate()
     },
     data: %{
-      owner_id: "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
-      source_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA",
-      transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA",
-      video_id: video_id
+      "ownerId" => "1F2D2A6F-47DB-477F-9C48-7A706AF3A038",
+      "sourceUri" => "https://www.youtube.com/watch?v=GI_P3UtZXAA",
+      "transcodedUri" => "https://www.youtube.com/watch?v=GI_P3UtZXAA",
+      "videoId" => video_id
     },
     expected_version: nil
   )

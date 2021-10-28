@@ -21,7 +21,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
   def handle_message(command), do: command
 
   defp name_video(command) do
-    context = %Context{video_id: command.data["video_id"], command: command}
+    context = %Context{video_id: command.data["videoId"], command: command}
 
     with context <- load_video(context),
          {:ok, context} <- ensure_command_has_not_been_processed(context),
@@ -61,7 +61,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
   defp write_video_named_event(context) do
     name_video = context.command
-    stream_name = stream_name(name_video.data["video_id"], @category)
+    stream_name = stream_name(name_video.data["videoId"], @category)
 
     name_video
     |> VideoNamed.follow()
@@ -72,7 +72,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
   defp write_video_name_rejected(context, errors) do
     name_video = context.command
-    stream_name = stream_name(name_video.data["video_id"], @category)
+    stream_name = stream_name(name_video.data["videoId"], @category)
 
     reason =
       errors

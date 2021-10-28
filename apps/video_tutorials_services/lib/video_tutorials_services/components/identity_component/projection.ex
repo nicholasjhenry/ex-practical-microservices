@@ -10,7 +10,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Projection do
 
   @impl true
   def apply(identity, %{type: "Registered", data: data}) do
-    %{identity | id: data["user_id"], email: data["email"], registered?: true}
+    %{identity | id: data["userId"], email: data["email"], registered?: true}
   end
 
   def apply(identity, %{type: "RegistrationEmailSent"}) do
