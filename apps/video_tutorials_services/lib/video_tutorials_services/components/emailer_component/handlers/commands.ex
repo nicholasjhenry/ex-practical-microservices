@@ -2,6 +2,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   use Verity.Messaging.Handler
 
   alias VideoTutorialsServices.Mailer
+  alias VideoTutorialsServices.EmailerComponent.Messages.Commands.Send
   alias VideoTutorialsServices.EmailerComponent.Messages.Events.Failed
   alias VideoTutorialsServices.EmailerComponent.Messages.Events.Sent
   alias VideoTutorialsServices.EmailerComponent.Store
@@ -16,7 +17,9 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   @impl true
-  def handle_message(%{type: "Send"} = command), do: send_email(command)
+  def handle_message(%{type: "Send"} = message_data) do
+    message_data |> Send.parse() |> send_email
+  end
 
   defp send_email(command) do
     context = %Context{send_command: command, just_send_it: &send/1}
@@ -33,7 +36,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp load_email(%{send_command: send_command} = context) do
-    Map.put(context, :email, Store.fetch(send_command.data["emailId"]))
+    Map.put(context, :email, Store.fetch(send_command.email_id))
   end
 
   defp ensure_email_has_not_been_sent(context) do
@@ -51,10 +54,10 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     email =
       new_email(
         from: context.system_sender_email_address,
-        to: Map.fetch!(send_command.data, "to"),
-        subject: Map.fetch!(send_command.data, "subject"),
-        text_body: Map.fetch!(send_command.data, "text"),
-        html_body: Map.fetch!(send_command.data, "html")
+        to: send_command.to,
+        subject: send_command.subject,
+        text_body: send_command.text,
+        html_body: send_command.html
       )
 
     _sent_email = just_send_it.(email)
@@ -67,7 +70,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   end
 
   defp write_sent_event(%{send_command: send_command}) do
-    stream_name = stream_name(send_command.data["emailId"], :sendEmail)
+    stream_name = stream_name(send_command.email_id, :sendEmail)
 
     event =
       Sent.new(
@@ -76,14 +79,14 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
           "traceId" => Map.fetch!(send_command.metadata, "traceId"),
           "userId" => Map.fetch!(send_command.metadata, "userId")
         },
-        send_command.data
+        Send.to_message_data(send_command).data
       )
 
     write(event, stream_name)
   end
 
   defp write_failed_event(%{send_command: send_command}, error) do
-    stream_name = stream_name(send_command.data["emailId"], :sendEmail)
+    stream_name = stream_name(send_command.email_id, :sendEmail)
 
     event =
       Failed.new(
