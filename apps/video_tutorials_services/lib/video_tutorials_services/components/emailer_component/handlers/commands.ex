@@ -71,13 +71,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
   defp write_sent_event(%{send_command: send_command}) do
     stream_name = stream_name(send_command.email_id, :sendEmail)
-
-    event =
-      Sent.new(
-        Send.to_message_data(send_command).metadata,
-        Send.to_message_data(send_command).data
-      )
-
+    event = Sent.follow(send_command)
     write(event, stream_name)
   end
 

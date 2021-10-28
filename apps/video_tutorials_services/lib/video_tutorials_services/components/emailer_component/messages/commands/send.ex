@@ -1,8 +1,6 @@
 defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
   use Verity.Messaging.Message
 
-  # http://docs.eventide-project.org/user-guide/messages-and-message-data/metadata.html#metadata-attributes
-
   defstruct [:to, :subject, :text, :html, :email_id, :metadata]
 
   def new(metadata, data) do
