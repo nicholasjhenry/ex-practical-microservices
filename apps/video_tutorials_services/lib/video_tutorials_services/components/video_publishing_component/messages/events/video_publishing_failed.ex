@@ -1,5 +1,5 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublishingFailed do
-  alias MessageStore.MessageData
+  use Verity.Messaging.Message
 
   defstruct [:metadata, :video_id, :owner_id, :source_uri, :reason]
 
