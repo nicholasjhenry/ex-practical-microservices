@@ -48,12 +48,20 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
 
       MessageStore.write_message(event)
 
+      data = %{
+        "emailId" => 1,
+        "to" => "jane@example.com",
+        "subject" => "foo",
+        "text" => "Foo",
+        "html" => "<p>Foo</p>"
+      }
+
       command =
         MessageData.Read.new(
           id: UUID.uuid4(),
           stream_name: command_stream_name(event.data["emailId"], :email),
           type: "Send",
-          data: %{"emailId" => 1},
+          data: data,
           metadata: %{"traceId" => UUID.uuid4()},
           position: 0,
           global_position: 11,

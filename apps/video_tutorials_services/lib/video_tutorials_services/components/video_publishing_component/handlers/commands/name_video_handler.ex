@@ -1,27 +1,29 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.NameVideoHandler do
   use Verity.Messaging.Handler
 
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Commands.NameVideo
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNamed
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNameRejected
   alias VideoTutorialsServices.VideoPublishingComponent.Store
   alias VideoTutorialsServices.VideoPublishingComponent.VideoPublishing
-
-  @category :videoPublishing
 
   defmodule Context do
     defstruct [:video_id, :command]
   end
 
   @impl true
-  def handle_message(%{type: "NameVideo"} = command) do
-    name_video(command)
-    command
+  def handle_message(%{type: "NameVideo"} = message_data) do
+    message_data
+    |> NameVideo.parse()
+    |> name_video
+
+    message_data
   end
 
-  def handle_message(command), do: command
+  def handle_message(message_data), do: message_data
 
   defp name_video(command) do
-    context = %Context{video_id: command.data["videoId"], command: command}
+    context = %Context{video_id: command.video_id, command: command}
 
     with context <- load_video(context),
          {:ok, context} <- ensure_command_has_not_been_processed(context),
@@ -45,7 +47,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
     command = context.command
     video = context.video
 
-    if video.sequence > command.global_position do
+    if video.sequence > command.metadata.global_position do
       {:error, {:command_already_processed, context}}
     else
       {:ok, context}
@@ -53,7 +55,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
   end
 
   defp ensure_name_is_valid(context) do
-    case VideoPublishing.changeset(context.video, context.command.data) do
+    case VideoPublishing.changeset(context.video, context.command) do
       {:ok, _valid_input} -> {:ok, context}
       {:error, changeset} -> {:error, {:validation_error, changeset, context}}
     end
@@ -61,10 +63,10 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
   defp write_video_named_event(context) do
     name_video = context.command
-    stream_name = stream_name(name_video.data["videoId"], @category)
+    stream_name = stream_name(name_video.video_id, :videoPublishing)
 
-    name_video
-    |> VideoNamed.follow()
+    name_video.metadata
+    |> VideoNamed.build(%{name: name_video.name})
     |> write(stream_name)
 
     context
@@ -72,15 +74,15 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
   defp write_video_name_rejected(context, errors) do
     name_video = context.command
-    stream_name = stream_name(name_video.data["videoId"], @category)
+    stream_name = stream_name(name_video.video_id, :videoPublishing)
 
     reason =
       errors
       |> Enum.map(fn {field, {msg, _metadata}} -> {field, msg} end)
       |> Map.new()
 
-    name_video
-    |> VideoNameRejected.follow(reason)
+    name_video.metadata
+    |> VideoNameRejected.build(%{name: name_video.name, reaspon: reason})
     |> write(stream_name)
 
     context

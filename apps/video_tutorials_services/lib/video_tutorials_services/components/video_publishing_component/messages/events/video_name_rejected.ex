@@ -1,17 +1,25 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoNameRejected do
-  alias MessageStore.MessageData
+  use Verity.Messaging.Message
 
-  def follow(message, reason) do
+  defstruct [:metadata, :name, :reason]
+
+  def build(metadata, attrs) do
+    struct(__MODULE__, attrs) |> Map.put(:metadata, metadata)
+  end
+
+  def follow(message, attrs \\ %{}) do
+    fields = message |> Map.from_struct() |> Map.merge(attrs)
+    struct!(__MODULE__, fields)
+  end
+
+  def to_message_data(message) do
     MessageData.Write.new(
       stream_name: nil,
       type: "VideoNameRejected",
-      metadata: %{
-        "traceId" => Map.fetch!(message.metadata, "traceId"),
-        "userId" => Map.fetch!(message.metadata, "userId")
-      },
+      metadata: Metadata.to_raw(message.metadata),
       data: %{
-        "name" => Map.fetch!(message.data, "name"),
-        "reason" => reason
+        "name" => message.name,
+        "reason" => message.reason
       },
       # TODO
       expected_version: nil

@@ -9,13 +9,13 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.VideoPublishing do
     :name
   ]
 
-  def changeset(video, data) do
+  def changeset(video, command) do
     import Ecto.Changeset
 
     types = %{name: :string}
 
     {video, types}
-    |> cast(%{name: data["name"]}, Map.keys(types))
+    |> cast(%{name: command.name}, Map.keys(types))
     |> validate_required(~w/name/a)
     |> apply_action(:insert)
   end

@@ -79,6 +79,15 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
     MessageStore.write_message(registered_event)
 
+    data = %{
+      "emailId" => "1",
+      "userId" => "1",
+      "to" => "jane@example.com",
+      "subject" => "Registered!",
+      "text" => "Welcome",
+      "html" => "<i>Welcome</i>"
+    }
+
     event =
       MessageData.Read.new(
         id: UUID.uuid4(),
@@ -88,7 +97,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
           "originStreamName" => "identity-1",
           "traceId" => UUID.uuid4()
         },
-        data: %{"emailId" => "1", "userId" => "1"},
+        data: data,
         position: 0,
         global_position: 1,
         time: NaiveDateTime.local_now()
