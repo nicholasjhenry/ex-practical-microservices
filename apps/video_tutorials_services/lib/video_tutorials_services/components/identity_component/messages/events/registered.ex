@@ -11,18 +11,4 @@ defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.Registered do
       password_hash: Map.fetch!(message_data.data, "passwordHash")
     }
   end
-
-  def to_message_data(message) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "Registered",
-      metadata: Metadata.to_raw(message.metadata),
-      data: %{
-        "userId" => message.user_id,
-        "email" => message.email,
-        "passwordHash" => message.password_hash
-      },
-      expected_version: nil
-    )
-  end
 end

@@ -1,7 +1,7 @@
 defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
   use Verity.Messaging.Message
 
-  defstruct [:to, :subject, :text, :html, :email_id, :metadata]
+  defstruct [:metadata, :to, :subject, :text, :html, :email_id]
 
   def parse(message_data) do
     %__MODULE__{
@@ -12,21 +12,5 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
       text: Map.fetch!(message_data.data, "text"),
       html: Map.fetch!(message_data.data, "html")
     }
-  end
-
-  def to_message_data(command) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "Send",
-      metadata: Metadata.to_raw(command.metadata),
-      data: %{
-        "to" => command.to,
-        "subject" => command.subject,
-        "text" => command.text,
-        "emailId" => command.email_id,
-        "html" => command.html
-      },
-      expected_version: nil
-    )
   end
 end

@@ -10,21 +10,4 @@ defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationE
       email_id: Map.fetch!(message_data.data, "emailId")
     }
   end
-
-  def to_message_data(message) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "RegistrationEmailSent",
-      metadata: %{
-        "traceId" => message.metadata.trace_id,
-        "userId" => message.metadata.user_id
-      },
-      data: %{
-        "emailId" => message.email_id,
-        "userId" => message.user_id
-      },
-      # TODO
-      expected_version: nil
-    )
-  end
 end
