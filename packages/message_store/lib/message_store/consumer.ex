@@ -36,29 +36,31 @@ defmodule MessageStore.Consumer do
     }
   end
 
-  def handle_message(%{subscribed_to: subscribed_to} = subscriber, message, handler) do
+  def handle_message(%{subscribed_to: subscribed_to} = subscriber, message, handlers) do
+    handlers = List.wrap(handlers)
+
     if subscribed_to == "$all" ||
          match?([^subscribed_to | _], String.split(message.stream_name, "-")) do
-      updated_subscriber = maybe_call_handler(subscriber, handler, message)
+      updated_subscriber = maybe_call_handlers(subscriber, handlers, message)
       {:ok, updated_subscriber}
     else
       {:error, :message_from_another_stream}
     end
   end
 
-  defp maybe_call_handler(%{origin_stream_name: nil} = subscriber, handler, message) do
-    result = call_handler(handler, message)
-    %{subscriber | current_position: message.global_position, handled_message_result: result}
+  defp maybe_call_handlers(%{origin_stream_name: nil} = subscriber, handlers, message) do
+    results = Enum.map(handlers, &call_handler(&1, message))
+    %{subscriber | current_position: message.global_position, handled_message_result: results}
   end
 
-  defp maybe_call_handler(
+  defp maybe_call_handlers(
          %{origin_stream_name: category} = subscriber,
-         handler,
+         handlers,
          %{metadata: %{"originStreamName" => origin_stream_name}} = message
        ) do
     if match?([^category | _], String.split(origin_stream_name, "-")) do
-      result = call_handler(handler, message)
-      %{subscriber | current_position: message.global_position, handled_message_result: result}
+      results = Enum.map(handlers, &call_handler(&1, message))
+      %{subscriber | current_position: message.global_position, handled_message_result: results}
     else
       subscriber
     end

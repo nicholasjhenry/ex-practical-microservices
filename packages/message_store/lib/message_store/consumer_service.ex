@@ -9,13 +9,15 @@ defmodule MessageStore.ConsumerService do
 
   require Logger
 
-  def run(subscriber, handler) do
+  def run(subscriber, handlers) do
     messages =
       MessageStore.get_category_messages(
         subscriber.subscribed_to,
         subscriber.current_position + 1
       )
       |> filter(subscriber.filter)
+
+    handlers = List.wrap(handlers)
 
     # Logger.debug(inspect(subscriber) <> "\n" <> inspect(messages))
 
@@ -24,7 +26,7 @@ defmodule MessageStore.ConsumerService do
         subscriber
 
       _ ->
-        {:ok, [updated_subscriber | _]} = Consumer.handle_messages(subscriber, messages, handler)
+        {:ok, [updated_subscriber | _]} = Consumer.handle_messages(subscriber, messages, handlers)
 
         # TODO: improve testing
         if updated_subscriber.current_position == subscriber.current_position do

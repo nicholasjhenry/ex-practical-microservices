@@ -56,7 +56,7 @@ defmodule MessageStore.ConsumerTest do
       {:ok, subject} = Consumer.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
-      assert subject.handled_message_result == "YOUTUBE VIDEO"
+      assert subject.handled_message_result == ["YOUTUBE VIDEO"]
     end
 
     test "given a message from another stream returns an error " do
@@ -86,7 +86,7 @@ defmodule MessageStore.ConsumerTest do
       {:ok, subject} = Consumer.handle_message(subscriber, message, MessageHandler)
 
       assert subject.current_position == 0
-      assert subject.handled_message_result == "YOUTUBE VIDEO"
+      assert subject.handled_message_result == ["YOUTUBE VIDEO"]
     end
 
     test "given a mis-matched origin returns the original subscriber" do
@@ -130,7 +130,7 @@ defmodule MessageStore.ConsumerTest do
       {:ok, [subject | _subject]} = Consumer.handle_messages(subscriber, messages, MessageHandler)
 
       assert subject.current_position == 1
-      assert subject.handled_message_result == "vimeo video"
+      assert subject.handled_message_result == ["vimeo video"]
     end
   end
 end
