@@ -25,7 +25,8 @@ defmodule Verity.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:message_store, path: "../../packages/message_store"}
+      {:message_store, path: "../../packages/message_store"},
+      {:recase, "~> 0.5"}
     ]
   end
 end

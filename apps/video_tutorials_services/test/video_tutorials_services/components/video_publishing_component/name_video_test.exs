@@ -20,7 +20,10 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
           "name" => "Prod Bugs Hate This Guy: 42 Things You Didn't Know About JS",
           "videoId" => "1"
         },
-        metadata: %{"traceId" => UUID.uuid4(), "userId" => UUID.uuid4()},
+        metadata: %{
+          "traceId" => UUID.uuid4(),
+          "userId" => UUID.uuid4()
+        },
         position: 1,
         global_position: 12,
         time: NaiveDateTime.local_now()
@@ -45,7 +48,10 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
           "name" => "",
           "videoId" => "1"
         },
-        metadata: %{"traceId" => UUID.uuid4(), "userId" => UUID.uuid4()},
+        metadata: %{
+          "traceId" => UUID.uuid4(),
+          "userId" => UUID.uuid4()
+        },
         position: 1,
         global_position: 12,
         time: NaiveDateTime.local_now()
@@ -63,7 +69,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
       owner_id: "bb6a04b0-cb74-4981-b73d-24b844ca334f",
       source_uri: "https://sourceurl.com/",
       video_id: "1",
-      metadata: %{trace_id: UUID.uuid4(), user_id: UUID.uuid4()}
+      metadata: %{trace_id: UUID.uuid4(), user_id: UUID.uuid4(), origin_stream_name: nil}
     }
 
     context = %{command: command, transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"}
