@@ -3,18 +3,24 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
   import VideoPublishing.TranscodeVideo
 
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Commands.PublishVideo
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublished
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublishingFailed
   alias VideoTutorialsServices.VideoPublishingComponent.Store
 
-  @category :videoPublishing
-
   @impl true
-  def handle_message(%{type: "PublishVideo"} = command), do: publish_video(command)
+  def handle_message(%{type: "PublishVideo"} = command) do
+    command
+    |> PublishVideo.parse()
+    |> publish_video
+
+    command
+  end
+
   def handle_message(_command), do: :ok
 
   defp publish_video(command) do
-    context = %{video_id: command.data["videoId"], command: command, transcoded_uri: nil}
+    context = %{video_id: command.video_id, command: command, transcoded_uri: nil}
 
     with context <- load_video(context),
          {:ok, context} <- ensure_publishing_not_attempted(context),
@@ -41,24 +47,11 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
   def write_video_published_event(context) do
     command = context.command
+    stream_name = stream_name(command.video_id, :videoPublishing)
 
-    stream_name = stream_name(command.data["videoId"], @category)
-
-    video_published =
-      VideoPublished.new(
-        %{
-          "traceId" => Map.fetch!(command.metadata, "traceId"),
-          "userId" => Map.fetch!(command.metadata, "userId")
-        },
-        %{
-          "ownerId" => Map.fetch!(command.data, "ownerId"),
-          "sourceUri" => Map.fetch!(command.data, "sourceUri"),
-          "transcodedUri" => context.transcoded_uri,
-          "videoId" => Map.fetch!(command.data, "videoId")
-        }
-      )
-
-    write(video_published, stream_name)
+    command
+    |> VideoPublished.follow(%{transcoded_uri: context.transcoded_uri})
+    |> write(stream_name)
 
     context
   end
@@ -68,24 +61,11 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
   defp write_video_publishing_failed_event(error, context) do
     command = context.command
+    stream_name = stream_name(command.video_id, :videoPublishing)
 
-    stream_name = stream_name(command.data["videoId"], @category)
-
-    video_publishing_failed =
-      VideoPublishingFailed.new(
-        %{
-          "traceId" => Map.fetch!(command.metadata, "traceId"),
-          "userId" => Map.fetch!(command.metadata, "userId")
-        },
-        %{
-          "ownerId" => Map.fetch!(command.data, "ownerId"),
-          "sourceUri" => Map.fetch!(command.data, "sourceUri"),
-          "videoId" => Map.fetch!(command.data, "videoId"),
-          "reason" => error.message
-        }
-      )
-
-    write(video_publishing_failed, stream_name)
+    command
+    |> VideoPublishingFailed.follow(%{reason: error.message})
+    |> write(stream_name)
 
     context
   end
