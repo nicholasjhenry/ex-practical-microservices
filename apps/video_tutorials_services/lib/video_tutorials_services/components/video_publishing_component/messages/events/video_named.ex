@@ -3,15 +3,6 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoN
 
   defstruct [:metadata, :name]
 
-  def build(metadata, attrs) do
-    struct(__MODULE__, attrs) |> Map.put(:metadata, metadata)
-  end
-
-  def follow(message, attrs \\ %{}) do
-    fields = message |> Map.from_struct() |> Map.merge(attrs)
-    struct!(__MODULE__, fields)
-  end
-
   def to_message_data(message) do
     MessageData.Write.new(
       stream_name: nil,

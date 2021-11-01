@@ -2,10 +2,6 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Events.Sent do
   use Verity.Messaging.Message
   defstruct [:to, :subject, :text, :html, :email_id, :metadata]
 
-  def follow(message) do
-    struct!(__MODULE__, Map.from_struct(message))
-  end
-
   def parse(message_data) do
     %__MODULE__{
       metadata: Metadata.parse(message_data.metadata),

@@ -3,11 +3,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.Registered do
 
   defstruct [:metadata, :user_id, :email, :password_hash]
 
-  def follow(message, attrs \\ %{}) do
-    fields = message |> Map.from_struct() |> Map.merge(attrs)
-    struct!(__MODULE__, fields)
-  end
-
   def parse(message_data) do
     %__MODULE__{
       metadata: Metadata.parse(message_data.metadata),
