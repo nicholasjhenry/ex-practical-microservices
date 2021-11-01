@@ -53,7 +53,7 @@ defmodule MessageStore.ConsumerServiceTest do
       subscriber = ConsumerService.run(subscriber, MessageHandler)
       message = MessageStore.read_last_message("subscriber-foo")
       assert subscriber.current_position == 1
-      assert subscriber.handled_message_result == "YOUTUBE VIDEO"
+      assert subscriber.handled_message_result == ["YOUTUBE VIDEO"]
       assert message.data == %{"position" => 1}
     end
   end
