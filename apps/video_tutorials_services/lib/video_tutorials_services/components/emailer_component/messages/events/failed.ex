@@ -1,5 +1,5 @@
 defmodule VideoTutorialsServices.EmailerComponent.Messages.Events.Failed do
   use Verity.Messaging.Message
 
-  defstruct [:to, :subject, :text, :html, :email_id, :metadata, :reason]
+  defstruct [:metadata, :to, :subject, :text, :html, :email_id, :reason]
 end

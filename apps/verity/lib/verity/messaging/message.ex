@@ -4,7 +4,7 @@ defmodule Verity.Messaging.Message do
   """
 
   defmacro __using__(_opts) do
-    quote do
+    quote location: :keep do
       alias MessageStore.MessageData
       alias Messaging.Message.Metadata
 
@@ -18,6 +18,19 @@ defmodule Verity.Messaging.Message do
         fields = message |> Map.from_struct() |> Map.merge(attrs)
         new_message = struct!(__MODULE__, fields)
         %{new_message | metadata: Map.merge(message.metadata, meta)}
+      end
+
+      def parse(message_data) do
+        data_keys = Map.keys(struct(__MODULE__)) -- [:__struct__, :metadata]
+
+        data =
+          data_keys
+          |> Enum.map(fn key ->
+            {key, Map.fetch!(message_data.data, Recase.to_camel(to_string(key)))}
+          end)
+          |> Map.new()
+
+        struct!(__MODULE__, Map.merge(data, %{metadata: Metadata.parse(message_data.metadata)}))
       end
 
       def to_message_data(command) do
