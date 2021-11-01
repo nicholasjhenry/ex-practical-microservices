@@ -3,6 +3,12 @@ defmodule Verity.Messaging.Message do
   http://docs.eventide-project.org/user-guide/messages-and-message-data/messages.html
   """
 
+  defmacro attributes(list) do
+    quote do
+      defstruct [:metadata] ++ unquote(list)
+    end
+  end
+
   defmacro __using__(_opts) do
     quote location: :keep do
       alias MessageStore.MessageData
