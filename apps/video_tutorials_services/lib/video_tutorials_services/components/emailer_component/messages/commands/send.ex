@@ -3,17 +3,6 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Commands.Send do
 
   defstruct [:to, :subject, :text, :html, :email_id, :metadata]
 
-  def new(metadata, data) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "Send",
-      metadata: metadata,
-      data: data,
-      # TODO: review expected version
-      expected_version: nil
-    )
-  end
-
   def build(metadata_attrs, attrs) do
     __MODULE__ |> struct!(attrs) |> Map.put(:metadata, struct!(Metadata, metadata_attrs))
   end

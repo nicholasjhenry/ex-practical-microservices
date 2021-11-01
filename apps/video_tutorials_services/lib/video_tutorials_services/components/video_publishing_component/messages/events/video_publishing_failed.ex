@@ -3,17 +3,6 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoP
 
   defstruct [:metadata, :video_id, :owner_id, :source_uri, :reason]
 
-  def new(metadata, data) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "VideoPublishingFailed",
-      metadata: metadata,
-      data: data,
-      # TODO
-      expected_version: nil
-    )
-  end
-
   def follow(message, attrs \\ %{}) do
     fields = message |> Map.from_struct() |> Map.merge(attrs)
     struct!(__MODULE__, fields)

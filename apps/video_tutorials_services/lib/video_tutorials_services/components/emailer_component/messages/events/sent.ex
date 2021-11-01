@@ -2,15 +2,6 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Events.Sent do
   use Verity.Messaging.Message
   defstruct [:to, :subject, :text, :html, :email_id, :metadata]
 
-  def new(metadata, data) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "Sent",
-      metadata: metadata,
-      data: data
-    )
-  end
-
   def follow(message) do
     struct!(__MODULE__, Map.from_struct(message))
   end

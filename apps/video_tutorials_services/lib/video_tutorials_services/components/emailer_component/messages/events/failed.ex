@@ -3,15 +3,6 @@ defmodule VideoTutorialsServices.EmailerComponent.Messages.Events.Failed do
 
   defstruct [:to, :subject, :text, :html, :email_id, :metadata, :reason]
 
-  def new(metadata, data) do
-    MessageData.Write.new(
-      stream_name: nil,
-      type: "Failed",
-      metadata: metadata,
-      data: data
-    )
-  end
-
   def follow(message, attrs \\ %{}) do
     fields = message |> Map.from_struct() |> Map.merge(attrs)
     struct!(__MODULE__, fields)

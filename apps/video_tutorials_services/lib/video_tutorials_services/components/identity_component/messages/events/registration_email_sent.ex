@@ -37,12 +37,4 @@ defmodule VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationE
       expected_version: nil
     )
   end
-
-  def put_user_id(message, user_id) do
-    %{
-      message
-      | metadata: %{message.metadata | "userId" => user_id},
-        data: %{message.data | "userId" => user_id}
-    }
-  end
 end
