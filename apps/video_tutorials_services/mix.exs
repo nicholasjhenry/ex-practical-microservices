@@ -41,7 +41,7 @@ defmodule VideoTutorialsServices.MixProject do
     [
       {:phoenix, "~> 1.5.7"},
       {:bamboo, "~> 1.6"},
-      {:verity, in_umbrella: true},
+      {:verity, path: "../../packages/verity"},
       {:video_tutorials_data, in_umbrella: true}
     ]
   end
