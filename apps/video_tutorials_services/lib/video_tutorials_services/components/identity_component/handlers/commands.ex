@@ -9,14 +9,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
     defexception [:message]
   end
 
-  @impl true
-  def handle_message(%{type: "Register"} = message_data) do
-    message_data |> Register.parse() |> register_user()
-  end
-
-  def handle_message(_), do: nil
-
-  defp register_user(register) do
+  defhandle Register, %{message: register} do
     identity = Store.fetch(register.user_id)
 
     if identity.registered? do
