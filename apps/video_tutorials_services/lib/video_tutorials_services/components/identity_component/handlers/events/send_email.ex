@@ -9,14 +9,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
     defstruct [:identity_id, :event]
   end
 
-  @impl true
-  def handle_message(%{type: "Sent"} = message_data) do
-    message_data |> Sent.parse() |> record_registration_sent
-  end
-
-  def handle_message(_), do: nil
-
-  def record_registration_sent(event) do
+  defhandle Sent, %{message: event} do
     identity_id = stream_name_to_id(event.metadata.origin_stream_name)
     context = %Context{identity_id: identity_id, event: event}
 

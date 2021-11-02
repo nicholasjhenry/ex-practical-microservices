@@ -11,18 +11,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
     defstruct [:video_id, :command]
   end
 
-  @impl true
-  def handle_message(%{type: "NameVideo"} = message_data) do
-    message_data
-    |> NameVideo.parse()
-    |> name_video
-
-    message_data
-  end
-
-  def handle_message(message_data), do: message_data
-
-  defp name_video(command) do
+  defhandle NameVideo, %{message: command} do
     context = %Context{video_id: command.video_id, command: command}
 
     with context <- load_video(context),

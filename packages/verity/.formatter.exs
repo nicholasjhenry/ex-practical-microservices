@@ -1,5 +1,5 @@
 locals_without_parens = [
-  attributes: 1,
+  attributes: 1
 ]
 
 [

@@ -8,18 +8,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublishingFailed
   alias VideoTutorialsServices.VideoPublishingComponent.Store
 
-  @impl true
-  def handle_message(%{type: "PublishVideo"} = command) do
-    command
-    |> PublishVideo.parse()
-    |> publish_video
-
-    command
-  end
-
-  def handle_message(_command), do: :ok
-
-  defp publish_video(command) do
+  defhandle PublishVideo, %{message: command} do
     context = %{video_id: command.video_id, command: command, transcoded_uri: nil}
 
     with context <- load_video(context),

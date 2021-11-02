@@ -16,12 +16,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
               just_send_it: nil
   end
 
-  @impl true
-  def handle_message(%{type: "Send"} = message_data) do
-    message_data |> Send.parse() |> send_email
-  end
-
-  defp send_email(command) do
+  defhandle Send, %{message: command} do
     context = %Context{send_command: command, just_send_it: &send/1}
 
     with context <- load_email(context),

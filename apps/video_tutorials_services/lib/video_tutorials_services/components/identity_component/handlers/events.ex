@@ -11,16 +11,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     defstruct [:identity_id, :event, :email]
   end
 
-  @impl true
-  def handle_message(%{type: "Registered"} = message_data) do
-    message_data
-    |> Registered.parse()
-    |> send_email
-  end
-
-  def handle_message(_), do: nil
-
-  defp send_email(event) do
+  defhandle Registered, %{message: event} do
     context = %Context{identity_id: event.user_id, event: event, email: email()}
 
     with context <- load_identity(context),
