@@ -1,5 +1,5 @@
 defmodule VideoTutorialsServices.EmailerComponent.Consumers.Commands do
   alias VideoTutorialsServices.EmailerComponent.Handlers
 
-  use Verity.Consumer, handler: Handlers.Commands
+  use Verity.Consumer, handlers: Handlers.Commands
 end

@@ -4,7 +4,7 @@ defmodule Verity.Consumer do
   """
 
   defmacro __using__(opts) do
-    handler = Keyword.fetch!(opts, :handler)
+    handler = Keyword.fetch!(opts, :handlers)
     identifier = Keyword.get(opts, :identifier)
 
     quote location: :keep do
