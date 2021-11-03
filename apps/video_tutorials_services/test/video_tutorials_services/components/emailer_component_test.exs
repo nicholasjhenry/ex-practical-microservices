@@ -42,7 +42,11 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
             "traceId" => UUID.uuid4()
           },
           data: %{
-            "emailId" => UUID.uuid4()
+            "emailId" => UUID.uuid4(),
+            "to" => "jane@example.com",
+            "subject" => "foo",
+            "text" => "Foo",
+            "html" => "<p>Foo</p>"
           }
         )
 
