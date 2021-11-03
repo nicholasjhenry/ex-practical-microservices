@@ -22,6 +22,8 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
     end
   end
 
+  def handle_message(_message_data), do: :ok
+
   defp load_identity(context) do
     Map.put(context, :identity, Store.fetch(context.identity_id))
   end

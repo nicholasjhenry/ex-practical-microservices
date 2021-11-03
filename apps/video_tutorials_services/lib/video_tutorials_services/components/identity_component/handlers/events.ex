@@ -24,6 +24,8 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events do
     end
   end
 
+  def handle_message(_message_data), do: :ok
+
   defp email do
     %{
       subject: "You're Registered!",

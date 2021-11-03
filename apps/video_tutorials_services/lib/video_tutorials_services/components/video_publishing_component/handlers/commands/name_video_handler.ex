@@ -28,6 +28,8 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
     end
   end
 
+  def handle_message(_message_data), do: :ok
+
   defp load_video(context) do
     Map.put(context, :video, Store.fetch(context.video_id))
   end

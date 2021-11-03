@@ -20,4 +20,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
     registered = Registered.follow(register)
     write(registered, stream_name)
   end
+
+  def handle_message(_message_data), do: :ok
 end
