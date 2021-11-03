@@ -30,6 +30,8 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     end
   end
 
+  def handle_message(_message_data), do: :ok
+
   defp load_email(%{send_command: send_command} = context) do
     Map.put(context, :email, Store.fetch(send_command.email_id))
   end

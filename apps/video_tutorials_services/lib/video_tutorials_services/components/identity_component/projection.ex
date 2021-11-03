@@ -2,6 +2,8 @@ defmodule VideoTutorialsServices.IdentityComponent.Projection do
   use Verity.EntityProjection
 
   alias VideoTutorialsServices.IdentityComponent.Identity
+  alias VideoTutorialsServices.IdentityComponent.Messages.Events.Registered
+  alias VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationEmailSent
 
   @impl true
   def init do
@@ -9,11 +11,11 @@ defmodule VideoTutorialsServices.IdentityComponent.Projection do
   end
 
   @impl true
-  def apply(identity, %{type: "Registered", data: data}) do
-    %{identity | id: data["userId"], email: data["email"], registered?: true}
+  def apply(identity, %Registered{} = event) do
+    %{identity | id: event.user_id, email: event.email, registered?: true}
   end
 
-  def apply(identity, %{type: "RegistrationEmailSent"}) do
+  def apply(identity, %RegistrationEmailSent{} = _event) do
     %{identity | registration_email_sent?: true}
   end
 end
