@@ -3,45 +3,34 @@ defmodule Verity.Messaging.Handler do
   http://docs.eventide-project.org/user-guide/handlers.html
   """
 
-  defmacro defhandle({:__aliases__, _meta, [message_module]} = message_alias, caller_context,
-             do: block
-           ) do
+  defmacro def({:handle_message, head_metadata, [{:=, _, _} = message_match]}, do: body) do
+    {:=, _,
+     [
+       {:%, _, [{:__aliases__, _, [message_module]} = message_alias, {:%{}, _, _}]},
+       message_var
+     ]} = message_match
+
     message_type = to_string(message_module)
 
-    # Extract the message var, e.g. %{message: my_message} => my_message
-    {:%{}, _, [message: message_var]} = caller_context
-
-    # Transform the 'context' to a pattern matching context,
-    # e.g. %{message: my_message} => %{type: "MyCommand"} = my_message
-    runtime_context =
+    message_data_match =
       quote location: :keep do
-        %{type: unquote(message_type)} = unquote(message_var)
+        %{type: unquote(message_type)} = message_data
       end
 
-    # Ensure the AST is expanded together with Macro.escape/2, bind_quoted option and unquote/1
-    # combination to avoid variable scoping errors, e.g:
-    #
-    # variable "foo" does not exist and is being expanded to "foo()", please use parentheses to
-    # remove the ambiguity or change the variable name
-    #
-    block = Macro.escape(block)
-    message_alias = Macro.escape(message_alias)
-    message_var = Macro.escape(message_var)
-    runtime_context = Macro.escape(runtime_context)
+    head = {:handle_message, head_metadata, [message_data_match]}
 
-    quote location: :keep,
-          bind_quoted: [
-            block: block,
-            message_alias: message_alias,
-            message_var: message_var,
-            runtime_context: runtime_context
-          ] do
-      def handle_message(unquote(runtime_context)) do
-        # Transform the MessageData.Read to the applications message, e.g.
-        # my_message = MyCommand.parse(my_message)
-        unquote(message_var) = apply(unquote(message_alias), :parse, [unquote(message_var)])
-        # Handler Code
-        unquote(block)
+    quote location: :keep do
+      Kernel.def unquote(head) do
+        unquote(message_var) = apply(unquote(message_alias), :parse, [message_data])
+        unquote(body)
+      end
+    end
+  end
+
+  defmacro def(head, do: body) do
+    quote do
+      Kernel.def unquote(head) do
+        unquote(body)
       end
     end
   end
@@ -51,6 +40,7 @@ defmodule Verity.Messaging.Handler do
       import unquote(__MODULE__)
       import Verity.Messaging.StreamName
       import Verity.Messaging.Write
+      import Kernel, except: [def: 2]
     end
   end
 end

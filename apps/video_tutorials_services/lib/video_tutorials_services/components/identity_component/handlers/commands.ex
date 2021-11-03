@@ -9,7 +9,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
     defexception [:message]
   end
 
-  defhandle Register, %{message: register} do
+  def handle_message(%Register{} = register) do
     identity = Store.fetch(register.user_id)
 
     if identity.registered? do
