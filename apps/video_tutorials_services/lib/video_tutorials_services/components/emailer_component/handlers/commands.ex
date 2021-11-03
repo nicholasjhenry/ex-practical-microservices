@@ -16,7 +16,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
               just_send_it: nil
   end
 
-  defhandle Send, %{message: command} do
+  def handle_message(%Send{} = command) do
     context = %Context{send_command: command, just_send_it: &send/1}
 
     with context <- load_email(context),
