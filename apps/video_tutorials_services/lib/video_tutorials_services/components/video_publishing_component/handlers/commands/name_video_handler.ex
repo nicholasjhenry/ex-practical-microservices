@@ -73,7 +73,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
       |> Map.new()
 
     name_video.metadata
-    |> VideoNameRejected.build(%{name: name_video.name, reaspon: reason})
+    |> VideoNameRejected.build(%{name: name_video.name, reason: reason})
     |> write(stream_name)
 
     context

@@ -1,11 +1,11 @@
 defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   use Verity.Messaging.Handler
 
-  alias VideoTutorialsServices.Mailer
   alias VideoTutorialsServices.EmailerComponent.Messages.Commands.Send
   alias VideoTutorialsServices.EmailerComponent.Messages.Events.Failed
   alias VideoTutorialsServices.EmailerComponent.Messages.Events.Sent
   alias VideoTutorialsServices.EmailerComponent.Store
+  alias VideoTutorialsServices.Mailer
 
   import Bamboo.Email
 
@@ -71,6 +71,9 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     event = Sent.follow(send_command)
     write(event, stream_name)
   end
+
+  # This cannot be called at the moment.
+  @dialyzer {:nowarn_function, write_failed_event: 2}
 
   defp write_failed_event(%{send_command: send_command}, error) do
     stream_name = stream_name(send_command.email_id, :sendEmail)

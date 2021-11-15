@@ -4,7 +4,11 @@ defmodule VideoTutorials.Registration do
 
   use Ecto.Schema
   import Ecto.Changeset
+  import Verity.Client
   import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
+
+  include(VideoTutorialsServices.Identity.Client, alias: Register)
 
   embedded_schema do
     field :email, :string
@@ -85,21 +89,20 @@ defmodule VideoTutorials.Registration do
         stream_name = command_stream_name(registration.id, :identity)
 
         command =
-          MessageStore.MessageData.Write.new(
-            stream_name: stream_name,
-            type: "Register",
-            metadata: %{
-              "traceId" => context.trace_id,
-              "userId" => registration.id
+          Register.build(
+            %{
+              trace_id: context.trace_id,
+              user_id: registration.id,
+              origin_stream_name: nil
             },
-            data: %{
-              "userId" => registration.id,
-              "email" => registration.email,
-              "passwordHash" => context.password_hash
+            %{
+              user_id: registration.id,
+              email: registration.email,
+              password_Hash: context.password_hash
             }
           )
 
-        MessageStore.write_message(command)
+        write(command, stream_name)
 
         context
 

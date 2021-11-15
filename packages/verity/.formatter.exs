@@ -1,5 +1,7 @@
 locals_without_parens = [
-  attributes: 1
+  attributes: 1,
+  export: 2,
+  include: 2
 ]
 
 [
