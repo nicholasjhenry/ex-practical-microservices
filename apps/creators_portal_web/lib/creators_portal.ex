@@ -50,7 +50,8 @@ defmodule CreatorsPortal do
         PublishVideo.build(
           %{
             trace_id: context.trace_id,
-            user_id: context.user_id
+            user_id: context.user_id,
+            origin_stream_name: nil
           },
           %{
             owner_id: data.owner_id,
@@ -65,7 +66,7 @@ defmodule CreatorsPortal do
     end
   end
 
-  def name_video(context, video, %{"name" => name}) do
+  def name_video(context, video, attrs) do
     stream_name = command_stream_name(video.id, :videoPublishing)
 
     command =
@@ -76,7 +77,7 @@ defmodule CreatorsPortal do
           origin_stream_name: nil
         },
         %{
-          name: name,
+          name: attrs["name"],
           video_id: video.id
         }
       )
