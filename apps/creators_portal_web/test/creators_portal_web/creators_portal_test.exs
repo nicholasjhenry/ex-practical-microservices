@@ -6,7 +6,7 @@ defmodule CreatorsPortalTest do
   describe "naming a video" do
     test "queues a command to name a video" do
       video = insert_video()
-      params = %{name: "Rick Astley"}
+      params = %{"name" => "Rick Astley"}
       context = %{trace_id: UUID.uuid4(), user_id: UUID.uuid4()}
 
       assert {:ok, _video} = CreatorsPortal.name_video(context, video, params)
