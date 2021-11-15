@@ -36,7 +36,7 @@ defmodule Verity.Messaging.Message do
           end)
           |> Map.new()
 
-        struct!(__MODULE__, Map.merge(data, %{metadata: Metadata.parse(message_data.metadata)}))
+        struct!(__MODULE__, Map.merge(data, %{metadata: Metadata.parse(message_data)}))
       end
 
       def to_message_data(command) do

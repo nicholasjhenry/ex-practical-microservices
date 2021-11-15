@@ -30,6 +30,23 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
   def handle_message(_message_data), do: :ok
 
+  def handle(%NameVideo{} = command) do
+    context = %Context{video_id: command.video_id, command: command}
+
+    with context <- load_video(context),
+         {:ok, context} <- ensure_command_has_not_been_processed(context),
+         {:ok, context} <- ensure_name_is_valid(context),
+         _context <- write_video_named_event(context) do
+      :ok
+    else
+      {:error, {:command_already_processed, _context}} ->
+        :ok
+
+      {:error, {:validation_error, changeset, context}} ->
+        write_video_name_rejected(context, changeset.errors)
+    end
+  end
+
   defp load_video(context) do
     Map.put(context, :video, Store.fetch(context.video_id))
   end
