@@ -9,8 +9,13 @@ defmodule CreatorsPortal do
 
   import Ecto.Query
   import Verity.Messaging.StreamName
+  import Verity.Messaging.Write
+  import Verity.Client
 
   alias VideoTutorialsData.{Repo, Video, VideoOperation}
+
+  include(VideoTutorialsServices.VideoPublishing.Client, alias: NameVideo)
+  include(VideoTutorialsServices.VideoPublishing.Client, alias: PublishVideo)
 
   def dashboard(owner_id) do
     Video
@@ -42,46 +47,41 @@ defmodule CreatorsPortal do
       stream_name = command_stream_name(data.id, :videoPublishing)
 
       command =
-        MessageStore.MessageData.Write.new(
-          stream_name: stream_name,
-          type: "PublishVideo",
-          metadata: %{
-            "traceId" => context.trace_id,
-            "userId" => context.user_id
+        PublishVideo.build(
+          %{
+            trace_id: context.trace_id,
+            user_id: context.user_id
           },
-          data: %{
-            "ownerId" => data.owner_id,
-            "sourceUri" => data.file,
-            "videoId" => data.id
-          },
-          expected_version: nil
+          %{
+            owner_id: data.owner_id,
+            source_uri: data.file,
+            video_id: data.id
+          }
         )
 
-      MessageStore.write_message(command)
+      write(command, stream_name)
 
       {:ok, data}
     end
   end
 
-  def name_video(context, video, attrs) do
+  def name_video(context, video, %{"name" => name}) do
     stream_name = command_stream_name(video.id, :videoPublishing)
 
     command =
-      MessageStore.MessageData.Write.new(
-        stream_name: stream_name,
-        type: "NameVideo",
-        metadata: %{
-          "traceId" => context.trace_id,
-          "userId" => context.user_id
+      NameVideo.build(
+        %{
+          trace_id: context.trace_id,
+          user_id: context.user_id,
+          origin_stream_name: nil
         },
-        data: %{
-          "name" => attrs["name"],
-          "videoId" => video.id
-        },
-        expected_version: nil
+        %{
+          name: name,
+          video_id: video.id
+        }
       )
 
-    MessageStore.write_message(command)
+    write(command, stream_name)
 
     {:ok, video}
   end
