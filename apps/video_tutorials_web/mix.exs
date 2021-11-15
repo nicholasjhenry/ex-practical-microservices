@@ -55,7 +55,8 @@ defmodule VideoTutorialsWeb.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt, "~> 1.1"},
       {:verity, path: "../../packages/verity"},
-      {:video_tutorials_data, in_umbrella: true}
+      {:video_tutorials_data, in_umbrella: true},
+      {:video_tutorials_services, in_umbrella: true}
     ]
   end
 
