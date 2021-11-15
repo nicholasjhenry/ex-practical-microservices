@@ -22,4 +22,16 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   end
 
   def handle_message(_message_data), do: :ok
+
+  def handle(%Register{} = register) do
+    identity = Store.fetch(register.user_id)
+
+    if identity.registered? do
+      raise AlreadyRegisteredError
+    end
+
+    stream_name = stream_name(register.user_id, :identity)
+    registered = Registered.follow(register)
+    write(registered, stream_name)
+  end
 end

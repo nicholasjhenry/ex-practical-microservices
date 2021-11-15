@@ -5,21 +5,17 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
   alias VideoTutorialsServices.IdentityComponent.Handlers
   alias VideoTutorialsServices.IdentityComponent.Projection
+  alias VideoTutorialsServices.IdentityComponent.Messages.Commands.Register
+  alias VideoTutorialsServices.EmailerComponent.Messages.Events.Sent
 
   test "registering a user" do
     command =
-      MessageData.Read.new(
-        id: UUID.uuid4(),
-        stream_name: command_stream_name(1, :identity),
-        type: "Register",
-        data: %{"userId" => "1", "email" => "jane@example.com", "passwordHash" => "abc123#"},
-        metadata: %{"userId" => "1", "traceId" => UUID.uuid4()},
-        position: 0,
-        global_position: 11,
-        time: NaiveDateTime.local_now()
+      Register.build(
+        %{user_id: "1", trace_id: UUID.uuid4()},
+        %{user_id: "1", email: "jane@example.com", password_hash: "abc123#"}
       )
 
-    Handlers.Commands.handle_message(command)
+    Handlers.Commands.handle(command)
 
     identity = MessageStore.fetch("identity-1", Projection)
 
@@ -89,20 +85,15 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     }
 
     event =
-      MessageData.Read.new(
-        id: UUID.uuid4(),
-        stream_name: "sendEmail-1",
-        type: "Sent",
-        metadata: %{
-          "originStreamName" => "identity-1",
-          "traceId" => UUID.uuid4()
+      Sent.build(
+        %{
+          origin_stream_name: "identity-1",
+          trace_id: UUID.uuid4(),
+          user_id: nil
         },
-        data: data,
-        position: 0,
-        global_position: 1,
-        time: NaiveDateTime.local_now()
+        data
       )
 
-    assert {:ok, :registration_email_sent} = Handlers.Events.SendEmail.handle_message(event)
+    assert {:ok, :registration_email_sent} = Handlers.Events.SendEmail.handle(event)
   end
 end

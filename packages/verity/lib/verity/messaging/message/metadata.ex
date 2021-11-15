@@ -27,7 +27,7 @@ defmodule Messaging.Message.Metadata do
     %{
       "userId" => metadata.user_id,
       "traceId" => metadata.trace_id,
-      "originStreamName" => metadata[:origin_stream_name]
+      "originStreamName" => Map.get(metadata, :origin_stream_name)
     }
   end
 end
