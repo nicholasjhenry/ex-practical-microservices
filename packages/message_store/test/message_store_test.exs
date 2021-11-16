@@ -139,7 +139,7 @@ defmodule MessageStoreTest do
 
       MessageStore.write_message(message)
 
-      %{name: name} = MessageStore.fetch("video-1", FakeProjection)
+      {%{name: name}, 1} = MessageStore.fetch("video-1", FakeProjection)
 
       assert name == "YOUTUBE VIDEO"
     end

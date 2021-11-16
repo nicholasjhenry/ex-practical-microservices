@@ -11,6 +11,7 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
   defmodule Context do
     defstruct email: nil,
+              version: nil,
               send_command: nil,
               system_sender_email_address: "foo@example.com",
               just_send_it: nil
@@ -33,7 +34,8 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   def handle_message(_message_data), do: :ok
 
   defp load_email(%{send_command: send_command} = context) do
-    Map.put(context, :email, Store.fetch(send_command.email_id))
+    {email, version} = Store.fetch(send_command.email_id, include: [:version])
+    %{context | email: email, version: version}
   end
 
   defp ensure_email_has_not_been_sent(context) do
@@ -66,10 +68,10 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
     Mailer.deliver_now(email)
   end
 
-  defp write_sent_event(%{send_command: send_command}) do
+  defp write_sent_event(%{send_command: send_command, version: version}) do
     stream_name = stream_name(send_command.email_id, :sendEmail)
     event = Sent.follow(send_command)
-    write(event, stream_name)
+    write(event, stream_name, expected_version: version)
   end
 
   # This cannot be called at the moment.

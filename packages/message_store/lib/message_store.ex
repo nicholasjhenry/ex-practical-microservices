@@ -123,6 +123,13 @@ defmodule MessageStore do
   end
 
   defp project(events, projection) do
-    Enum.reduce(events, projection.init(), &projection.apply(&2, &1))
+    entity = Enum.reduce(events, projection.init(), &projection.apply(&2, &1))
+
+    version =
+      if last_event = List.last(events) do
+        last_event.position
+      end
+
+    {entity, version}
   end
 end

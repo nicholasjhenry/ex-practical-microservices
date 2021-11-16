@@ -14,6 +14,12 @@ defmodule Verity.EntityStore do
 
       def fetch(id) do
         stream_name = stream_name(id, unquote(category))
+        {entity, _version} = MessageStore.fetch(stream_name, unquote(projection))
+        entity
+      end
+
+      def fetch(id, include: [:version]) do
+        stream_name = stream_name(id, unquote(category))
         MessageStore.fetch(stream_name, unquote(projection))
       end
     end
