@@ -2,7 +2,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
   use VideoTutorialsServices.DataCase
 
   alias VideoTutorialsServices.IdentityComponent.Handlers
-  alias VideoTutorialsServices.IdentityComponent.Projection
+  alias VideoTutorialsServices.IdentityComponent.Store
   alias VideoTutorialsServices.IdentityComponent.Messages.Commands.Register
   alias VideoTutorialsServices.IdentityComponent.Messages.Events.Registered
   alias VideoTutorialsServices.EmailerComponent.Messages.Events.Sent
@@ -19,8 +19,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
 
     Handlers.Commands.handle_message(command)
 
-    stream_name = stream_name(1, :identity)
-    identity = MessageStore.fetch(stream_name, Projection)
+    identity = Store.fetch(1)
 
     assert identity.id == "1"
     assert identity.email == "jane@example.com"
