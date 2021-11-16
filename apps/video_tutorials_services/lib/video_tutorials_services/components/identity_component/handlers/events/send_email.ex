@@ -24,19 +24,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
 
   def handle_message(_message_data), do: :ok
 
-  def handle(%Sent{} = event) do
-    identity_id = stream_name_to_id(event.metadata.origin_stream_name)
-    context = %Context{identity_id: identity_id, event: event}
-
-    with context <- load_identity(context),
-         {:ok, context} <- ensure_registration_email_not_sent(context),
-         _context <- write_registration_email_sent_event(context) do
-      {:ok, :registration_email_sent}
-    else
-      {:error, {:already_sent_registration_email, _context}} -> {:ok, :noop}
-    end
-  end
-
   defp load_identity(context) do
     Map.put(context, :identity, Store.fetch(context.identity_id))
   end

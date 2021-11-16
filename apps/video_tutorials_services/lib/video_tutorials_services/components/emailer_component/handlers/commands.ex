@@ -32,20 +32,6 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
 
   def handle_message(_message_data), do: :ok
 
-  def handle(%Send{} = command) do
-    context = %Context{send_command: command, just_send_it: &send/1}
-
-    with context <- load_email(context),
-         {:ok, context} <- ensure_email_has_not_been_sent(context),
-         {:ok, context} <- send_it(context),
-         _context <- write_sent_event(context) do
-      {:ok, :email_sent}
-    else
-      {:error, {:already_sent_error, _context}} -> {:ok, :noop}
-      {:error, {:send_error, context, payload}} -> write_failed_event(context, payload)
-    end
-  end
-
   defp load_email(%{send_command: send_command} = context) do
     Map.put(context, :email, Store.fetch(send_command.email_id))
   end

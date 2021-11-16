@@ -24,7 +24,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
         }
       )
 
-    NameVideoHandler.handle(command)
+    NameVideoHandler.handle_message(command)
 
     video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"
@@ -48,7 +48,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
         }
       )
 
-    NameVideoHandler.handle(command)
+    NameVideoHandler.handle_message(command)
 
     video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"

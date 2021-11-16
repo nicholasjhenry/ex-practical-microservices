@@ -24,7 +24,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
           data
         )
 
-      {:ok, :email_sent} = Commands.handle(command)
+      {:ok, :email_sent} = Commands.handle_message(command)
     end
 
     test "given a message handles the send command" do
@@ -46,7 +46,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
           data
         )
 
-      {:ok, :email_sent} = Commands.handle(command)
+      {:ok, :email_sent} = Commands.handle_message(command)
 
       command =
         Send.build(
@@ -58,7 +58,7 @@ defmodule VideoTutorialsServices.EmailerComponentTest do
           data
         )
 
-      assert {:ok, :noop} == Commands.handle(command)
+      assert {:ok, :noop} == Commands.handle_message(command)
     end
   end
 end

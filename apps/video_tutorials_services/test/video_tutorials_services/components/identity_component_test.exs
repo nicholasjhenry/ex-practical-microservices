@@ -15,7 +15,7 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         %{user_id: "1", email: "jane@example.com", password_hash: "abc123#"}
       )
 
-    Handlers.Commands.handle(command)
+    Handlers.Commands.handle_message(command)
 
     identity = MessageStore.fetch("identity-1", Projection)
 
@@ -94,6 +94,6 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
         data
       )
 
-    assert {:ok, :registration_email_sent} = Handlers.Events.SendEmail.handle(event)
+    assert {:ok, :registration_email_sent} = Handlers.Events.SendEmail.handle_message(event)
   end
 end

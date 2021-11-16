@@ -16,7 +16,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
         }
       )
 
-    PublishVideoHandler.handle(command)
+    PublishVideoHandler.handle_message(command)
 
     video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
     assert video_publishing.id == "1"

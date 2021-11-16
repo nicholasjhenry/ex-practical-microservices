@@ -24,20 +24,6 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
   def handle_message(_message_data), do: :ok
 
-  def handle(%PublishVideo{} = command) do
-    context = %{video_id: command.video_id, command: command, transcoded_uri: nil}
-
-    with context <- load_video(context),
-         {:ok, context} <- ensure_publishing_not_attempted(context),
-         {:ok, context} <- transcode_video(context),
-         _context <- write_video_published_event(context) do
-      :ok
-    else
-      {:error, {:already_published_error, _context}} -> :ok
-      {:error, {_, error, context}} -> write_video_publishing_failed_event(error, context)
-    end
-  end
-
   defp load_video(context) do
     Map.put(context, :video, Store.fetch(context.video_id))
   end
