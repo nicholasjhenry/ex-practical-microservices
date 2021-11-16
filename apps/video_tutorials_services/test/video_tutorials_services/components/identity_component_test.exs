@@ -43,20 +43,8 @@ defmodule VideoTutorialsServices.IdentityComponentTest do
     stream_name = stream_name(1, :identity)
     write(registered_event, stream_name)
 
-    event =
-      Registered.build(
-        %{
-          trace_id: registered_event.metadata.trace_id,
-          user_id: 1
-        },
-        %{
-          user_id: 1,
-          email: "jane@example.com",
-          password_hash: "abc123#"
-        }
-      )
-
-    assert {:ok, :registration_email_requested} == Handlers.Events.handle_message(event)
+    assert {:ok, :registration_email_requested} ==
+             Handlers.Events.handle_message(registered_event)
   end
 
   test "handle email sent events" do
