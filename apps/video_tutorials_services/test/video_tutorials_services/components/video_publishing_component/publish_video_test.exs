@@ -1,26 +1,19 @@
 defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoHandlerTest do
   use VideoTutorialsServices.DataCase
 
-  alias MessageStore.MessageData
-
   alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler
   alias VideoTutorialsServices.VideoPublishingComponent.Projection
+  alias VideoTutorialsServices.VideoPublishingComponent.Messages.Commands.PublishVideo
 
   test "publishing a video" do
     command =
-      MessageData.Read.new(
-        id: UUID.uuid4(),
-        stream_name: command_stream_name(1, :videoPublishing),
-        type: "PublishVideo",
-        data: %{
-          "ownerId" => "bb6a04b0-cb74-4981-b73d-24b844ca334f",
-          "sourceUri" => "https://sourceurl.com/",
-          "videoId" => "1"
-        },
-        metadata: %{"traceId" => UUID.uuid4(), "userId" => UUID.uuid4()},
-        position: 0,
-        global_position: 11,
-        time: NaiveDateTime.local_now()
+      PublishVideo.build(
+        %{trace_id: UUID.uuid4(), user_id: UUID.uuid4()},
+        %{
+          owner_id: "bb6a04b0-cb74-4981-b73d-24b844ca334f",
+          source_uri: "https://sourceurl.com/",
+          video_id: "1"
+        }
       )
 
     PublishVideoHandler.handle_message(command)
