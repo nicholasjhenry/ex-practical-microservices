@@ -8,7 +8,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
   alias VideoTutorialsServices.VideoPublishingComponent.VideoPublishing
 
   defmodule Context do
-    defstruct [:video_id, :command]
+    defstruct [:video_id, :command, :video, :version]
   end
 
   def handle_message(%NameVideo{} = command) do
@@ -31,7 +31,8 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
   def handle_message(_message_data), do: :ok
 
   defp load_video(context) do
-    Map.put(context, :video, Store.fetch(context.video_id))
+    {video, version} = Store.fetch(context.video_id, include: [:version])
+    %{context | video: video, version: version}
   end
 
   defp ensure_command_has_not_been_processed(context) do
@@ -58,7 +59,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
     name_video.metadata
     |> VideoNamed.build(%{name: name_video.name})
-    |> write(stream_name)
+    |> write(stream_name, expected_version: context.version)
 
     context
   end
@@ -74,7 +75,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Name
 
     name_video.metadata
     |> VideoNameRejected.build(%{name: name_video.name, reason: reason})
-    |> write(stream_name)
+    |> write(stream_name, expected_version: context.version)
 
     context
   end

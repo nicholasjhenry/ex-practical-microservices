@@ -2,8 +2,8 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
   use VideoTutorialsServices.DataCase
 
   alias VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.PublishVideoHandler
-  alias VideoTutorialsServices.VideoPublishingComponent.Projection
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Commands.PublishVideo
+  alias VideoTutorialsServices.VideoPublishingComponent.Store
 
   test "publishing a video" do
     command =
@@ -18,7 +18,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.PublishVideoH
 
     PublishVideoHandler.handle_message(command)
 
-    video_publishing = MessageStore.fetch("videoPublishing-1", Projection)
+    video_publishing = Store.fetch(1)
     assert video_publishing.id == "1"
     assert video_publishing.transcoded_uri == "https://www.youtube.com/watch?v=GI_P3UtZXAA"
   end

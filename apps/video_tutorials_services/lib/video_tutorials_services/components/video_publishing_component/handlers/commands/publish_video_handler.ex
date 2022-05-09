@@ -8,8 +8,12 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
   alias VideoTutorialsServices.VideoPublishingComponent.Messages.Events.VideoPublishingFailed
   alias VideoTutorialsServices.VideoPublishingComponent.Store
 
+  defmodule Context do
+    defstruct [:video_id, :video, :command, :transcoded_uri, :version]
+  end
+
   def handle_message(%PublishVideo{} = command) do
-    context = %{video_id: command.video_id, command: command, transcoded_uri: nil}
+    context = %Context{video_id: command.video_id, command: command}
 
     with context <- load_video(context),
          {:ok, context} <- ensure_publishing_not_attempted(context),
@@ -25,7 +29,8 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
   def handle_message(_message_data), do: :ok
 
   defp load_video(context) do
-    Map.put(context, :video, Store.fetch(context.video_id))
+    {video, version} = Store.fetch(context.video_id, include: [:version])
+    %{context | video: video, version: version}
   end
 
   defp ensure_publishing_not_attempted(context) do
@@ -42,7 +47,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
     command
     |> VideoPublished.follow(%{transcoded_uri: context.transcoded_uri})
-    |> write(stream_name)
+    |> write(stream_name, expected_version: context.version)
 
     context
   end
@@ -56,7 +61,7 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Handlers.Commands.Publ
 
     command
     |> VideoPublishingFailed.follow(%{reason: error.message})
-    |> write(stream_name)
+    |> write(stream_name, expected_version: context.version)
 
     context
   end
