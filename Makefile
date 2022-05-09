@@ -12,6 +12,10 @@ app.start:
 db.console:
 	docker-compose exec db  psql -h localhost -U postgres postgres
 
+format.watch:
+	watchman watch .
+	watchman -j <<< '["trigger", "./", "format", "**/*.ex", "**/*.exs", "**/*.default", "--", "mix", "format"]'
+
 db.setup:
 	mix cmd --app video_tutorials_data mix ecto.drop
 	mix cmd --app  video_tutorials_data mix ecto.create
