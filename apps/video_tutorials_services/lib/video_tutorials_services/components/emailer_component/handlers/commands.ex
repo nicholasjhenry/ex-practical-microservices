@@ -77,9 +77,9 @@ defmodule VideoTutorialsServices.EmailerComponent.Handlers.Commands do
   # This cannot be called at the moment.
   @dialyzer {:nowarn_function, write_failed_event: 2}
 
-  defp write_failed_event(%{send_command: send_command}, error) do
+  defp write_failed_event(%{send_command: send_command, version: version}, error) do
     stream_name = stream_name(send_command.email_id, :sendEmail)
     event = Failed.follow(send_command, %{reason: error.message})
-    write(event, stream_name)
+    write(event, stream_name, expected_version: version)
   end
 end

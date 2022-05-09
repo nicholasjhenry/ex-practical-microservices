@@ -66,7 +66,11 @@ defmodule VideoTutorialsServices.VideoPublishingComponent.Commands.NameVideoHand
       }
     }
 
-    context = %{command: command, transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"}
+    context = %PublishVideoHandler.Context{
+      command: command,
+      transcoded_uri: "https://www.youtube.com/watch?v=GI_P3UtZXAA"
+    }
+
     PublishVideoHandler.write_video_published_event(context)
   end
 end

@@ -10,7 +10,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
   end
 
   def handle_message(%Register{} = register) do
-    identity = Store.fetch(register.user_id)
+    {identity, version} = Store.fetch(register.user_id, include: [:version])
 
     if identity.registered? do
       raise AlreadyRegisteredError
@@ -18,7 +18,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Commands do
 
     stream_name = stream_name(register.user_id, :identity)
     registered = Registered.follow(register)
-    write(registered, stream_name)
+    write(registered, stream_name, expected_version: version)
   end
 
   def handle_message(_message_data), do: :ok

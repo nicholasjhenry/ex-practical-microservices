@@ -6,7 +6,7 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
   alias VideoTutorialsServices.IdentityComponent.Messages.Events.RegistrationEmailSent
 
   defmodule Context do
-    defstruct [:identity_id, :event]
+    defstruct [:identity_id, :identity, :event, :version]
   end
 
   def handle_message(%Sent{} = event) do
@@ -25,7 +25,8 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
   def handle_message(_message_data), do: :ok
 
   defp load_identity(context) do
-    Map.put(context, :identity, Store.fetch(context.identity_id))
+    {identity, version} = Store.fetch(context.identity_id, include: [:version])
+    %{context | identity: identity, version: version}
   end
 
   defp ensure_registration_email_not_sent(context) do
@@ -36,7 +37,11 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
     end
   end
 
-  defp write_registration_email_sent_event(%{event: email_sent, identity_id: identity_id}) do
+  defp write_registration_email_sent_event(%{
+         event: email_sent,
+         identity_id: identity_id,
+         version: version
+       }) do
     stream_name = stream_name(identity_id, :identity)
 
     registration_email_sent =
@@ -45,6 +50,6 @@ defmodule VideoTutorialsServices.IdentityComponent.Handlers.Events.SendEmail do
         user_id: identity_id
       })
 
-    write(registration_email_sent, stream_name)
+    write(registration_email_sent, stream_name, expected_version: version)
   end
 end
